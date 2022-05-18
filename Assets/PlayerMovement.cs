@@ -14,26 +14,29 @@ public class PlayerMovement : MonoBehaviour
 
     Vector2 movement;
     Vector2 mousePos;
-    bool isRight = true;
+    public bool isRight = true;
 
-    // Update is called once per frame
+    // Keypress
     void Update()
     {
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
         animator.SetFloat("Speed", Mathf.Abs(movement.x));
-
+        
+        // Gets the mouse position
         mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
     }
 
+    // Movement variables
     private void FixedUpdate()
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
         
-        //Vector2 lookDir = mousePos - rb.position;
-        //float angle = Mathf.Atan2(lookDir.y ,lookDir.x) * Mathf.Rad2Deg - 90f;
-        //rb.rotation = angle;
+        // Direction of mouse 
+        // Vector2 lookDir = mousePos - rb.position;
+        // float angle = Mathf.Atan2(lookDir.y ,lookDir.x) * Mathf.Rad2Deg - 90f;
+        // rb.rotation = angle;
 
         if (movement.x > 0 && !isRight) {
             FlipHorizontal();
