@@ -66,6 +66,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -403,6 +404,20 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Character1_Walk01: 21300004
+      Character1_Shoot01: 21300000
+      Character2_Idle: 21300018
+      Character3_Shoot: 21300022
+      Character3_Walk01: 21300024
+      Character1_Walk02: 21300006
+      Character2_Walk01: 21300014
+      Character2_Shoot02: 21300012
+      Character1_Shoot02: 21300002
+      Character1_Idle: 21300008
+      Character3_Idle: 21300020
+      Character2_Walk02: 21300016
+      Character3_Walk02: 21300026
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

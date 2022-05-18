@@ -54,6 +54,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -328,6 +329,17 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      BlobPlayer_Blue_3: 21300006
+      BlobPlayer_Blue_2: 21300004
+      BlobPlayer_Blue_4: 21300008
+      BlobPlayer_Blue_0: 21300000
+      BlobPlayer_Blue_7: 21300014
+      BlobPlayer_Blue_1: 21300002
+      BlobPlayer_Blue_8: 21300016
+      BlobPlayer_Blue_5: 21300010
+      BlobPlayer_Blue_9: 21300018
+      BlobPlayer_Blue_6: 21300012
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

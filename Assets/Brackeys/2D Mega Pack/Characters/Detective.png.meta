@@ -72,6 +72,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -472,6 +473,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Detective_3: 21300006
+      Detective_0: 21300000
+      Detective_Skeleton_3: 21300022
+      Detective_2: 21300004
+      Detective_4: 21300008
+      Detective_Skeleton_2: 21300020
+      Detective_1: 21300002
+      Detective_Skeleton_0: 21300016
+      Detective_Skeleton_7: 21300030
+      Detective_Skeleton_1: 21300018
+      Detective_5: 21300010
+      Detective_7: 21300014
+      Detective_Skeleton_5: 21300026
+      Detective_6: 21300012
+      Detective_Skeleton_4: 21300024
+      Detective_Skeleton_6: 21300028
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

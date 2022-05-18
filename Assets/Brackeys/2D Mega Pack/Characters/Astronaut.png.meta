@@ -60,6 +60,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -355,6 +356,18 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      AstronautWalk_04: 21300006
+      AstronautArm: 21300018
+      AstronautWalk_03: 21300004
+      AstronautWalk_05: 21300008
+      AstronautWalk_02: 21300002
+      AstronautBigGun: 21300020
+      AstronautJump: 21300016
+      AstronautPistol: 21300022
+      AstronautWalk_06: 21300010
+      AstronautWalk_01: 21300000
+      AstronautIdle: 21300014
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
