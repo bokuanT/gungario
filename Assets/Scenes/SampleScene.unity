@@ -709,6 +709,7 @@ MonoBehaviour:
   animator: {fileID: 1622855430}
   playerModel: {fileID: 1622855424}
   firePoint: {fileID: 1293256623}
+  firePointTransform: {fileID: 1293256624}
   isRight: 1
 --- !u!212 &1622855426
 SpriteRenderer:

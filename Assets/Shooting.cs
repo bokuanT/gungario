@@ -7,7 +7,8 @@ public class Shooting : MonoBehaviour
     public Transform firePoint;
     public GameObject bulletPrefab;
     public Transform playerPoint;
-    public GameObject player; 
+    //public GameObject player; not used. Side note: can reference the Transform of 
+    //a GameObject using player.transform                                            
 
     public float bulletForce = 20f;
 
@@ -28,7 +29,7 @@ public class Shooting : MonoBehaviour
 
 
         // logic for direction based off 
-        GameObject bullet = Instantiate(bulletPrefab, playerPoint.position + displace, firePoint.rotation);
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position , firePoint.rotation);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.AddForce(firePoint.right * bulletForce, ForceMode2D.Impulse);
     }

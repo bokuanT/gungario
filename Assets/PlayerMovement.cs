@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
     public GameObject playerModel;
     public GameObject firePoint;
+    //public Transform firePointTransform;
 
     Vector2 movement;
     Vector2 mousePos;
@@ -33,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
 
         //animator.SetFloat("Speed", Mathf.Abs(movement.x));
         setDirections();  
+
+        //Debug.Log(firePointTransform.right);
     }
 
     // Movement variables
@@ -85,14 +88,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void FlipHorizontal() {
-        Debug.Log("fh");
         Vector3 curScalePlayer = playerModel.transform.localScale;
         curScalePlayer.x *= -1;
         playerModel.transform.localScale = curScalePlayer;
 
         Vector3 curScaleGun = firePoint.transform.localScale;
         curScaleGun.x *= -1;
+        curScaleGun.y *= -1;
         firePoint.transform.localScale = curScaleGun;
+        Debug.Log(firePoint.transform.localScale);
+
+        // Vector3 curFirePointTransform = firePointTransform.right;
+        // curFirePointTransform.x *= -1;
+        // firePointTransform.right = curFirePointTransform;
 
         //isRight = !isRight;
 
