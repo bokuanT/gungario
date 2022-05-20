@@ -9,9 +9,15 @@ public class Bullet : MonoBehaviour
     
     void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("Hit!");
+        
+        // reduces hp of target collided with
+        Debug.Log("Collided with " + collision.gameObject);
+        collision.gameObject.SendMessage("TakeDamage", 20);
+
         GameObject effect = Instantiate(hitEffect, transform.position, Quaternion.identity);
-        Destroy(effect, 1f);
         Destroy(gameObject);
+        Destroy(effect, 1f);
     }
 
 }
