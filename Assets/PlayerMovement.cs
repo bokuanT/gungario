@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
 
     public Rigidbody2D rb;
+    public Rigidbody2D gun;
     public Camera cam;
     public Animator animator;
     public GameObject playerModel;
@@ -39,16 +40,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Movement variables
-    private void FixedUpdate() {
+    void FixedUpdate() {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
 
-        // if (movement.x > 0 && !isRight) {
-        //     FlipHorizontal();
-        //     isRight = true;
-        // } else if (movement.x < 0 && isRight) {
-        //     FlipHorizontal();
-        //     isRight = false;
-        // }
     }
 
     //decides what value to feed to animator so sprite faces correct way
@@ -70,7 +64,6 @@ public class PlayerMovement : MonoBehaviour
         } else {
             animator.SetFloat("Speed", 0); //to update, 0 is temp value
         }
-        
     }
 
     private int getDirection(float angle) {
@@ -96,14 +89,5 @@ public class PlayerMovement : MonoBehaviour
         curScaleGun.x *= -1;
         curScaleGun.y *= -1;
         firePoint.transform.localScale = curScaleGun;
-        Debug.Log(firePoint.transform.localScale);
-
-        // Vector3 curFirePointTransform = firePointTransform.right;
-        // curFirePointTransform.x *= -1;
-        // firePointTransform.right = curFirePointTransform;
-
-        //isRight = !isRight;
-
-
     }
 }
