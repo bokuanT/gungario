@@ -16,6 +16,11 @@ public class RotationLogic : MonoBehaviour
     private const int DOWN = 2;
     private const int LEFT = 3;
     
+    void Start()
+    {
+        cam = Camera.main;
+    }
+
     // Update is called once per frame
     void Update()
     {

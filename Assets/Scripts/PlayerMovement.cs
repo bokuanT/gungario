@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
     public GameObject playerModel;
     public GameObject firePoint;
-    //public Transform firePointTransform;
 
     Vector2 movement;
     Vector2 mousePos;
@@ -23,6 +23,16 @@ public class PlayerMovement : MonoBehaviour
     private const int RIGHT = 1;
     private const int DOWN = 2;
     private const int LEFT = 3;
+
+    
+
+    void Start()
+    {
+        cam = Camera.main;
+
+        cam.GetComponentInChildren<CinemachineVirtualCamera>().Follow = gameObject.transform;
+        
+    }
 
     // Keypress
     void Update()
