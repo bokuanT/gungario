@@ -7,7 +7,10 @@ using System;
 
 public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 {
-    public NetworkPlayer playerPrefab;
+    public NetworkObject playerPrefab;
+    
+    // links player to their player object
+    private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
     CharacterInputHandler characterInputHandler;
 
@@ -15,18 +18,6 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
     void Start()
     {
         
-    }
-
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
-    {
-        // on other player joined and current player is server 
-        if (runner.IsServer) 
-        {
-            Debug.Log("OnPlayerJoined we are server. Spawning player");
-            // function to spawn a player, with random position 
-            runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, player);
-        }
-        Debug.Log("OnPlayerJoined");
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input) 
@@ -42,8 +33,36 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
+    {
+
+        // on other player joined and current player is server 
+        if (runner.IsServer) 
+        {
+            Debug.Log("We are the server. Spawning player");
+
+        } else {
+            Debug.Log("Not the host. Joining");
+        }
+
+        // function to spawn a player, with random position 
+        NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, player);
+        _spawnedCharacters.Add(player, networkPlayerObject);
+
+        Debug.Log("OnPlayerJoined");
+    }
+
     public void OnPlayerLeft(NetworkRunner runner,  PlayerRef player)
     {
+         // Find and remove the players avatar
+        if (_spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
+        {
+            // takes in a NetworkObject
+            runner.Despawn(networkObject);
+            _spawnedCharacters.Remove(player);
+            Debug.Log("Player removed successfully");
+        }
+
         Debug.Log("OnPlayerLeft");
     }
 
