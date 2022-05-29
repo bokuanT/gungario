@@ -15,13 +15,20 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
 
     public override void Spawned()
     {
+
         if (Object.HasInputAuthority)
         {
             Local = this;
-
+        
             Debug.Log("Spawned local player");
         }
-        else Debug.Log("Spawned remote player");
+        else 
+        {
+            AudioListener audioListener = GetComponent<AudioListener>();
+            audioListener.enabled = false;
+
+            Debug.Log("Spawned remote player");
+        }
     }
 
     public void PlayerLeft(PlayerRef player)

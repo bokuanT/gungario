@@ -23,7 +23,7 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
     public void OnInput(NetworkRunner runner, NetworkInput input) 
     { 
         if (characterInputHandler == null && NetworkPlayer.Local != null)
-        {
+        { 
             characterInputHandler = NetworkPlayer.Local
                 .GetComponent<CharacterInputHandler>();
         }
