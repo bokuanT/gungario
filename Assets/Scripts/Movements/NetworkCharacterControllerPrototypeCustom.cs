@@ -12,8 +12,9 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
   // public float jumpImpulse   = 8.0f;
   // public float acceleration  = 10.0f;
   // public float braking       = 10.0f;
-  // public float maxSpeed      = 2.0f;
+  // public float maxSpeed      = 10.0f;
   // public float rotationSpeed = 15.0f;
+  public float moveSpeed = 5f;
 
   // [Networked]
   // [HideInInspector]
@@ -75,7 +76,7 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
   /// </summary>
   public virtual void Move(Vector2 direction) {
     var deltaTime = Runner.DeltaTime;
-    Controller.Move(direction * deltaTime);
+    Controller.Move(direction * moveSpeed * deltaTime);
   }
 }
 /*

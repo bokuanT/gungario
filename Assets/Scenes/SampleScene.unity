@@ -729,7 +729,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 508106807}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5dc886be051aa2d4db30c595013d8845, type: 3}
   m_Name: 
@@ -1913,8 +1913,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76c8e98e980821742ac2ba02bfc5fec2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gun: {fileID: 0}
   rb: {fileID: 1293256627}
   cam: {fileID: 519420031}
+  animator: {fileID: 0}
 --- !u!50 &1293256627
 Rigidbody2D:
   serializedVersion: 4
@@ -2489,6 +2491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   rb: {fileID: 1622855429}
+  gun: {fileID: 0}
   cam: {fileID: 519420031}
   animator: {fileID: 1622855430}
   playerModel: {fileID: 1622855424}
@@ -3066,7 +3069,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.1618497, y: 1}
+    m_SensorSize: {x: 1.2655367, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
