@@ -6,7 +6,7 @@ using Fusion;
 public class CharacterMovementHandler : NetworkBehaviour
 {
     NetworkCharacterControllerPrototypeCustom networkCharacterControllerPrototypeCustom;
-
+ 
     private void Awake()
     {
         networkCharacterControllerPrototypeCustom = GetComponent<NetworkCharacterControllerPrototypeCustom>();
@@ -29,8 +29,7 @@ public class CharacterMovementHandler : NetworkBehaviour
         if (GetInput(out NetworkInputData networkInputData))
         {
             //Move
-            Vector3 moveDirection = transform.forward * networkInputData.movementInput.y
-                + transform.right * networkInputData.movementInput.x;
+            Vector2 moveDirection = networkInputData.movementInput;
             
             moveDirection.Normalize();
         
