@@ -15,6 +15,11 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
   // public float maxSpeed      = 10.0f;
   // public float rotationSpeed = 15.0f;
   public float moveSpeed = 5f;
+  private const int UP = 0;
+  private const int RIGHT = 1;
+  private const int DOWN = 2;
+  private const int LEFT = 3;
+  public bool isRight = true;
 
   // [Networked]
   // [HideInInspector]
@@ -37,25 +42,37 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
   //protected override Vector3 DefaultTeleportInterpolationAngularVelocity => new Vector3(0f, 0f, rotationSpeed);
 
   public CharacterController Controller { get; private set; }
+  public Animator animator { get; private set; }
+  public GameObject playerModel { get; private set; }
+  public GameObject firePoint { get; private set; }
 
   protected override void Awake() {
     base.Awake();
-    CacheController();
+    CacheEverything();
   }
 
   public override void Spawned() {
     base.Spawned();
-    CacheController();
+    CacheEverything();
 
     // Caveat: this is needed to initialize the Controller's state and avoid unwanted spikes in its perceived velocity
     Controller.Move(transform.position);
   }
 
-  private void CacheController() {
+  private void CacheEverything() {
     if (Controller == null) {
       Controller = GetComponent<CharacterController>();
 
       //Assert.Check(Controller != null, $"An object with {nameof(NetworkCharacterControllerPrototype)} must also have a {nameof(CharacterController)} component.");
+    }
+    if (animator == null) {
+      animator = GetComponent<Animator>();
+    }
+    if (playerModel == null) {
+      playerModel = GameObject.FindWithTag("Player");
+    }
+    if (firePoint == null) {
+      firePoint = GameObject.FindWithTag("FirePoint");
     }
   }
 
@@ -78,36 +95,51 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
     var deltaTime = Runner.DeltaTime;
     Controller.Move(direction * moveSpeed * deltaTime);
   }
-}
-/*
-var deltaTime    = Runner.DeltaTime;
-    var previousPos  = transform.position;
-    var moveVelocity = Velocity;
 
-    direction = direction.normalized;
-
-    if (IsGrounded && moveVelocity.y < 0) {
-      moveVelocity.y = 0f;
-    }
-
-    moveVelocity.y += gravity * Runner.DeltaTime;
-
-    var horizontalVel = default(Vector3);
-    horizontalVel.x = moveVelocity.x;
-    horizontalVel.z = moveVelocity.z;
-
-    if (direction == default) {
-      horizontalVel = Vector3.Lerp(horizontalVel, default, braking * deltaTime);
+  public virtual void SetDirections(Vector2 mouseDirection) {
+    // Direction of mouse 
+    Vector2 lookDir = Vector2.zero;
+    lookDir.x = mouseDirection.x - Controller.transform.position.x;
+    lookDir.y = mouseDirection.y - Controller.transform.position.y;
+    float angle = Mathf.Atan2(lookDir.y ,lookDir.x) * Mathf.Rad2Deg;
+    int direction = getDirection(angle);
+    if (direction == RIGHT || direction == LEFT) {
+      animator.SetFloat("Speed", 1); //to update, 1 is temp value
+      if (!isRight && direction == RIGHT) {
+        FlipHorizontal();
+        isRight = true;
+      } else if (isRight && direction == LEFT){
+        FlipHorizontal();
+        isRight = false;
+      }
     } else {
-      horizontalVel      = Vector3.ClampMagnitude(horizontalVel + direction * acceleration * deltaTime, maxSpeed);
-      transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Runner.DeltaTime);
+     animator.SetFloat("Speed", 0); //to update, 0 is temp value
     }
+  }
 
-    moveVelocity.x = horizontalVel.x;
-    moveVelocity.z = horizontalVel.z;
+  private int getDirection(float angle) {
+    //left is 180/-180, right is 0. top is 90, bottom is -90
+    //return values: up is 0, right is 1, down is 2, left is 3
+    if (angle >= 45f && angle < 135f) {
+      return 0;
+    } else if (angle < 45f && angle >= -45f) {
+      return 1;
+    } else if (angle < -45f && angle >= -135f) {
+      return 2;
+    } else {
+      return 3;
+    }
+  }
 
-    Controller.Move(moveVelocity * deltaTime);
+  private void FlipHorizontal() {
+    Vector3 curScalePlayer = playerModel.transform.localScale;
+    curScalePlayer.x *= -1;
+    playerModel.transform.localScale = curScalePlayer;
 
-    Velocity   = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
-    IsGrounded = Controller.isGrounded;
-    */
+    Vector3 curScaleGun = firePoint.transform.localScale;
+    curScaleGun.x *= -1;
+    curScaleGun.y *= -1;
+    firePoint.transform.localScale = curScaleGun;
+  }     
+
+}
