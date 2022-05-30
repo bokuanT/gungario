@@ -7,12 +7,13 @@ public class CharacterInputHandler : MonoBehaviour
 {
     Vector2 moveInputVector = Vector2.zero;
     Vector2 mouseInputVector = Vector2.zero;
+    public Camera cam;
 
     // Start is called before the first frame update
     void Start()
     {
-        Camera cam = gameObject.GetComponentInChildren<Camera>();
-        cam.transform.position += new Vector3(0,0,-10);
+        // Camera cam = gameObject.GetComponentInChildren<Camera>();
+        // cam.transform.position += new Vector3(0,0,-10);
         
     }
 
@@ -22,8 +23,9 @@ public class CharacterInputHandler : MonoBehaviour
         moveInputVector.x = Input.GetAxisRaw("Horizontal");
         moveInputVector.y = Input.GetAxisRaw("Vertical");
 
-        
-
+        // Gets the mouse position
+        // somehow redundant
+        mouseInputVector = cam.ScreenToWorldPoint(Input.mousePosition);
     }
 
     public NetworkInputData GetNetworkInput()
@@ -31,6 +33,7 @@ public class CharacterInputHandler : MonoBehaviour
         NetworkInputData networkInputData = new NetworkInputData();
 
         networkInputData.movementInput = moveInputVector;
+        networkInputData.mouseInput = mouseInputVector;
 
         return networkInputData;
     }
