@@ -22,15 +22,15 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input) 
     { 
-        if (characterInputHandler == null && NetworkPlayer.Local != null)
-        { 
-            characterInputHandler = NetworkPlayer.Local
-                .GetComponent<CharacterInputHandler>();
-        }
-        if (characterInputHandler != null)
-        {
-            input.Set(characterInputHandler.GetNetworkInput());
-        }
+        // if (characterInputHandler == null && NetworkPlayer.Local != null)
+        // { 
+        //     characterInputHandler = NetworkPlayer.Local
+        //         .GetComponent<CharacterInputHandler>();
+        // }
+        // if (characterInputHandler != null)
+        // {
+        //     input.Set(characterInputHandler.GetNetworkInput());
+        // }
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
