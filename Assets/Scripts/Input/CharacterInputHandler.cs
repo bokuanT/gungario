@@ -12,7 +12,7 @@ public class CharacterInputHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Camera cam = gameObject.GetComponentInChildren<Camera>();
+        cam = gameObject.GetComponentInChildren<Camera>();
         // cam.transform.position += new Vector3(0,0,-10);
         
     }

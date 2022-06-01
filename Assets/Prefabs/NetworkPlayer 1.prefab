@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4954838132815153082
+--- !u!1 &2503050512232400690
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,37 +8,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1714942532153715319}
-  - component: {fileID: 7095948811293004304}
+  - component: {fileID: 9103673308770412740}
+  - component: {fileID: 7855388281485059502}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: PlayerCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1714942532153715319
+--- !u!4 &9103673308770412740
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4954838132815153082}
+  m_GameObject: {fileID: 2503050512232400690}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.040608082, y: 0.021, z: -14.5}
+  m_LocalPosition: {x: 0.04060802, y: 0.021000043, z: -10.451482}
   m_LocalScale: {x: 0.26799, y: 0.23386636, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7737046006055379027}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!20 &7095948811293004304
+--- !u!20 &7855388281485059502
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4954838132815153082}
+  m_GameObject: {fileID: 2503050512232400690}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
@@ -58,7 +58,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: 0
   m_CullingMask:
@@ -191,7 +191,7 @@ Transform:
   m_Children:
   - {fileID: 7737046006794250405}
   - {fileID: 7737046006078507455}
-  - {fileID: 1714942532153715319}
+  - {fileID: 9103673308770412740}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -346,6 +346,7 @@ MonoBehaviour:
     RotBlendEnd: 0.5
     RotTeleportRadians: 1.5
   moveSpeed: 5
+  isRight: 1
 --- !u!114 &1914992991056603841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,11 +360,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  animator: {fileID: 553660976972603380}
-  playerModel: {fileID: 7737046006055379109}
-  firePoint: {fileID: 7737046006794250406}
-  cam: {fileID: 7095948811293004304}
-  isRight: 1
 --- !u!114 &9008053008359533605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b69730a035d13b43a8bbf69ca6a5338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 7095948811293004304}
+  cam: {fileID: 0}
 --- !u!81 &-713703109200401047
 AudioListener:
   m_ObjectHideFlags: 0
@@ -682,7 +678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gun: {fileID: 7737046006794250404}
   rb: {fileID: 7737046006794250404}
-  cam: {fileID: 7095948811293004304}
+  cam: {fileID: 0}
   animator: {fileID: 0}
 --- !u!50 &7737046006794250404
 Rigidbody2D:
