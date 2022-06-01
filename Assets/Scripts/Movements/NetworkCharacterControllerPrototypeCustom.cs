@@ -94,15 +94,18 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
     lookDir.y = mouseDirection.y - Controller.transform.position.y;
     float angle = Mathf.Atan2(lookDir.y ,lookDir.x) * Mathf.Rad2Deg;
     int direction = getDirection(angle);
-    if (direction == RIGHT || direction == LEFT) {
+    if (direction == RIGHT ) {
       animator.SetFloat("Speed", 1); //to update, 1 is temp value
-      if (!isRight && direction == RIGHT) {
-        FlipHorizontal();
-        isRight = true;
-      } else if (isRight && direction == LEFT){
-        FlipHorizontal();
-        isRight = false;
-      }
+      // if (!isRight && direction == RIGHT) {
+      //   FlipHorizontal();
+      //   isRight = true;
+      // } else if (isRight && direction == LEFT){
+      //   FlipHorizontal();
+      //   isRight = false;
+      // }
+    } else if (direction == LEFT) 
+    {
+      animator.SetFloat("Speed", -1);
     } else {
      animator.SetFloat("Speed", 0); //to update, 0 is temp value
     }

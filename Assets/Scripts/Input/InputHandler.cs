@@ -36,9 +36,6 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     // Update is called once per frame
     void Update()
     {
-        cam.enabled = true;
-        //cam = GameObject.FindWithTag("PlayerCamera");
-
         moveInputVector.x = Input.GetAxisRaw("Horizontal");
         moveInputVector.y = Input.GetAxisRaw("Vertical");
 
