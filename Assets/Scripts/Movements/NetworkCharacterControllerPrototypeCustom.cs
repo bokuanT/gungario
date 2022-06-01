@@ -42,9 +42,9 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
   //protected override Vector3 DefaultTeleportInterpolationAngularVelocity => new Vector3(0f, 0f, rotationSpeed);
 
   public CharacterController Controller { get; private set; }
-  public Animator animator { get; private set; }
-  public GameObject playerModel { get; private set; }
-  public GameObject firePoint { get; private set; }
+  public Animator animator;
+  public GameObject playerModel;
+  public GameObject firePoint;
 
   protected override void Awake() {
     base.Awake();
@@ -64,15 +64,6 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
       Controller = GetComponent<CharacterController>();
 
       //Assert.Check(Controller != null, $"An object with {nameof(NetworkCharacterControllerPrototype)} must also have a {nameof(CharacterController)} component.");
-    }
-    if (animator == null) {
-      animator = GetComponent<Animator>();
-    }
-    if (playerModel == null) {
-      playerModel = GameObject.FindWithTag("Player");
-    }
-    if (firePoint == null) {
-      firePoint = GameObject.FindWithTag("FirePoint");
     }
   }
 

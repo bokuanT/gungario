@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: -713703109200401047}
   - component: {fileID: 553660976972603380}
   m_Layer: 0
-  m_Name: NetworkPlayer 1
+  m_Name: NetworkPlayer1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -294,12 +294,13 @@ MonoBehaviour:
   AoiPositionSource: {fileID: 0}
   Flags: 2305
   NetworkGuid:
-    RawGuidValue: c9a8a5373c1714c4283b6846b71d7504
+    RawGuidValue: 835cc8392d5e19c469ba1e47f1cfe8ee
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 7737046006055379035}
   - {fileID: 2677741083985730941}
   - {fileID: 1914992991056603841}
+  - {fileID: 9008053008359533605}
   SimulationBehaviours: []
 --- !u!143 &4986565846088207363
 CharacterController:
@@ -347,6 +348,9 @@ MonoBehaviour:
     RotTeleportRadians: 1.5
   moveSpeed: 5
   isRight: 1
+  animator: {fileID: 0}
+  playerModel: {fileID: 0}
+  firePoint: {fileID: 0}
 --- !u!114 &1914992991056603841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,6 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b69730a035d13b43a8bbf69ca6a5338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   cam: {fileID: 0}
 --- !u!81 &-713703109200401047
 AudioListener:
