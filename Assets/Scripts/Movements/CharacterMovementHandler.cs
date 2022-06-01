@@ -13,6 +13,7 @@ public class CharacterMovementHandler : NetworkBehaviour
     private void Awake()
     {
         controller = GetComponent<NetworkCharacterControllerPrototypeCustom>();
+        
     }
 
 

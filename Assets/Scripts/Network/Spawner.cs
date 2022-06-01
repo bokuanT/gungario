@@ -49,6 +49,7 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
         NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, player);
         _spawnedCharacters.Add(player, networkPlayerObject);
 
+        
         Debug.Log("OnPlayerJoined");
     }
 
