@@ -301,7 +301,6 @@ MonoBehaviour:
   - {fileID: 2677741083985730941}
   - {fileID: 1914992991056603841}
   - {fileID: 9008053008359533605}
-  - {fileID: 5114023238481528192}
   SimulationBehaviours: []
 --- !u!143 &4986565846088207363
 CharacterController:
@@ -596,7 +595,6 @@ GameObject:
   - component: {fileID: 7737046006794250330}
   - component: {fileID: 7737046006794250331}
   - component: {fileID: 7737046006794250404}
-  - component: {fileID: 5114023238481528192}
   m_Layer: 0
   m_Name: FirePoint
   m_TagString: FirePoint
@@ -708,33 +706,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &5114023238481528192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7737046006794250406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68d0c0cd9eab3e14babad88c85b9d0fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
-  InterpolationSpace: 0
-  InterpolationTarget: {fileID: 0}
-  InterpolateErrorCorrection: 1
-  InterpolatedErrorCorrectionSettings:
-    MinRate: 3.3
-    MaxRate: 10
-    PosBlendStart: 0.25
-    PosBlendEnd: 1
-    PosMinCorrection: 0.025
-    PosTeleportDistance: 2
-    RotBlendStart: 0.1
-    RotBlendEnd: 0.5
-    RotTeleportRadians: 1.5
-  _projectilePrefab: {fileID: 0}
 --- !u!1 &7737046007305582878
 GameObject:
   m_ObjectHideFlags: 0

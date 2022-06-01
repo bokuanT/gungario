@@ -8,7 +8,7 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
     public static NetworkPlayer Local { get; set; }
 
     // Start is called before the first frame update
-    private void Awake()
+    void Start()
     {
         
     }
