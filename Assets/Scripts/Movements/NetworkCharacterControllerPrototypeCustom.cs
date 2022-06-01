@@ -42,6 +42,7 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
   //protected override Vector3 DefaultTeleportInterpolationAngularVelocity => new Vector3(0f, 0f, rotationSpeed);
 
   public CharacterController Controller { get; private set; }
+  NetworkWeapon networkWeapon;
   public Animator animator;
   public GameObject playerModel;
   public GameObject firePoint;
@@ -64,6 +65,10 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
       Controller = GetComponent<CharacterController>();
 
       //Assert.Check(Controller != null, $"An object with {nameof(NetworkCharacterControllerPrototype)} must also have a {nameof(CharacterController)} component.");
+    }
+    if (networkWeapon == null)
+    {
+      networkWeapon = GetComponentInChildren<NetworkWeapon>();
     }
   }
 
@@ -131,6 +136,12 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
     curScaleGun.x *= -1;
     curScaleGun.y *= -1;
     firePoint.transform.localScale = curScaleGun;
-  }     
+  }    
+
+  public virtual void Shoot(Vector2 mvDir)
+  {
+    var deltaTime = Runner.DeltaTime;
+    networkWeapon.Fire(Runner, Object.InputAuthority, mvDir * moveSpeed * deltaTime);
+  } 
 
 }
