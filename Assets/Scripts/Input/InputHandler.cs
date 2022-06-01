@@ -14,8 +14,6 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     NetworkCharacterControllerPrototypeCustom controller;
     NetworkPlayer player;
 
-    private bool _primaryFire;
-
     /// <summary>
     /// Hook up to the Fusion callbacks so we can handle the input polling
     /// </summary>
@@ -33,13 +31,12 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     private void Awake() 
     {
         controller = GetComponent<NetworkCharacterControllerPrototypeCustom>();
-        player = GetComponent<NetworkPlayer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //cam.enabled = true;
+        cam.enabled = true;
         //cam = GameObject.FindWithTag("PlayerCamera");
 
         moveInputVector.x = Input.GetAxisRaw("Horizontal");
@@ -48,9 +45,6 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
         // Gets the mouse position
         Vector3 mousePos =  cam.ScreenToWorldPoint(Input.mousePosition);
 		mouseInputVector = new Vector2(mousePos.x,mousePos.y );
-
-        if (Input.GetMouseButton(0) )
-			_primaryFire = true;
     }
 
     
@@ -67,11 +61,6 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
 
             controller.SetDirections(networkInputData.mouseInput);
 
-            if (networkInputData.MOUSEBUTTON1 == 0x01)
-            {
-                controller.Shoot(moveDirection); //Add direction as param?
-            }
-
         }
 
             //Rotate character
@@ -85,14 +74,6 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     {
         networkInputData.movementInput = moveInputVector;
         networkInputData.mouseInput = mouseInputVector;
-
-        if ( _primaryFire )
-        {
-            _primaryFire = false;
-            networkInputData.MOUSEBUTTON1 = 0x01;
-        } else {
-            networkInputData.MOUSEBUTTON1 = 0x0;
-        }
 
         input.Set(networkInputData);
     }
