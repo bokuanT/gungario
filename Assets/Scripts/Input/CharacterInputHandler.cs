@@ -14,13 +14,8 @@ public class CharacterInputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     // Start is called before the first frame update
     void Start()
     {
-<<<<<<< HEAD
-        Camera cam = gameObject.GetComponentInChildren<Camera>();
-        cam.transform.position += new Vector3(0,0,-10);
-=======
         cam = gameObject.GetComponentInChildren<Camera>();
         // cam.transform.position += new Vector3(0,0,-10);
->>>>>>> 7337714e0eb8c3dbfe5057efca0b5d042fb8b485
         
     }
 

@@ -26,7 +26,6 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
             Runner.AddCallbacks(this);
         }
 
-        Debug.Log("Spawned [" + this + "] IsClient=" + Runner.IsClient + " IsServer=" + Runner.IsServer + " HasInputAuth=" + Object.HasInputAuthority + " HasStateAuth=" + Object.HasStateAuthority);
     }
     
     private void Awake() 
@@ -44,7 +43,6 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
         moveInputVector.y = Input.GetAxisRaw("Vertical");
 
         // Gets the mouse position
-        // somehow redundant
         Vector3 mousePos =  cam.ScreenToWorldPoint(Input.mousePosition);
 		mouseInputVector = new Vector2(mousePos.x,mousePos.y );
     }
@@ -82,9 +80,7 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason reason) { }
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) {
-
-    }
+    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) { }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }
     public void OnConnectedToServer(NetworkRunner runner) { }
     public void OnDisconnectedFromServer(NetworkRunner runner) { }
