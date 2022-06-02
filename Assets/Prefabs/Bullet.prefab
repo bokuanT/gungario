@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6654648334290666774}
   - component: {fileID: 239461309567742938}
-  - component: {fileID: 6490029305330367461}
-  - component: {fileID: 7544985135131680814}
   - component: {fileID: -8845847926095506687}
   - component: {fileID: -857061316622841527}
+  - component: {fileID: 3514885030307818011}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -88,43 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &6490029305330367461
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026664892546766046}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!58 &7544985135131680814
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026664892546766046}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!114 &-8845847926095506687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  _bulletVisualParent: {fileID: 0}
+  _bulletVisualParent: {fileID: 6654648334290666774}
   _bulletSettings:
     hitMask:
       serializedVersion: 2
@@ -146,10 +108,10 @@ MonoBehaviour:
     areaRadius: 0
     areaImpulse: 0
     areaDamage: 0
-    speed: 100
+    speed: 10
     radius: 0.25
     gravity: -10
-    timeToLive: 1.5
+    timeToLive: 3
     timeToFade: 0.5
     ownerVelocityMultiplier: 1
   _networkedVelocity: {x: 0, y: 0, z: 0}
@@ -178,4 +140,31 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: -8845847926095506687}
+  - {fileID: 3514885030307818011}
   SimulationBehaviours: []
+--- !u!114 &3514885030307818011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026664892546766046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  InterpolationSpace: 0
+  InterpolationTarget: {fileID: 0}
+  InterpolateErrorCorrection: 1
+  InterpolatedErrorCorrectionSettings:
+    MinRate: 3.3
+    MaxRate: 10
+    PosBlendStart: 0.25
+    PosBlendEnd: 1
+    PosMinCorrection: 0.025
+    PosTeleportDistance: 2
+    RotBlendStart: 0.1
+    RotBlendEnd: 0.5
+    RotTeleportRadians: 1.5

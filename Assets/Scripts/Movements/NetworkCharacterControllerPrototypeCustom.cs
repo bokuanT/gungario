@@ -1,6 +1,7 @@
 using System;
 using Fusion;
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
 [OrderBefore(typeof(NetworkTransform))]
@@ -142,6 +143,7 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
   {
     var deltaTime = Runner.DeltaTime;
     networkWeapon.Fire(Runner, Object.InputAuthority, mvDir * moveSpeed * deltaTime);
+    
   } 
 
 }

@@ -12,9 +12,18 @@ public struct NetworkInputData : INetworkInput
     
     public float rotationInput;
 
-    public byte MOUSEBUTTON1;
+    public const uint MOUSEBUTTON1 = 1 << 0;
 
-    public byte buttons;
+    public uint Buttons;
 
+    public bool IsUp(uint button)
+    {
+        return IsDown(button) == false;
+    }
+
+    public bool IsDown(uint button)
+    {
+        return (Buttons & button) == button;
+    }
     
 }

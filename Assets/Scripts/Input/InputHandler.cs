@@ -67,9 +67,9 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
 
             controller.SetDirections(networkInputData.mouseInput);
 
-            if (networkInputData.MOUSEBUTTON1 == 0x01)
+            if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))
             {
-                controller.Shoot(moveDirection); //Add direction as param?
+                controller.Shoot(moveDirection);
             }
 
         }
@@ -89,12 +89,11 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
         if ( _primaryFire )
         {
             _primaryFire = false;
-            networkInputData.MOUSEBUTTON1 = 0x01;
-        } else {
-            networkInputData.MOUSEBUTTON1 = 0x0;
+            networkInputData.Buttons |= NetworkInputData.MOUSEBUTTON1;
         }
 
         input.Set(networkInputData);
+        networkInputData.Buttons = 0;
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason reason) { }
