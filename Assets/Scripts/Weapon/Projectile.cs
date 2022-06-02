@@ -6,6 +6,7 @@ public class Projectile : NetworkBehaviour
 {
     [Header("Visuals")] 
 	[SerializeField] private Transform _bulletVisualParent;
+    [SerializeField] ExplosionFX _explosionFX;
 
     [Header("Settings")] 
     [SerializeField] private BulletSettings _bulletSettings = new BulletSettings();
@@ -61,8 +62,6 @@ public class Projectile : NetworkBehaviour
         set { if (Object.IsPredictedSpawn) _predictedDestroyed = value; else networkedDestroyed = value; }
     }
 
-    // [Networked]
-    // private Transform gunTransform;
 
     public void InitNetworkState(Vector3 ownervelocity, Transform gun)
     {
@@ -70,21 +69,21 @@ public class Projectile : NetworkBehaviour
         fadeTimer = TickTimer.CreateFromSeconds(Runner, _bulletSettings.timeToFade);
 
         destroyed = false;
-
-        // gunTransform = gun;
-
-        // Vector3 fwd = transform.forward.normalized;
-        // Vector3 vel = ownervelocity.normalized;
-        // vel.y = 0;
-        // fwd.y = 0;
-        // float multiplier = Mathf.Abs(Vector3.Dot(vel, fwd));
         
         velocity = gun.right * _bulletSettings.speed + ownervelocity;
         Debug.Log( _bulletSettings.timeToLive + " bspeed");
         
-
     }
 
+    // public override void Spawned()
+    // {
+    //     if (_explosionFX != null)
+    //         _explosionFX.ResetExplosion();
+    //     _bulletVisualParent.gameObject.SetActive(true);
+
+    //     GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.Predicted;
+
+    // }
     public override void FixedUpdateNetwork()
     {
         MoveBullet();
@@ -92,7 +91,7 @@ public class Projectile : NetworkBehaviour
 
     private void MoveBullet()
     {
-        Debug.Log("MoveBullet. pos: " + gameObject.transform.position);
+        //Debug.Log("MoveBullet. pos: " + gameObject.transform.position);
         
         if (!destroyed)
         {
@@ -174,11 +173,11 @@ public class Projectile : NetworkBehaviour
         if (destroyed)
         {
             Debug.Log("Destroyed");
-            // if (_explosionFX != null)
-            // {
-            //     transform.up = Vector3.up;
-            //     _explosionFX.PlayExplosion();
-            // }
+            if (_explosionFX != null)
+            {
+                transform.up = Vector3.up;
+                _explosionFX.PlayExplosion();
+            }
             _bulletVisualParent.gameObject.SetActive(false);
             Destroy(gameObject);
         }
