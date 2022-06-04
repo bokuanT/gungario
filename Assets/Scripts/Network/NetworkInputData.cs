@@ -12,11 +12,7 @@ public struct NetworkInputData : INetworkInput
     
     public float rotationInput;
 
-
-    public const byte MOUSEBUTTON1 = 0x01;
-
     public const uint MOUSEBUTTON1 = 1 << 0;
-
 
     public uint Buttons;
 
