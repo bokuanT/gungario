@@ -10,15 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6654648334290666774}
   - component: {fileID: 239461309567742938}
-
-  - component: {fileID: 6490029305330367461}
-  - component: {fileID: 7544985135131680814}
-  - component: {fileID: 8073941084263559408}
-
   - component: {fileID: -8845847926095506687}
   - component: {fileID: -857061316622841527}
   - component: {fileID: 3514885030307818011}
-
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -94,48 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
-
---- !u!50 &6490029305330367461
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026664892546766046}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!58 &7544985135131680814
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1026664892546766046}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
---- !u!114 &8073941084263559408
-
 --- !u!114 &-8845847926095506687
-
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -144,12 +97,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1026664892546766046}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe593118e59512f4d9bd742539a4389f, type: 3}
+  m_Script: {fileID: 11500000, guid: dd823269b46e2e740b2c906f560e305d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-
-  hitEffect: {fileID: 6785029222767030984, guid: 1cea54781b425484c840697c65fe2705, type: 3}
-
   _interpolationDataSource: 0
   _bulletVisualParent: {fileID: 6654648334290666774}
   _explosionFX: {fileID: 1053602492919703466}
@@ -297,4 +247,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 425823782185771347, guid: 92c5e7e56a2316644a89db7e904ea974, type: 3}
   m_PrefabInstance: {fileID: 1346978307686512111}
   m_PrefabAsset: {fileID: 0}
-
