@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8212504558842411481}
   - component: {fileID: 7512518786852777964}
   - component: {fileID: 3380464351312427871}
-  - component: {fileID: 6911780014004994538}
   m_Layer: 0
   m_Name: Camera
   m_TagString: PlayerCamera
@@ -85,19 +84,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 257597399460242231}
   m_Enabled: 0
---- !u!114 &6911780014004994538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 257597399460242231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75487f2ef851cd14d81898a916b3219a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraAnchorPoint: {fileID: 3029798886418938734}
 --- !u!1 &3644992311304270458
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,6 +312,7 @@ MonoBehaviour:
   - {fileID: 7737046006055379035}
   - {fileID: 2677741083985730941}
   - {fileID: 7318088969287888563}
+  - {fileID: 6417864098233356465}
   SimulationBehaviours: []
 --- !u!114 &7737046006055379034
 MonoBehaviour:
@@ -635,6 +622,7 @@ GameObject:
   - component: {fileID: 7737046006794250330}
   - component: {fileID: 7737046006794250331}
   - component: {fileID: 7737046006794250404}
+  - component: {fileID: 6417864098233356465}
   m_Layer: 0
   m_Name: FirePoint
   m_TagString: FirePoint
@@ -746,6 +734,33 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6417864098233356465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737046006794250406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68d0c0cd9eab3e14babad88c85b9d0fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  InterpolationSpace: 0
+  InterpolationTarget: {fileID: 7737046006794250405}
+  InterpolateErrorCorrection: 1
+  InterpolatedErrorCorrectionSettings:
+    MinRate: 3.3
+    MaxRate: 10
+    PosBlendStart: 0.25
+    PosBlendEnd: 1
+    PosMinCorrection: 0.025
+    PosTeleportDistance: 2
+    RotBlendStart: 0.1
+    RotBlendEnd: 0.5
+    RotTeleportRadians: 1.5
+  _projectilePrefab: {fileID: -8845847926095506687, guid: 81ee4e72957e130489c72644107b5b6a, type: 3}
 --- !u!1 &7737046007305582878
 GameObject:
   m_ObjectHideFlags: 0
