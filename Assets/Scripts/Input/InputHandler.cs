@@ -11,8 +11,9 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     Vector2 mouseInputVector;
     NetworkInputData networkInputData = new NetworkInputData();
     public Camera cam;
+    Player player;
     NetworkCharacterControllerPrototypeCustom controller;
-    NetworkPlayer player;
+    SpriteRenderer renderer;
 
     /// <summary>
     /// Hook up to the Fusion callbacks so we can handle the input polling
@@ -31,6 +32,8 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     private void Awake() 
     {
         controller = GetComponent<NetworkCharacterControllerPrototypeCustom>();
+        renderer = GetComponent<SpriteRenderer>();
+        player = GetComponent<Player>();
     }
 
     // Update is called once per frame
@@ -56,7 +59,7 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
         
             controller.Move(moveDirection);
 
-            controller.SetDirections(networkInputData.mouseInput);
+            player.setMouse(networkInputData.mouseInput);
 
         }
 

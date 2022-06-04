@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: -713703109200401047}
   - component: {fileID: 553660976972603380}
   - component: {fileID: 7318088969287888563}
-  - component: {fileID: 8918455538546765537}
+  - component: {fileID: 5901708820201017714}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Player
@@ -313,7 +313,7 @@ MonoBehaviour:
   - {fileID: 7737046006055379035}
   - {fileID: 2677741083985730941}
   - {fileID: 7318088969287888563}
-  - {fileID: 8918455538546765537}
+  - {fileID: 5901708820201017714}
   SimulationBehaviours: []
 --- !u!114 &7737046006055379034
 MonoBehaviour:
@@ -389,9 +389,9 @@ MonoBehaviour:
     RotTeleportRadians: 1.5
   moveSpeed: 5
   isRight: 1
-  animator: {fileID: 553660976972603380}
-  playerModel: {fileID: 7737046006055379109}
+  player: {fileID: 7737046006055379109}
   firePoint: {fileID: 7737046006794250406}
+  playerSprite: {fileID: 7737046006055379036}
 --- !u!81 &-713703109200401047
 AudioListener:
   m_ObjectHideFlags: 0
@@ -434,7 +434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   cam: {fileID: 7512518786852777964}
---- !u!114 &8918455538546765537
+--- !u!114 &5901708820201017714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -443,26 +443,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7737046006055379109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 506319458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Script: {fileID: 11500000, guid: c658eb29f70e94b4cad37d53a73b2301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  Animator: {fileID: 553660976972603380}
-  SyncSettings: 79
-  FloatAccuracy:
-    _value: 0.001
-    _inverse: 999.99994
-    _hash: -814817977
-  TimeAccuracy:
-    _value: 0.0001
-    _inverse: 10000
-    _hash: 1061325578
-  WeightAccuracy:
-    _value: 0.001
-    _inverse: 999.99994
-    _hash: -814817977
-  StateHashes: 00000000f16aa2f8542e4547aad5891389658ab5
-  TriggerHashes: 00000000
+  sprite: {fileID: 7737046006055379036}
+  animator: {fileID: 553660976972603380}
+  firePoint: {fileID: 7737046006794250406}
 --- !u!1 &7737046006078507448
 GameObject:
   m_ObjectHideFlags: 0
