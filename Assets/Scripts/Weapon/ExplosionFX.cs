@@ -41,10 +41,10 @@ public class ExplosionFX : MonoBehaviour
 	{
 		if (_hasParticle)
 		{
-			Debug.Log("particle exists");
-			if (!_particle.isPlaying)
-				_particle.Emit(1);
-				Debug.Log(_particle);
+			Debug.Log("has particle, playing");
+			Debug.Log(_particle.isPlaying);
+			_particle.Play();
+			Debug.Log(_particle.isPlaying);
 		}
 	}
 
@@ -52,11 +52,9 @@ public class ExplosionFX : MonoBehaviour
 	{
 		if (_hasParticle)
 		{
-			if (_particle.isPlaying)
-			{
 				_particle.Stop();
 				_particle.Clear();
-			}
+	
 		}
 	}
 }

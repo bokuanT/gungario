@@ -62,6 +62,9 @@ public class Projectile : NetworkBehaviour
         set { if (Object.IsPredictedSpawn) _predictedDestroyed = value; else networkedDestroyed = value; }
     }
 
+    [Networked]
+	public TickTimer bulletDespawnTimer { get; set; }
+    private const float DELAY = 0.15f;
 
     public void InitNetworkState(Vector3 ownervelocity, Transform gun)
     {
@@ -71,22 +74,30 @@ public class Projectile : NetworkBehaviour
         destroyed = false;
         
         velocity = gun.right * _bulletSettings.speed + ownervelocity;
-        Debug.Log( _bulletSettings.timeToLive + " bspeed");
         
     }
 
-    // public override void Spawned()
-    // {
-    //     if (_explosionFX != null)
-    //         _explosionFX.ResetExplosion();
-    //     _bulletVisualParent.gameObject.SetActive(true);
+    public override void Spawned()
+    {
+        if (_explosionFX != null)
+        {
+            _explosionFX.ResetExplosion();
+        }
+        _bulletVisualParent.gameObject.SetActive(true);
+        transform.Find("Explosion").gameObject.SetActive(true);
 
-    //     GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.Predicted;
+        GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.Predicted;
 
-    // }
+    }
+
     public override void FixedUpdateNetwork()
     {
         MoveBullet();
+        if (bulletDespawnTimer.Expired(Runner))
+        {
+            _bulletVisualParent.gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
     }
 
     private void MoveBullet()
@@ -165,6 +176,7 @@ public class Projectile : NetworkBehaviour
 
     public static void OnDestroyedChanged(Changed<NetworkBehaviour> changed)
     {
+        Debug.Log("Onchanged");
         ((Projectile)changed.Behaviour)?.OnDestroyedChanged();
     }
 
@@ -175,11 +187,11 @@ public class Projectile : NetworkBehaviour
             Debug.Log("Destroyed");
             if (_explosionFX != null)
             {
-                transform.up = Vector3.up;
+                //transform.up = Vector3.up;
                 _explosionFX.PlayExplosion();
             }
-            _bulletVisualParent.gameObject.SetActive(false);
-            Destroy(gameObject);
+            bulletDespawnTimer = TickTimer.CreateFromSeconds(Runner, DELAY);
+            
         }
     }
 
