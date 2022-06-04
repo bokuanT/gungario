@@ -1,6 +1,7 @@
 using System;
 using Fusion;
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
 [OrderBefore(typeof(NetworkTransform))]
@@ -131,6 +132,17 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
     curScaleGun.x *= -1;
     curScaleGun.y *= -1;
     firePoint.transform.localScale = curScaleGun;
+
   }     
+
+  }    
+
+  public virtual void Shoot(Vector2 mvDir)
+  {
+    var deltaTime = Runner.DeltaTime;
+    networkWeapon.Fire(Runner, Object.InputAuthority, mvDir * moveSpeed * deltaTime);
+    
+  } 
+
 
 }

@@ -61,6 +61,14 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
 
             controller.SetDirections(networkInputData.mouseInput);
 
+
+
+            if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))
+            {
+                controller.Shoot(moveDirection);
+            }
+
+
         }
 
             //Rotate character
@@ -75,7 +83,16 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
         networkInputData.movementInput = moveInputVector;
         networkInputData.mouseInput = mouseInputVector;
 
+
+        if ( _primaryFire )
+        {
+            _primaryFire = false;
+            networkInputData.Buttons |= NetworkInputData.MOUSEBUTTON1;
+        }
+
+
         input.Set(networkInputData);
+        networkInputData.Buttons = 0;
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason reason) { }
