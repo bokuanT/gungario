@@ -13,7 +13,7 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     public Camera cam;
     Player player;
     NetworkCharacterControllerPrototypeCustom controller;
-    SpriteRenderer renderer;
+    
 
     /// <summary>
     /// Hook up to the Fusion callbacks so we can handle the input polling
@@ -32,7 +32,6 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     private void Awake() 
     {
         controller = GetComponent<NetworkCharacterControllerPrototypeCustom>();
-        renderer = GetComponent<SpriteRenderer>();
         player = GetComponent<Player>();
     }
 
