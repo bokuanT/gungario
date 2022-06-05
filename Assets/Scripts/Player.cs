@@ -8,13 +8,20 @@ public class Player : NetworkBehaviour
 
     [Header("Visuals")] 
 	[SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private SpriteRenderer weaponSprite;
 
+    private NetworkWeapon networkWeapon;
     private NetworkCharacterControllerPrototypeCustom _cc;
-    public Animator animator;
-    public GameObject firePoint;
-
-    private Vector2 mouseDirection;
     
+    public Animator animator;
+    public Transform player;
+    public Transform gun;
+    private Vector2 mouseDirection;
+    private Vector2 lookDir = Vector2.zero;
+
+    // Temporary variable to move shooting here
+    public float moveSpeed = 5f;
+
     [Networked(OnChanged = nameof(OnStateChanged))]
     private Direction direction { get; set; }
 
@@ -28,6 +35,7 @@ public class Player : NetworkBehaviour
 
     void Awake()
     {
+        networkWeapon = GetComponentInChildren<NetworkWeapon>();
         _cc = GetComponent<NetworkCharacterControllerPrototypeCustom>();
     }
 
@@ -51,9 +59,16 @@ public class Player : NetworkBehaviour
 
     public virtual void SetDirections()
     {
-        Vector2 lookDir = Vector2.zero;
-        lookDir.x = mouseDirection.x - _cc.transform.position.x;
-        lookDir.y = mouseDirection.y - _cc.transform.position.y;
+        lookDir.x = mouseDirection.x - player.position.x;
+        lookDir.y = mouseDirection.y - player.position.y;
+        Debug.Log("position of player = " + player.position);
+        Debug.Log("position of lookDir = " + lookDir);
+
+        // Gun direction
+        // Current Issue :
+        // In multiplayer, other players' guns keep pointing towards origin
+        gun.right = Vector2.Lerp(gun.right, new Vector2(lookDir.x,lookDir.y), Runner.DeltaTime * 5f);
+
         float angle = Mathf.Atan2(lookDir.y ,lookDir.x) * Mathf.Rad2Deg;
         //left is 180/-180, right is 0. top is 90, bottom is -90
         //return values: up is 0, right is 1, down is 2, left is 3
@@ -75,6 +90,7 @@ public class Player : NetworkBehaviour
 		}
 
     private void setAnimation() {
+        // player and gun sprite direction
         switch (direction)
 			{
 				case Direction.UP:
@@ -84,6 +100,7 @@ public class Player : NetworkBehaviour
 				case Direction.RIGHT:
                     animator.SetFloat("Speed", 1);
                     sprite.flipX = false;
+                    weaponSprite.flipY = false;
 					break;
 				case Direction.DOWN:
                     animator.SetFloat("Speed", 0);
@@ -92,9 +109,17 @@ public class Player : NetworkBehaviour
 				case Direction.LEFT:
                     animator.SetFloat("Speed", 1);
                     sprite.flipX = true;
+                    weaponSprite.flipY = true;
 					break;
 			}
+  
     }
+
+    public virtual void Shoot(Vector2 mvDir)
+    {
+        var deltaTime = Runner.DeltaTime;
+        networkWeapon.Fire(Runner, Object.InputAuthority, mvDir * moveSpeed * deltaTime);
+    } 
 
     // private void animate(int direction) {
     //     if (direction == RIGHT || direction == LEFT) {
@@ -112,12 +137,12 @@ public class Player : NetworkBehaviour
     //     }
     // }
 
-  private void FlipHorizontal() {
-    sprite.flipX = !sprite.flipX;
+//   private void FlipHorizontal() {
+//     sprite.flipX = !sprite.flipX;
 
-    Vector3 curScaleGun = firePoint.transform.localScale;
-    curScaleGun.x *= -1;
-    curScaleGun.y *= -1;
-    firePoint.transform.localScale = curScaleGun;
-  }     
+//     Vector3 curScaleGun = firePoint.transform.localScale;
+//     curScaleGun.x *= -1;
+//     curScaleGun.y *= -1;
+//     firePoint.transform.localScale = curScaleGun;
+//   }     
 }
