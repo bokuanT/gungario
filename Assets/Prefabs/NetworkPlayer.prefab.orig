@@ -344,11 +344,7 @@ MonoBehaviour:
   - {fileID: 7737046006055379035}
   - {fileID: 2677741083985730941}
   - {fileID: 7318088969287888563}
-<<<<<<< HEAD
   - {fileID: 5901708820201017714}
-=======
-  - {fileID: 6417864098233356465}
->>>>>>> c71bd948177fc543f2bceb50b63f760a369f3296
   SimulationBehaviours: []
 --- !u!114 &7737046006055379034
 MonoBehaviour:
@@ -788,9 +784,6 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-<<<<<<< HEAD
-  m_Constraints: 4
-=======
   m_Constraints: 0
 --- !u!114 &6417864098233356465
 MonoBehaviour:
@@ -819,7 +812,6 @@ MonoBehaviour:
     RotBlendEnd: 0.5
     RotTeleportRadians: 1.5
   _projectilePrefab: {fileID: -8845847926095506687, guid: 81ee4e72957e130489c72644107b5b6a, type: 3}
->>>>>>> c71bd948177fc543f2bceb50b63f760a369f3296
 --- !u!1 &7737046007305582878
 GameObject:
   m_ObjectHideFlags: 0

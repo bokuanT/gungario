@@ -1,6 +1,7 @@
 using System;
 using Fusion;
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
 [OrderBefore(typeof(NetworkTransform))]
@@ -15,7 +16,6 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
   // public float maxSpeed      = 10.0f;
   // public float rotationSpeed = 15.0f;
   public float moveSpeed = 5f;
-  public bool isRight = true;
 
   // [Networked]
   // [HideInInspector]
@@ -38,9 +38,6 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
   //protected override Vector3 DefaultTeleportInterpolationAngularVelocity => new Vector3(0f, 0f, rotationSpeed);
 
   public CharacterController Controller { get; private set; }
-  public GameObject player;
-  public GameObject firePoint;
-  public SpriteRenderer playerSprite;
 
   protected override void Awake() {
     base.Awake();

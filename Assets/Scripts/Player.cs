@@ -10,12 +10,17 @@ public class Player : NetworkBehaviour
 	[SerializeField] private SpriteRenderer sprite;
     [SerializeField] private SpriteRenderer weaponSprite;
 
+    private NetworkWeapon networkWeapon;
     private NetworkCharacterControllerPrototypeCustom _cc;
+    
     public Animator animator;
     public Transform player;
     public Transform gun;
     private Vector2 mouseDirection;
     private Vector2 lookDir = Vector2.zero;
+
+    // Temporary variable to move shooting here
+    public float moveSpeed = 5f;
 
     [Networked(OnChanged = nameof(OnStateChanged))]
     private Direction direction { get; set; }
@@ -30,6 +35,7 @@ public class Player : NetworkBehaviour
 
     void Awake()
     {
+        networkWeapon = GetComponentInChildren<NetworkWeapon>();
         _cc = GetComponent<NetworkCharacterControllerPrototypeCustom>();
     }
 
@@ -109,6 +115,12 @@ public class Player : NetworkBehaviour
   
     }
 
+    public virtual void Shoot(Vector2 mvDir)
+    {
+        var deltaTime = Runner.DeltaTime;
+        networkWeapon.Fire(Runner, Object.InputAuthority, mvDir * moveSpeed * deltaTime);
+    } 
+
     // private void animate(int direction) {
     //     if (direction == RIGHT || direction == LEFT) {
     //         animator.SetFloat("Speed", 1); //to update, 1 is temp value
@@ -125,12 +137,12 @@ public class Player : NetworkBehaviour
     //     }
     // }
 
-  private void FlipHorizontal() {
-    sprite.flipX = !sprite.flipX;
+//   private void FlipHorizontal() {
+//     sprite.flipX = !sprite.flipX;
 
-    // Vector3 curScaleGun = firePoint.transform.localScale;
-    // curScaleGun.x *= -1;
-    // curScaleGun.y *= -1;
-    // firePoint.transform.localScale = curScaleGun;
-  }     
+//     Vector3 curScaleGun = firePoint.transform.localScale;
+//     curScaleGun.x *= -1;
+//     curScaleGun.y *= -1;
+//     firePoint.transform.localScale = curScaleGun;
+//   }     
 }

@@ -12,8 +12,11 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     NetworkInputData networkInputData = new NetworkInputData();
     public Camera cam;
     Player player;
+    NetworkPlayer networkPlayer;
     NetworkCharacterControllerPrototypeCustom controller;
     
+
+    private bool _primaryFire;
 
     /// <summary>
     /// Hook up to the Fusion callbacks so we can handle the input polling
@@ -33,17 +36,24 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     {
         controller = GetComponent<NetworkCharacterControllerPrototypeCustom>();
         player = GetComponent<Player>();
+        networkPlayer = GetComponent<NetworkPlayer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //cam.enabled = true;
+        //cam = GameObject.FindWithTag("PlayerCamera");
+
         moveInputVector.x = Input.GetAxisRaw("Horizontal");
         moveInputVector.y = Input.GetAxisRaw("Vertical");
 
         // Gets the mouse position
         Vector3 mousePos =  cam.ScreenToWorldPoint(Input.mousePosition);
 		mouseInputVector = new Vector2(mousePos.x,mousePos.y );
+
+        if (Input.GetMouseButton(0) )
+			_primaryFire = true;
     }
 
     
@@ -60,6 +70,11 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
 
             player.setMouse(networkInputData.mouseInput);
 
+            if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))
+            {
+                player.Shoot(moveDirection);
+            }
+
         }
 
             //Rotate character
@@ -74,7 +89,14 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
         networkInputData.movementInput = moveInputVector;
         networkInputData.mouseInput = mouseInputVector;
 
+        if ( _primaryFire )
+        {
+            _primaryFire = false;
+            networkInputData.Buttons |= NetworkInputData.MOUSEBUTTON1;
+        }
+
         input.Set(networkInputData);
+        networkInputData.Buttons = 0;
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason reason) { }

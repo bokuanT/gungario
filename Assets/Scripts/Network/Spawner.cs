@@ -12,8 +12,6 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
     // links player to their player object
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
-    CharacterInputHandler characterInputHandler;
-
     // Start is called before the first frame update
     void Start()
     {
