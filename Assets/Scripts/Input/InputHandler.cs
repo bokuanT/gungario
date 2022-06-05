@@ -13,6 +13,7 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     public Camera cam;
     NetworkCharacterControllerPrototypeCustom controller;
     NetworkPlayer player;
+    public Player playerObject;
 
     private bool _primaryFire;
 
@@ -65,11 +66,11 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
         
             controller.Move(moveDirection);
 
-            controller.SetDirections(networkInputData.mouseInput);
+            playerObject.setMouse(networkInputData.mouseInput);
 
             if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))
             {
-                controller.Shoot(moveDirection);
+                playerObject.Shoot(moveDirection);
             }
 
         }

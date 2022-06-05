@@ -16,11 +16,6 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
   // public float maxSpeed      = 10.0f;
   // public float rotationSpeed = 15.0f;
   public float moveSpeed = 5f;
-  private const int UP = 0;
-  private const int RIGHT = 1;
-  private const int DOWN = 2;
-  private const int LEFT = 3;
-  public bool isRight = true;
 
   // [Networked]
   // [HideInInspector]
@@ -43,11 +38,6 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
   //protected override Vector3 DefaultTeleportInterpolationAngularVelocity => new Vector3(0f, 0f, rotationSpeed);
 
   public CharacterController Controller { get; private set; }
-  NetworkWeapon networkWeapon;
-  public Animator animator;
-  public GameObject playerModel;
-  public GameObject firePoint;
-
   protected override void Awake() {
     base.Awake();
     CacheEverything();
@@ -66,10 +56,6 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
       Controller = GetComponent<CharacterController>();
 
       //Assert.Check(Controller != null, $"An object with {nameof(NetworkCharacterControllerPrototype)} must also have a {nameof(CharacterController)} component.");
-    }
-    if (networkWeapon == null)
-    {
-      networkWeapon = GetComponentInChildren<NetworkWeapon>();
     }
   }
 
@@ -92,58 +78,5 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
     var deltaTime = Runner.DeltaTime;
     Controller.Move(direction * moveSpeed * deltaTime);
   }
-
-  public virtual void SetDirections(Vector2 mouseDirection) {
-    // Direction of mouse 
-    Vector2 lookDir = Vector2.zero;
-    lookDir.x = mouseDirection.x - Controller.transform.position.x;
-    lookDir.y = mouseDirection.y - Controller.transform.position.y;
-    float angle = Mathf.Atan2(lookDir.y ,lookDir.x) * Mathf.Rad2Deg;
-    int direction = getDirection(angle);
-    if (direction == RIGHT || direction == LEFT) {
-      animator.SetFloat("Speed", 1); //to update, 1 is temp value
-      if (!isRight && direction == RIGHT) {
-        FlipHorizontal();
-        isRight = true;
-      } else if (isRight && direction == LEFT){
-        FlipHorizontal();
-        isRight = false;
-      }
-    } else {
-     animator.SetFloat("Speed", 0); //to update, 0 is temp value
-    }
-  }
-
-  private int getDirection(float angle) {
-    //left is 180/-180, right is 0. top is 90, bottom is -90
-    //return values: up is 0, right is 1, down is 2, left is 3
-    if (angle >= 45f && angle < 135f) {
-      return 0;
-    } else if (angle < 45f && angle >= -45f) {
-      return 1;
-    } else if (angle < -45f && angle >= -135f) {
-      return 2;
-    } else {
-      return 3;
-    }
-  }
-
-  private void FlipHorizontal() {
-    Vector3 curScalePlayer = playerModel.transform.localScale;
-    curScalePlayer.x *= -1;
-    playerModel.transform.localScale = curScalePlayer;
-
-    Vector3 curScaleGun = firePoint.transform.localScale;
-    curScaleGun.x *= -1;
-    curScaleGun.y *= -1;
-    firePoint.transform.localScale = curScaleGun;
-  }    
-
-  public virtual void Shoot(Vector2 mvDir)
-  {
-    var deltaTime = Runner.DeltaTime;
-    networkWeapon.Fire(Runner, Object.InputAuthority, mvDir * moveSpeed * deltaTime);
-    
-  } 
 
 }
