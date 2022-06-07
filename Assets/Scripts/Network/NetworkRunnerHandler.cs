@@ -7,12 +7,15 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using Fusion.Photon.Realtime;
 
 public class NetworkRunnerHandler : MonoBehaviour
 {
     public NetworkRunner networkRunnerPrefab;
 
     NetworkRunner networkRunner;
+
+    private AuthenticationValues authValues;
 
     // Start is called before the first frame update
     void Start()
@@ -51,4 +54,7 @@ public class NetworkRunnerHandler : MonoBehaviour
         });
     }
 
+    public void setAuthValues(AuthenticationValues values) {
+        this.authValues = values;
+    }
 }
