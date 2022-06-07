@@ -295,6 +295,8 @@ GameObject:
   - component: {fileID: 553660976972603380}
   - component: {fileID: 7318088969287888563}
   - component: {fileID: 6016294262875212611}
+  - component: {fileID: 3266880623478696954}
+  - component: {fileID: 6205762002950523342}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Player
@@ -399,6 +401,8 @@ MonoBehaviour:
   - {fileID: 2677741083985730941}
   - {fileID: 7318088969287888563}
   - {fileID: 6016294262875212611}
+  - {fileID: 3266880623478696954}
+  - {fileID: 7737046007305582877}
   - {fileID: 6417864098233356465}
   SimulationBehaviours: []
 --- !u!114 &7737046006055379034
@@ -532,10 +536,46 @@ MonoBehaviour:
   _interpolationDataSource: 0
   sprite: {fileID: 7737046006055379036}
   weaponSprite: {fileID: 5598574471547177352}
+  _state: 0
   animator: {fileID: 553660976972603380}
   player: {fileID: 7737046006055379027}
   gun: {fileID: 3516718978972112205}
   moveSpeed: 5
+  _life: 0
+--- !u!114 &3266880623478696954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737046006055379109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1039544458, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  BroadRadius: 0.56
+  Offset: {x: 0, y: 0, z: 0}
+  Hitboxes:
+  - {fileID: 6205762002950523342}
+--- !u!114 &6205762002950523342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7737046006055379109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1014831617, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 2
+  SphereRadius: 0.5
+  BoxExtents: {x: 0, y: 0, z: 0}
+  Offset: {x: 0, y: 0, z: 0}
+  Root: {fileID: 3266880623478696954}
 --- !u!1 &7737046006078507448
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,9 +920,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
+  m_MaxValue: 100
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -898,6 +938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55a543b23c3863340a73ffddca8446e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   slider: {fileID: 7737046007305582867}
   gradient:
     serializedVersion: 2
@@ -929,6 +970,7 @@ MonoBehaviour:
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
   fill: {fileID: 7737046005862626061}
+  player: {fileID: 6016294262875212611}
 --- !u!1 &7737046007322718843
 GameObject:
   m_ObjectHideFlags: 0

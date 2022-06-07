@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
-public class Player : NetworkBehaviour
+public class Player : NetworkBehaviour, ICanTakeDamage
 {
 
     [Header("Visuals")] 
 	[SerializeField] private SpriteRenderer sprite;
     [SerializeField] private SpriteRenderer weaponSprite;
 
+    [Networked]//(OnChanged = nameof(OnStateChanged))]
+	public State state { get; set; }
+
     private NetworkWeapon networkWeapon;
     private NetworkCharacterControllerPrototypeCustom _cc;  
+    private Collider _collider;
+	private HitboxRoot _hitBoxRoot;
     public Animator animator;
     public Transform player;
     public Transform gun;
@@ -20,9 +25,16 @@ public class Player : NetworkBehaviour
 
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
+    public const byte MAX_HEALTH = 100;
 
     [Networked(OnChanged = nameof(OnStateChanged))]
     private Direction direction { get; set; }
+
+    [Networked(OnChanged = nameof(OnStateChanged))]
+	public byte life { get; set; }
+
+    [Networked]
+	private TickTimer respawnTimer { get; set; }
 
     public enum Direction
     {
@@ -32,10 +44,29 @@ public class Player : NetworkBehaviour
         LEFT
     }
 
+    public enum State
+    {
+        New,
+        Despawned,
+        Spawning,
+        Active,
+        Dead
+    }
+    public bool isActivated => (gameObject.activeInHierarchy && (state == State.Active || state == State.Spawning));
+	public bool isDead => state == State.Dead;
+	public bool isRespawningDone => state == State.Spawning && respawnTimer.Expired(Runner);
+
     void Awake()
     {
         networkWeapon = GetComponentInChildren<NetworkWeapon>();
         _cc = GetComponent<NetworkCharacterControllerPrototypeCustom>();
+        _collider = GetComponentInChildren<Collider>();
+		_hitBoxRoot = GetComponent<HitboxRoot>();
+    }
+
+    public void InitNetworkState()
+    {
+        life = MAX_HEALTH;
     }
 
     /// <summary>
@@ -48,7 +79,10 @@ public class Player : NetworkBehaviour
     /// </summary>
     public override void Render()
     {
+        Debug.Log("rendering");
         SetDirections();
+        _collider.enabled = state != State.Dead;
+		_hitBoxRoot.enabled = state == State.Active;
     }
 
     public virtual void setMouse(Vector2 mouseDirection) 
@@ -82,10 +116,10 @@ public class Player : NetworkBehaviour
     }
 
     public static void OnStateChanged(Changed<Player> changed)
-		{
-			if(changed.Behaviour)
-				changed.Behaviour.setAnimation();
-		}
+    {
+        if(changed.Behaviour)
+            changed.Behaviour.setAnimation();
+    }
 
     private void setAnimation() {
         // player and gun sprite direction
@@ -142,5 +176,25 @@ public class Player : NetworkBehaviour
 //     curScaleGun.x *= -1;
 //     curScaleGun.y *= -1;
 //     firePoint.transform.localScale = curScaleGun;
-//   }     
+//   } 
+    //Apply impulse for future updates- visual feedback from taking dmg by moving
+    public void ApplyDamage(Vector3 impulse, byte damage, PlayerRef attacker)
+    {
+        // if (!isActivated) //TODO implement invulnerability
+		// {	
+        //     Debug.Log("not activated");	
+        //     return;
+        // }
+
+        Player attackingPlayer = Spawner.Get(attacker);
+        
+        if (attackingPlayer != null && attackingPlayer == this)
+        {    
+            return;
+        }
+        
+        life -= damage;
+		Debug.Log($"Player {this} took {damage} damage, life = {life}");
+
+    }
 }
