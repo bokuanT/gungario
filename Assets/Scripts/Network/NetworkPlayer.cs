@@ -15,14 +15,11 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
 
     public override void Spawned()
     {
-        Debug.Log("BP 1");
         if (Object.HasInputAuthority)
         {
-            Debug.Log("BP 2");
             Local = this;
 
             Camera.main.gameObject.SetActive(false);
-            Debug.Log("BP 3");
 
             // GameObject camera = gameObject.transform.Find("Camera").gameObject;
             // Debug.Log("BP 4");

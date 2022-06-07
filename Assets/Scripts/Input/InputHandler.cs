@@ -65,7 +65,7 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
             moveDirection.Normalize();
         
             controller.Move(moveDirection);
-
+            
             playerObject.setMouse(networkInputData.mouseInput);
 
             if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))

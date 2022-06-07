@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 
@@ -66,6 +67,8 @@ public class Projectile : NetworkBehaviour
 	public TickTimer bulletDespawnTimer { get; set; }
     private const float DELAY = 0.15f;
 
+    private List<LagCompensatedHit> _areaHits = new List<LagCompensatedHit>();
+
     public void InitNetworkState(Vector3 ownervelocity, Transform gun)
     {
         lifeTimer = TickTimer.CreateFromSeconds(Runner, _bulletSettings.timeToLive + _bulletSettings.timeToFade);
@@ -102,8 +105,12 @@ public class Projectile : NetworkBehaviour
 
     private void MoveBullet()
     {
-        //Debug.Log("MoveBullet. pos: " + gameObject.transform.position);
-        
+        Transform xfrm = transform;
+        float dt = Runner.DeltaTime;
+        Vector3 vel = velocity;
+        float speed = vel.magnitude;
+        Vector3 pos = xfrm.position;
+
         if (!destroyed)
         {
             if (fadeTimer.Expired(Runner))
@@ -112,54 +119,32 @@ public class Projectile : NetworkBehaviour
             }
             else 
             {
-                transform.position += velocity * Runner.DeltaTime; 
+                //transform.position += velocity * Runner.DeltaTime; 
+                velocity = vel;
+                pos += dt * velocity;
+
+                xfrm.position = pos;
+                Vector3 dir = vel.normalized;
+                
+                if (Runner.LagCompensation.Raycast(transform.position, dir, Mathf.Max(_bulletSettings.radius, speed * dt), Object.InputAuthority, out var hitinfo, _bulletSettings.hitMask.value, HitOptions.IncludePhysX))
+                {
+                    vel = HandleImpact(hitinfo);
+                    pos = hitinfo.Point;
+                }
             }
         } 
         else 
         {
             velocity = Vector3.zero;
         }
-        // Transform xfrm = transform;
-        // float dt = Runner.DeltaTime;
-        // Vector3 vel = velocity;
-        // float speed = vel.magnitude;
-        // Vector3 pos = xfrm.position;
 
-        // if (!destroyed)
-        // {
-        //     if (fadeTimer.Expired(Runner))
-        //     {
-        //         Detonate(transform.position);
-        //     }
-        //     else
-        //     {
-        //         vel.y += dt * _bulletSettings.gravity;
-
-        //         // We move the origin back from the actual position to make sure we can't shoot through things even if we start inside them
-        //         Vector3 dir = vel.normalized;
-        //         if (Runner.LagCompensation.Raycast(pos -0.5f*dir, dir, Mathf.Max(_bulletSettings.radius, speed * dt), Object.InputAuthority, out var hitinfo, _bulletSettings.hitMask.value, HitOptions.IncludePhysX))
-        //         {
-        //             vel = HandleImpact(hitinfo);
-        //             pos = hitinfo.Point;
-        //         }
-        //     }
-        // } else
-        // {
-        //     vel = Vector3.zero;
-        //     dt = 0;
-        // }
-
-        // velocity = vel;
-        // pos += dt * velocity;
-
-        // xfrm.position = pos;
+        
         // if(vel.sqrMagnitude>0)
         //     _bulletVisualParent.position = vel.normalized;
     }
 
     private void Detonate(Vector3 hitPoint)
     {
-        Debug.Log("Detonate");
         if (destroyed)
             return;
         // Mark the bullet as destroyed.
@@ -170,13 +155,12 @@ public class Projectile : NetworkBehaviour
 
         if (_bulletSettings.areaRadius > 0)
         {
-            //ApplyAreaDamage(hitPoint); 
+            ApplyAreaDamage(hitPoint); 
         }
     }
 
     public static void OnDestroyedChanged(Changed<NetworkBehaviour> changed)
     {
-        Debug.Log("Onchanged");
         ((Projectile)changed.Behaviour)?.OnDestroyedChanged();
     }
 
@@ -184,7 +168,6 @@ public class Projectile : NetworkBehaviour
     {
         if (destroyed)
         {
-            Debug.Log("Destroyed");
             if (_explosionFX != null)
             {
                 //transform.up = Vector3.up;
@@ -195,9 +178,38 @@ public class Projectile : NetworkBehaviour
         }
     }
 
+    private void ApplyAreaDamage(Vector3 hitPoint)
+    {
+        var inputauth = Object.InputAuthority;
+        var hbm = Runner.LagCompensation;
+        int cnt = hbm.OverlapSphere(hitPoint, _bulletSettings.areaRadius, inputauth, _areaHits, _bulletSettings.hitMask, HitOptions.IncludePhysX);
+        Debug.Log("cnt: " + cnt);
+        if (cnt > 0)
+        {
+            for (int i = 0; i < cnt; i++)
+            {
+                GameObject other = _areaHits[i].GameObject;
+                Debug.Log("who took hit: "+ other);
+                if (other && other.tag == "Player")
+                {
+                    Debug.Log("something took dmg");
+                    ICanTakeDamage target = other.GetComponent<ICanTakeDamage>();
+                    if (target != null)
+                    {
+                        Debug.Log("target: " + target);
+                        Vector3 impulse = other.transform.position - hitPoint;
+                        float l = Mathf.Clamp(_bulletSettings.areaRadius - impulse.magnitude, 0, _bulletSettings.areaRadius);
+                        impulse = _bulletSettings.areaImpulse * l * impulse.normalized;
+                        target.ApplyDamage(impulse, _bulletSettings.areaDamage, Object.InputAuthority);
+                    }
+                }
+            }
+        }
+    }
+
     private Vector3 HandleImpact(LagCompensatedHit hit)
     {
-        Debug.Log("Impact");
+        Debug.Log("Impact at " + hit.Point);
         if (hit.Hitbox != null)
         {
             NetworkObject netobj = hit.Hitbox.Root.Object;

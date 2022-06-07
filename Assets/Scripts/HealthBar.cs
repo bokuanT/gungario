@@ -1,11 +1,18 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Fusion;
 
-public class HealthBar : MonoBehaviour
+public class HealthBar : NetworkBehaviour
 {
     public Slider slider; 
     public Gradient gradient;
     public Image fill;
+    public Player player;
+
+    void Awake()
+    {
+        player = GetComponentInParent<Player>();
+    }
 
     public void SetMaxHealth(int health)
     {
@@ -20,5 +27,12 @@ public class HealthBar : MonoBehaviour
         slider.value = health;
 
         fill.color = gradient.Evaluate(slider.normalizedValue);
+    }
+
+    //TODO use better implementation of OnStateChange
+    public override void FixedUpdateNetwork()
+    {
+        int hp = (int) player.life;
+        SetHealth(hp);
     }
 }

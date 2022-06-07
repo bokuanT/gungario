@@ -106,10 +106,10 @@ MonoBehaviour:
   _bulletSettings:
     hitMask:
       serializedVersion: 2
-      m_Bits: 0
-    areaRadius: 0
+      m_Bits: 1
+    areaRadius: 0.25
     areaImpulse: 0
-    areaDamage: 0
+    areaDamage: 10
     speed: 10
     radius: 0.25
     gravity: -10

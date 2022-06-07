@@ -19,7 +19,6 @@ public class ExplosionFX : MonoBehaviour
 
 	public void PlayExplosion()
 	{
-		Debug.Log("explosion");
 		gameObject.SetActive(true);
 		PlayParticle();
 		//PlaySound();
@@ -41,10 +40,7 @@ public class ExplosionFX : MonoBehaviour
 	{
 		if (_hasParticle)
 		{
-			Debug.Log("has particle, playing");
-			Debug.Log(_particle.isPlaying);
 			_particle.Play();
-			Debug.Log(_particle.isPlaying);
 		}
 	}
 
