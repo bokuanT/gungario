@@ -10,8 +10,8 @@ public class PlayFabAuthenticator : MonoBehaviour {
     private NetworkRunnerHandler runner;
     private string appID = "7df052a1-dc1e-480c-bb50-1f4058771c25";
 
-    //Run the entire thing on awake
-    public void Awake() {
+    //Run the entire thing on button press
+    public void guestAuthentication() {
         AuthenticateWithPlayFab();
     }
 

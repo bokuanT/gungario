@@ -79,7 +79,6 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     /// </summary>
     public override void Render()
     {
-        Debug.Log("rendering");
         SetDirections();
         _collider.enabled = state != State.Dead;
 		_hitBoxRoot.enabled = state == State.Active;
