@@ -50,7 +50,8 @@ public class NetworkRunnerHandler : MonoBehaviour
             Scene = scene,
             SessionName = "TestRoom",
             Initialized = initialized,
-            SceneObjectProvider = sceneObjectProvider  
+            SceneObjectProvider = sceneObjectProvider,  
+            AuthValues = authValues
         });
     }
 
