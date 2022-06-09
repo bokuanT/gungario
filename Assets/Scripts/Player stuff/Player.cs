@@ -24,6 +24,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public Transform gun;
     private Vector2 mouseDirection;
     private Vector2 lookDir;
+    private DeathManager _deathManager;
 
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
@@ -64,6 +65,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         _cc = GetComponent<NetworkCharacterControllerPrototypeCustom>();
         _collider = GetComponentInChildren<Collider>();
 		_hitBoxRoot = GetComponent<HitboxRoot>();
+        _deathManager = GetComponent<DeathManager>();
         
     }
 
@@ -75,8 +77,8 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
     public override void FixedUpdateNetwork()
     {
-        if (Object.HasStateAuthority)
-        {
+        // if (Object.HasStateAuthority)
+        // {
             if (state == State.Dead)
             {
                 if (respawnTimer.Expired(Runner))
@@ -89,7 +91,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
                 }
             }
-        }
+        //}
     }
 
     /// <summary>
@@ -185,7 +187,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
                 // _deathExplosionInstance.transform.position = transform.position;
                 // _deathExplosionInstance.SetActive(false); // dirty fix to reactivate the death explosion if the particlesystem is still active
                 // _deathExplosionInstance.SetActive(true);
-
+                _deathManager.OnDeath(Runner, Object.InputAuthority, transform);
                 setVisuals(false);
                 StartRespawnSequence();
                 break;
