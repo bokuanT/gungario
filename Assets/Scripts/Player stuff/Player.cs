@@ -10,7 +10,9 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 	[SerializeField] private SpriteRenderer sprite;
     [SerializeField] private SpriteRenderer weaponSprite;
 
-    [Networked]//(OnChanged = nameof(OnStateChanged))]
+    [SerializeField] private const float RESPAWN_TIME = 3f;
+
+    [Networked(OnChanged = nameof(OnStateChanged))]
 	public State state { get; set; }
 
     private NetworkWeapon networkWeapon;
@@ -62,11 +64,32 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         _cc = GetComponent<NetworkCharacterControllerPrototypeCustom>();
         _collider = GetComponentInChildren<Collider>();
 		_hitBoxRoot = GetComponent<HitboxRoot>();
+        
     }
 
     public void InitNetworkState()
     {
         life = MAX_HEALTH;
+        state = State.Active;
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        if (Object.HasStateAuthority)
+        {
+            if (state == State.Dead)
+            {
+                if (respawnTimer.Expired(Runner))
+                {
+                    Transform thisTransform = GetComponent<Transform>();
+                    thisTransform.position = Utils.GetRandomSpawnPoint(); //can make this follow Tell dont ask principle better
+                    life = MAX_HEALTH;
+                    state = State.Active;
+                    setVisuals(true);
+
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -79,7 +102,6 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     /// </summary>
     public override void Render()
     {
-        Debug.Log("rendering");
         SetDirections();
         _collider.enabled = state != State.Dead;
 		_hitBoxRoot.enabled = state == State.Active;
@@ -119,6 +141,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     {
         if(changed.Behaviour)
             changed.Behaviour.setAnimation();
+            changed.Behaviour.setState();
     }
 
     private void setAnimation() {
@@ -145,6 +168,31 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 					break;
 			}
   
+    }
+
+    public void setState()
+    {
+        switch (state)
+        {
+            case State.Spawning:
+                //TODO make spawn in animation
+                break;
+            case State.Active:
+                //TODO add end spawn animation
+                break;
+            case State.Dead:
+                //TODO: add death animation
+                // _deathExplosionInstance.transform.position = transform.position;
+                // _deathExplosionInstance.SetActive(false); // dirty fix to reactivate the death explosion if the particlesystem is still active
+                // _deathExplosionInstance.SetActive(true);
+
+                setVisuals(false);
+                StartRespawnSequence();
+                break;
+            case State.Despawned:
+                //_teleportOut.StartTeleport();
+                break;
+        }
     }
 
     public virtual void Shoot(Vector2 mvDir)
@@ -192,9 +240,35 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         {    
             return;
         }
+
+        if (damage >= life)
+        {
+            life = 0;
+            state = State.Dead;
+        }
         
+        else 
+        {
         life -= damage;
 		Debug.Log($"Player {this} took {damage} damage, life = {life}");
+        }
+    }
 
+    private void StartRespawnSequence()
+    {
+        respawnTimer = TickTimer.CreateFromSeconds(Runner, RESPAWN_TIME);
+    }
+
+    private void setVisuals(bool boolean)
+    {
+        Transform[] visuals = new Transform[3];
+        visuals[0] = transform.Find("HealthUI");
+        visuals[1] = transform.Find("GunVisual");
+        visuals[2] = transform.Find("InterpolationRoot");
+        
+        foreach (Transform visual in visuals)
+        {
+            visual.gameObject.SetActive(boolean);
+        }
     }
 }

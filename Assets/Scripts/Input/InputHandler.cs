@@ -59,20 +59,23 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     {
         if (GetInput(out NetworkInputData networkInputData))
         {
+            Debug.Log("player state: " + playerObject.state);
             //Move
-            Vector2 moveDirection = networkInputData.movementInput;
-            
-            moveDirection.Normalize();
-        
-            controller.Move(moveDirection);
-            
-            playerObject.setMouse(networkInputData.mouseInput);
-
-            if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))
+            if (playerObject.state == Player.State.Active) //only move if alive
             {
-                playerObject.Shoot(moveDirection);
-            }
+                Vector2 moveDirection = networkInputData.movementInput;
+                
+                moveDirection.Normalize();
+            
+                controller.Move(moveDirection);
+                
+                playerObject.setMouse(networkInputData.mouseInput);
 
+                if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))
+                {
+                    playerObject.Shoot(moveDirection);
+                }
+            }
         }
 
             //Rotate character
