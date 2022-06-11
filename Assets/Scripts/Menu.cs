@@ -15,10 +15,6 @@ public class Menu : MonoBehaviour
     // if not, Update will keep calling to the api
     private bool apicall = false;
 
-    void Awake() {
-        PlayerName.SetText("Welcome back, Player!");
-    }
-
     void Update() {
         if (authenticator.isAuthenticated() && apicall == false) {
             // sets the PlayerName from database
@@ -50,6 +46,7 @@ public class Menu : MonoBehaviour
                 DisplayName = ChangeName.GetParsedText()
             }, result => {
                 Debug.Log("The player's display name is now: " + result.DisplayName);
+                PlayerName.SetText("Welcome back, " + result.DisplayName + "!");
             }, error => Debug.LogError(error.GenerateErrorReport()));
         }
     }
