@@ -7,7 +7,8 @@ public class PlayFabAuthenticator : MonoBehaviour {
 
     private string _playFabPlayerIdCache;
 
-    public NetworkRunnerHandler runner;
+    // TO BE IMPLEMENTED WHEN NECESSARY 
+    // public NetworkRunnerHandler runner;
 
     private bool authenticate = false;
 
