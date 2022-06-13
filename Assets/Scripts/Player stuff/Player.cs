@@ -39,6 +39,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     [Networked]
 	private TickTimer respawnTimer { get; set; }
 
+
     public enum Direction
     {
         UP,
@@ -181,13 +182,14 @@ public class Player : NetworkBehaviour, ICanTakeDamage
                 break;
             case State.Active:
                 //TODO add end spawn animation
+                
                 break;
             case State.Dead:
                 //TODO: add death animation
                 // _deathExplosionInstance.transform.position = transform.position;
                 // _deathExplosionInstance.SetActive(false); // dirty fix to reactivate the death explosion if the particlesystem is still active
                 // _deathExplosionInstance.SetActive(true);
-                _deathManager.OnDeath(Runner, Object.InputAuthority, transform);
+                _deathManager.OnDeath(Runner, Object.InputAuthority);
                 setVisuals(false);
                 StartRespawnSequence();
                 break;

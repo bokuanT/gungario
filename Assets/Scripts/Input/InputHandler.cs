@@ -59,7 +59,6 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     {
         if (GetInput(out NetworkInputData networkInputData))
         {
-            Debug.Log("player state: " + playerObject.state);
             //Move
             if (playerObject.state == Player.State.Active) //only move if alive
             {
