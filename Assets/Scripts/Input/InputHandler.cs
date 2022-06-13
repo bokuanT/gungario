@@ -14,7 +14,6 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     NetworkCharacterControllerPrototypeCustom controller;
     NetworkPlayer player;
     public Player playerObject;
-
     private bool _primaryFire;
 
     /// <summary>
@@ -74,12 +73,6 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
             }
 
         }
-
-            //Rotate character
-            // Vector2 mouseDirection = networkInputData.mouseInput;
-            // int direction = Utils.getDirection(controller.transform.position, mouseDirection);
-            // Debug.Log("Direction is " + direction);
-            // setDirections(direction);
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input) 
