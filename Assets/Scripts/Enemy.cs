@@ -37,7 +37,7 @@ public class Enemy : NetworkBehaviour
     void Update()
     {
         if (targetLocation != null) { // target exists
-            // Debug.Log("SETTING");
+            // sets Mouse location
             setDirection(targetLocation);
 
             // stops chasing the target if exits range 
@@ -53,11 +53,12 @@ public class Enemy : NetworkBehaviour
 
   public override void FixedUpdateNetwork() 
     {
-        // THOUGHTS
-        // ISSUE MIGHT LIE TAHT THE MOVEDIRECTION IS NOT WHAT WE WANT
-        // DIFFERENT FROM AN INPUT THAT PLAYER MIGHT GIVE WITH REFERENCE TO THE BODY
         moveDirection.x = aimDirection.x - enemyTransform.position.x;
         moveDirection.y = aimDirection.y - enemyTransform.position.y;
+        
+        // ============= ISSUE =============
+        // Shooting is fked up here
+        // =================================
         moveDirection.Normalize();
             
         // shoot if player within range
@@ -99,15 +100,12 @@ public class Enemy : NetworkBehaviour
 
     void OnTriggerStay2D(Collider2D col)
     {
+        // ============= TO IMPLEMENT =============
+        // No targetting of each other
+        // =======================================
         // Debug.Log("Enemy has sensed " + col.name);
+        setTarget(col.gameObject);
         
-        // dont target fellow enemy, don't target (for now, til teams are implemented)
-        // DOESNT WORK, STILL TARGETS ENEMIES
-        if (col.gameObject.GetComponent<Enemy>() == null) 
-        {   
-            // Debug.Log(col.name);
-            setTarget(col.gameObject);
-        }
     }
 
     // Enemy tier 1 characteristics:
