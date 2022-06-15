@@ -1,8 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Threading.Tasks;
+
 
 public class LoginMenu : MonoBehaviour
 {
+    public LobbyManager lobbyManager;
     public PlayFabAuthenticator authenticator;
     private Canvas canvas;
 
@@ -11,8 +14,10 @@ public class LoginMenu : MonoBehaviour
     }
 
     void Update() {
-        if (authenticator.isAuthenticated() && canvas.enabled) {
-            canvas.enabled = false;
+        if (authenticator.isAuthenticated() && canvas.enabled) { 
+            if (lobbyManager.inLobby()) {
+                canvas.enabled = false;
+            } 
         }
     }
     public void PlayAsGuest() {

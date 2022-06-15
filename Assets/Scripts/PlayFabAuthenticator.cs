@@ -5,6 +5,7 @@ using Fusion.Photon.Realtime;
 
 public class PlayFabAuthenticator : MonoBehaviour {
 
+    public GameManager gameManager;
     private string _playFabPlayerIdCache;
 
     // TO BE IMPLEMENTED WHEN NECESSARY 
@@ -88,6 +89,9 @@ public class PlayFabAuthenticator : MonoBehaviour {
         
         // Set flag to move to next menu
         authenticate = true;
+
+        // enters lobby
+        gameManager.joinLobby();
     }
 
     public bool isAuthenticated() {
