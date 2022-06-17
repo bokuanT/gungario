@@ -14,7 +14,7 @@ public enum ConnectionStatus
 }
 
 [RequireComponent(typeof(LevelManager))]
-public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
+public class GameLauncher : NetworkBehaviour, INetworkRunnerCallbacks
 {
 	// [SerializeField] private GameManager _gameManagerPrefab;
 
@@ -25,6 +25,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	private NetworkRunner _runner;
 	private LevelManager _levelManager;
 	private String lobbyName;
+	private int MAX_PLAYERS = 2;
+	[Networked(OnChanged = nameof(OnStateChanged))] public NetworkBool LaunchGame { get; set; }
 
 	// links player to their player object
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
@@ -39,6 +41,11 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         return value.gameObject.GetComponent<Player>();
     }
 
+	public override void Spawned()
+	{
+		base.Spawned();
+	}
+
 	private void Start()
 	{
 		// Application.runInBackground = true;
@@ -52,33 +59,83 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		DontDestroyOnLoad(gameObject);
 	}
 
+	// not initializing some behaviour
+	// not setting object
+	// Sends a RPC to all players to load map
+	[Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
+	public void RPC_LaunchGame(NetworkBool state)
+	{
+		Debug.Log($"Launching game");
+		LaunchGame = state;
+	}
+
+	private static void OnStateChanged(Changed<GameLauncher> changed)
+    {
+        if(changed.Behaviour) 
+		{
+			Debug.Log("DB 2");
+			changed.Behaviour.startGame();
+			Debug.Log("DB 3");
+		}
+    }
+
+	private void startGame() {
+		// load the map
+		Debug.Log("game started");
+	}
+
+	public async void matchmakeDeathMatch(NetworkRunner runner, List<SessionInfo> sessionList) {
+		Debug.Log("Matchmaking");
+
+		foreach (var session in sessionList) {
+
+			if (session.PlayerCount < session.MaxPlayers) {
+				SetJoinLobby();
+				Debug.Log($"Joining {session.Name}");
+
+				// This call will make Fusion join the first session as a Client
+				var result = await runner.StartGame(new StartGameArgs() {
+					GameMode = _gameMode, // Client GameMode
+					SessionName = session.Name, // Session to Join
+					SceneObjectProvider = _levelManager, // Scene Provider
+					DisableClientSessionCreation = true, // Make sure the client will never create a Session
+				});
+
+				if (result.Ok) {
+					// all good
+					Debug.Log("Session joined successfully");
+					Debug.Log($"Players: {session.PlayerCount + 1}/{session.MaxPlayers}");
+				} else {
+					Debug.LogError($"Failed to Start: {result.ShutdownReason}");
+				}
+
+				
+				// if player count for a session is full, launch game
+				if (session.PlayerCount == session.MaxPlayers - 1) {
+					Debug.Log("Player count reached.");
+					RPC_LaunchGame(true);
+				}
+				return;
+			} 
+		}
+
+		// no sessions exist, start own session as host
+		Debug.Log("No Session Found");
+		Debug.Log("Creating Session");
+		SetCreateLobby();
+		int sessionNumber = (int) (UnityEngine.Random.value * 100);
+
+		// This call will make Fusion create the first session as a host
+		await runner.StartGame(new StartGameArgs() {
+			GameMode = _gameMode, // Host GameMode
+			SessionName = "Deathmatch" + sessionNumber, // Session to Join
+			SceneObjectProvider = _levelManager, // Scene Provider
+			PlayerCount = MAX_PLAYERS,
+		});
+    }
+
 	public void SetCreateLobby() => _gameMode = GameMode.Host;
 	public void SetJoinLobby() => _gameMode = GameMode.Client;
-	
-	public void JoinOrCreateLobby(String lobbyName)
-	{
-		SetConnectionStatus(ConnectionStatus.Connecting);
-
-		// if (_runner != null)
-		// 	LeaveSession();
-
-		// GameObject go = new GameObject("Session");
-		// DontDestroyOnLoad(go);
-
-		// _runner = go.AddComponent<NetworkRunner>();
-		// _runner.ProvideInput = _gameMode != GameMode.Server;
-		// _runner.AddCallbacks(this);
-		
-		// Debug.Log($"Created gameobject {go.name} - starting game");
-		_runner.StartGame(new StartGameArgs
-		{
-			GameMode = _gameMode,
-			SessionName = lobbyName,
-			//SceneManager = _levelManager,
-			PlayerCount = 10,
-			DisableClientSessionCreation = true
-		});
-	}
 
 	private void SetConnectionStatus(ConnectionStatus status)
 	{

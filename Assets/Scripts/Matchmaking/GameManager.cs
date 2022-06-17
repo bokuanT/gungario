@@ -8,8 +8,9 @@ using Fusion.Sockets;
 public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
 {
     private NetworkRunner _runner;
-    private Action<List<SessionInfo>> _onSessionListUpdated;
+    private List<SessionInfo> _sessionList;
     public LobbyManager lobbyManager;
+    public GameLauncher gameLauncher;
 
     // Start is called before the first frame update
     void Start()
@@ -27,18 +28,30 @@ public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
         
     }
 
-    public NetworkRunner getRunner() {
+    public NetworkRunner getRunner() 
+    {
         return _runner;
     }
 
-    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) {
-        Debug.Log($"Session List Updated with {sessionList.Count} session(s)");
-
-    }
-
-    public async void joinLobby() {
+    public async void joinLobby() 
+    {
         Debug.Log("Connecting");
         await lobbyManager.JoinLobby(_runner);
+    }
+
+    public void matchmakeDeathMatch() 
+    {
+        gameLauncher.matchmakeDeathMatch(_runner, _sessionList);
+    }
+
+    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) 
+    {
+        Debug.Log($"Session List Updated with {sessionList.Count} session(s)");
+        _sessionList = sessionList;
+        foreach (var session in sessionList) 
+        {
+            Debug.Log($"{session.Name} Players: {session.PlayerCount}/{session.MaxPlayers}");
+        }
     }
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) { }

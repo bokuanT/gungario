@@ -10,6 +10,7 @@ public class Menu : MonoBehaviour
     public TMP_Text ChangeName; 
     public TMP_Text PlayerName; 
     public PlayFabAuthenticator authenticator;
+    public GameManager gameManager;
     
     // temporary boolean to make the apicall happen once per load
     // if not, Update will keep calling to the api
@@ -34,6 +35,10 @@ public class Menu : MonoBehaviour
 
     public void QuitGame() {
         Application.Quit();
+    }
+
+    public void MatchmakeDeathMatch() {
+        gameManager.matchmakeDeathMatch();
     }
 
     // Temporary method to demonstrate persistent data being stored in player profile
