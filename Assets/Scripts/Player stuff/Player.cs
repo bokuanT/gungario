@@ -22,10 +22,14 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public Animator animator;
     public Transform player;
     public Transform gun;
+    public Transform firePoint;
     private Vector2 mouseDirection;
     private Vector2 lookDir;
     private DeathManager _deathManager;
-
+    private PlayerRef thisPlayerRef;
+    private Scoreboard scoreboard;
+    public Object _ScoreboardCanvasPrefab;
+ 
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
     public const byte MAX_HEALTH = 100;
@@ -39,6 +43,11 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     [Networked]
 	private TickTimer respawnTimer { get; set; }
 
+    [Networked(OnChanged = nameof(OnStateChanged))]
+	public byte kills { get; set; }
+
+    [Networked(OnChanged = nameof(OnStateChanged))]
+	public byte deaths { get; set; }
 
     public enum Direction
     {
@@ -67,13 +76,19 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         _collider = GetComponentInChildren<Collider>();
 		_hitBoxRoot = GetComponent<HitboxRoot>();
         _deathManager = GetComponent<DeathManager>();
+        Instantiate(_ScoreboardCanvasPrefab);
+        GameObject tmp = GameObject.Find("Scoreboard_canvas(Clone)/Scoreboard");
+        scoreboard = tmp.GetComponent<Scoreboard>();
         
     }
 
-    public void InitNetworkState()
+    public void InitNetworkState(PlayerRef pr)
     {
         life = MAX_HEALTH;
         state = State.Active;
+        thisPlayerRef = pr;
+        kills = 0;
+        deaths = 0;
     }
 
     public override void FixedUpdateNetwork()
@@ -125,6 +140,8 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         // In multiplayer, other players' guns keep pointing towards origin
         // I believe this is because lookDir is deafult to (0,0) for other players
         gun.right = Vector2.Lerp(gun.right, new Vector2(lookDir.x,lookDir.y), Runner.DeltaTime * 5f);
+        firePoint.right = Vector2.Lerp(firePoint.right, new Vector2(lookDir.x,lookDir.y), Runner.DeltaTime * 5f);
+        firePoint.position = gun.position;
 
         float angle = Mathf.Atan2(lookDir.y ,lookDir.x) * Mathf.Rad2Deg;
         //left is 180/-180, right is 0. top is 90, bottom is -90
@@ -182,7 +199,10 @@ public class Player : NetworkBehaviour, ICanTakeDamage
                 break;
             case State.Active:
                 //TODO add end spawn animation
-                
+                //hacky solution to spawner spawning player with z != 0
+                Vector3 spawnPt = transform.position;
+                spawnPt.z = 0;
+                transform.position = spawnPt;
                 break;
             case State.Dead:
                 //TODO: add death animation
@@ -233,13 +253,15 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public void ApplyDamage(Vector3 impulse, byte damage, PlayerRef attacker)
     {
         // if (!isActivated) //TODO implement invulnerability
-		// {	
+        // {	
         //     Debug.Log("not activated");	
         //     return;
         // }
 
-        Player attackingPlayer = Spawner.Get(attacker);
-        
+        //Player attackingPlayer = PlayerInfoManager.Get(NetworkRunner.GetRunnerForGameObject(gameObject), attacker);
+        //Spawner attackingPlayertmp = Runner.gameObject.GetComponent<Spawner>();
+        Player attackingPlayer = PlayerInfoManager.Get(Runner, attacker);
+        Debug.Log("attacking pla " + attackingPlayer);
         if (attackingPlayer != null && attackingPlayer == this)
         {    
             return;
@@ -248,6 +270,9 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         if (damage >= life)
         {
             life = 0;
+            //scoreboard.Update_Killed_and_killer(thisPlayerRef, attacker);
+            GetKilled();
+            attackingPlayer.GetKill();
             state = State.Dead;
         }
         
@@ -274,5 +299,15 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         {
             visual.gameObject.SetActive(boolean);
         }
+    }
+
+    public void GetKill()
+    {
+        this.kills += 1;
+    }
+
+    public void GetKilled()
+    {
+        this.deaths += 1;
     }
 }

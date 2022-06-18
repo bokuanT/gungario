@@ -112,7 +112,7 @@ MonoBehaviour:
     areaDamage: 10
     speed: 10
     radius: 0.25
-    gravity: -10
+    gravity: 0
     timeToLive: 3
     timeToFade: 0.5
     ownerVelocityMultiplier: 1

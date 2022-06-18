@@ -12,16 +12,13 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
     // links player to their player object
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
-    //For Player.cs :: ApplyDamage -> maybe can try replace this with better soln
-    private static Dictionary<PlayerRef, NetworkObject> _staticSpawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
-
     CharacterInputHandler characterInputHandler;
 
-    //For Player::ApplyDamage
-    public static Player Get(PlayerRef playerRef)
+    public Player Get(PlayerRef playerRef)
     {
-        NetworkObject value = _staticSpawnedCharacters[playerRef];
-        return value.gameObject.GetComponent<Player>();
+        NetworkObject obj = _spawnedCharacters[playerRef];
+        Debug.Log("obj " + obj);
+        return obj.gameObject.GetComponent<Player>();
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input) 
@@ -37,7 +34,7 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
         // }
     }
 
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
+    public void OnPlayerJoined(NetworkRunner runner, PlayerRef playerRef)
     {
 
         // on other player joined and current player is server 
@@ -50,17 +47,15 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
         }
 
         // function to spawn a player, with random position 
-        NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, player, InitNetworkState);
+        NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, playerRef, InitNetworkState);
         void InitNetworkState(NetworkRunner runner, NetworkObject networkObject)
         {
             Player player = networkObject.gameObject.GetComponent<Player>();
             Debug.Log($"Initializing player {player}");
-            player.InitNetworkState();
+            player.InitNetworkState(playerRef);
         }
-        _spawnedCharacters.Add(player, networkPlayerObject);
-        _staticSpawnedCharacters.Add(player, networkPlayerObject);
+        _spawnedCharacters.Add(playerRef, networkPlayerObject);
 
-        
         Debug.Log("OnPlayerJoined");
     }
 
