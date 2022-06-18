@@ -7,9 +7,9 @@ public class NetworkWeapon : NetworkRigidbody2D
 
     [Networked]
 	public TickTimer primaryFireDelay { get; set; }
-
     private const float DELAY = 0.8f;
     
+
     public void Fire(NetworkRunner runner, PlayerRef owner, Vector3 ownerVelocity)
     {
         if (primaryFireDelay.ExpiredOrNotRunning(Runner))

@@ -79,4 +79,9 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
     Controller.Move(direction * moveSpeed * deltaTime);
   }
 
+    public virtual void Move(Vector2 direction, float customSpeed) {
+    var deltaTime = Runner.DeltaTime;
+    Controller.Move(direction * customSpeed * deltaTime);
+  }
+
 }
