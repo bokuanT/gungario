@@ -16,7 +16,6 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 	public State state { get; set; }
 
     private NetworkWeapon networkWeapon;
-    private NetworkCharacterControllerPrototypeCustom _cc;  
     private Collider _collider;
 	private HitboxRoot _hitBoxRoot;
     public Animator animator;
@@ -24,13 +23,13 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public Transform gun;
     public Transform firePoint;
     private Vector2 mouseDirection;
-    private Vector2 lookDir;
+    private Vector2 aimDirection;
     private DeathManager _deathManager;
     private PlayerRef thisPlayerRef;
     public Scoreboard_item scoreboard_item;
     private GameObject scoreboardItemManager;
-    
- 
+
+
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
     public const byte MAX_HEALTH = 100;
@@ -73,7 +72,6 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     void Awake()
     {
         networkWeapon = GetComponentInChildren<NetworkWeapon>();
-        _cc = GetComponent<NetworkCharacterControllerPrototypeCustom>();
         _collider = GetComponentInChildren<Collider>();
 		_hitBoxRoot = GetComponent<HitboxRoot>();
         _deathManager = GetComponent<DeathManager>();
@@ -120,7 +118,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public override void Render()
     {
         SetDirections();
-        _collider.enabled = state != State.Dead;
+        //_collider.enabled = state != State.Dead;
 		_hitBoxRoot.enabled = state == State.Active;
     }
 
@@ -129,10 +127,10 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         this.mouseDirection = mouseDirection;
     }
 
-    public virtual void SetDirections()
+    private void SetDirections()
     {
-        lookDir.x = mouseDirection.x - player.position.x;
-        lookDir.y = mouseDirection.y - player.position.y;
+        aimDirection.x = mouseDirection.x - player.position.x;
+        aimDirection.y = mouseDirection.y - player.position.y;
 
         // Gun direction
         // Current Issue :
@@ -142,7 +140,8 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         firePoint.right = Vector2.Lerp(firePoint.right, new Vector2(lookDir.x,lookDir.y), Runner.DeltaTime * 5f);
         firePoint.position = gun.position;
 
-        float angle = Mathf.Atan2(lookDir.y ,lookDir.x) * Mathf.Rad2Deg;
+
+        float angle = Mathf.Atan2(aimDirection.y ,aimDirection.x) * Mathf.Rad2Deg;
         //left is 180/-180, right is 0. top is 90, bottom is -90
         //return values: up is 0, right is 1, down is 2, left is 3
         if (angle >= 45f && angle < 135f) {
