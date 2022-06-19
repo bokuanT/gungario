@@ -12,11 +12,12 @@ public class PlayerInfoManager : MonoBehaviour
         
         foreach (NetworkRunner r in objs)
         {
+            //Debug.Log("networkrunner: " + r.ActivePlayers);
             GameObject gameobj = r.gameObject;
             if (gameobj.TryGetComponent(out Spawner spwn))
             {
-                NetworkObject networkP = r.GetPlayerObject(playerRef);
-                return networkP.gameObject.GetComponent<Player>();
+
+                return spwn.Get(playerRef);
             }
         }
 

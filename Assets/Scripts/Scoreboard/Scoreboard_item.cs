@@ -2,39 +2,37 @@ using UnityEngine;
 using Fusion;
 using TMPro;
 
-public class Scoreboard_item : NetworkBehaviour
+public class Scoreboard_item : MonoBehaviour
 {
     public TMP_Text usernameText;
     public TMP_Text killsText;
     public TMP_Text deathsText;
 
     public int player_id;
-    
-    [Networked]
-    public int kills { get; set; }
 
-    [Networked]
-    public int deaths { get; set; }
+    public int kills;
 
-    public void Initialize(PlayerRef playerRef)
+    public int deaths;
+
+    public Player player;
+
+    public void Initialize(NetworkRunner runner, PlayerRef playerRef)
     {
         string name = "player " + playerRef.PlayerId;
         usernameText.SetText(name, true);
         this.player_id = playerRef.PlayerId;
-        this.kills = 0;
-        this.deaths = 0;
-    }
-
-    public void IncrementKill()
-    {
-        this.kills += 1;
+        player = PlayerInfoManager.Get(runner, playerRef);
+        player.scoreboard_item = this;
         
     }
 
-    public void IncrementDeath()
+    void Update()
     {
-        this.deaths += 1;
-        
+        if (player != null)
+        {
+            kills = player.kills;
+            deaths = player.deaths;
+        }
     }
 
     public void UpdateKD()

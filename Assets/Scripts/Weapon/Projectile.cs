@@ -129,7 +129,7 @@ public class Projectile : NetworkBehaviour
                 
                 if (Runner.LagCompensation.Raycast(transform.position, dir, Mathf.Max(_bulletSettings.radius, speed * dt), Object.InputAuthority, out var hitinfo, _bulletSettings.hitMask.value, HitOptions.IncludePhysX))
                 {
-                    Debug.Log("hit something");
+                    //Debug.Log("hit something");
                     vel = HandleImpact(hitinfo);
                     pos = hitinfo.Point;
                 }

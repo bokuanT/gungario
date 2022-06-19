@@ -8,7 +8,7 @@ using System;
 public class Scoreboard : NetworkBehaviour
 {
     [SerializeField] Transform container;
-    [SerializeField] NetworkObject scoreboard_item_prefab;
+    [SerializeField] GameObject scoreboard_item_prefab;
 
    
     private Dictionary<PlayerRef, Scoreboard_item> hashtable = 
@@ -23,6 +23,12 @@ public class Scoreboard : NetworkBehaviour
         UpdateAllKD(); 
     }
 
+    public void OnPlayerLeft(PlayerRef playerRef)
+    {
+        hashSet.Remove(playerRef.PlayerId);
+        hashtable.Remove(playerRef);
+    }
+
     public void UpdateScoreboard()
     {
         IEnumerable<PlayerRef> playerList = PlayerInfoManager.
@@ -32,7 +38,7 @@ public class Scoreboard : NetworkBehaviour
         {
             if (!hashSet.Contains(pr.PlayerId)) 
             {
-                Debug.Log("creating item");
+                Debug.Log("creating item for " + pr);
                 hashSet.Add(pr.PlayerId);
                 Scoreboard_item item = CreateScoreboardItem(pr);
                 hashtable.Add(pr, item);
@@ -40,8 +46,6 @@ public class Scoreboard : NetworkBehaviour
             
         }
 
-        
-        
     }
 
     private void UpdateAllKD()
@@ -52,30 +56,25 @@ public class Scoreboard : NetworkBehaviour
         }
     }
 
-    public void Update_Killed_and_killer(PlayerRef killed, PlayerRef killer)
-    {
-        
-        if (hashtable.ContainsKey(killed) && hashtable.ContainsKey(killer))
-        {
-            Debug.Log("updating k a");
-            Scoreboard_item killed_item = hashtable[killed];
-            Scoreboard_item killer_item = hashtable[killer];
-            killed_item.IncrementDeath();
-            killer_item.IncrementKill();
-        }
-    }
-
     private Scoreboard_item CreateScoreboardItem(PlayerRef playerRef)
     {
-        var key = new NetworkObjectPredictionKey {Byte0 = (byte) playerRef.RawEncoded, Byte1 = (byte) Runner.Simulation.Tick};
+        //var key = new NetworkObjectPredictionKey {Byte0 = (byte) playerRef.RawEncoded, Byte1 = (byte) Runner.Simulation.Tick};
+        //Debug.Log("runner: " + Runner);
+        /*
         NetworkObject item = Runner.Spawn(scoreboard_item_prefab, container.position, Quaternion.identity, playerRef, (runner, obj) =>
         {
             Debug.Log("item spawned init " + obj);
-            obj.GetComponent<Scoreboard_item>().Initialize(playerRef);
+            obj.GetComponent<Scoreboard_item>().Initialize(Runner, playerRef);
             obj.gameObject.transform.SetParent(container);
-        }, key);
+            obj.gameObject.transform.localScale = new Vector3(1, 1, 1);
+        });
+        */
         //item.Initialize(playerRef);
-        return item.GetComponent<Scoreboard_item>();
+        //Debug.Log("item " + item);
+        GameObject item = Instantiate(scoreboard_item_prefab, container);
+        Scoreboard_item s_item = item.GetComponent<Scoreboard_item>();
+        s_item.Initialize(Runner, playerRef);
+        return s_item;
     }
 
     // public void OnPlayerJoined (NetworkRunner runner, PlayerRef player)

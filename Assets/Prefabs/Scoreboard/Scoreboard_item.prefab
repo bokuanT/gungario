@@ -280,7 +280,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6922072805987445366}
   - component: {fileID: 6922072805987445360}
-  - component: {fileID: 6922072805987445367}
   m_Layer: 5
   m_Name: Scoreboard_item
   m_TagString: Untagged
@@ -324,37 +323,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cbf5517779d2cf40a7d216ef4cf806a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
   usernameText: {fileID: 6922072806649408835}
   killsText: {fileID: 6922072804650350211}
   deathsText: {fileID: 6922072804996875928}
   player_id: 0
-  _kills: 0
-  _deaths: 0
---- !u!114 &6922072805987445367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6922072805987445365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObjectInterest: 0
-  DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 0
-  AllowStateAuthorityOverride: 0
-  AoiPositionSource: {fileID: 0}
-  Flags: 2305
-  NetworkGuid:
-    RawGuidValue: 572009f00e27a65458b7514909243030
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 6922072805987445360}
-  SimulationBehaviours: []
+  kills: 0
+  deaths: 0
+  player: {fileID: 0}
 --- !u!1 &6922072806548692334
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,6 +16,7 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     public Player playerObject;
 
     private bool _primaryFire;
+    private bool _scoreboard;
 
     /// <summary>
     /// Hook up to the Fusion callbacks so we can handle the input polling
@@ -52,8 +53,24 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
 
         if (Input.GetMouseButton(0) )
 			_primaryFire = true;
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            _scoreboard = !_scoreboard;
+        }
     }
 
+    void FixedUpdate()
+    {
+        if (_scoreboard)
+        {
+            playerObject.ToggleOnScoreboard();
+        }
+        else
+        {
+            playerObject.ToggleOffScoreboard();
+        }
+    }
     
     public override void FixedUpdateNetwork() 
     {
@@ -73,15 +90,17 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
                 if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))
                 {
                     playerObject.Shoot(moveDirection);
-                }
-            }
-        }
+                }             
 
-            //Rotate character
-            // Vector2 mouseDirection = networkInputData.mouseInput;
-            // int direction = Utils.getDirection(controller.transform.position, mouseDirection);
-            // Debug.Log("Direction is " + direction);
-            // setDirections(direction);
+            } 
+        }
+        
+
+        //Rotate character
+        // Vector2 mouseDirection = networkInputData.mouseInput;
+        // int direction = Utils.getDirection(controller.transform.position, mouseDirection);
+        // Debug.Log("Direction is " + direction);
+        // setDirections(direction);
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input) 
@@ -97,6 +116,7 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
 
         input.Set(networkInputData);
         networkInputData.Buttons = 0;
+        
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason reason) { }

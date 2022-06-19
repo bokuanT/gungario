@@ -13,7 +13,7 @@ public struct NetworkInputData : INetworkInput
 
     public const uint MOUSEBUTTON1 = 1 << 0;
 
-    public uint Buttons;
+    public uint Buttons;    
 
     public bool IsUp(uint button)
     {
@@ -24,5 +24,6 @@ public struct NetworkInputData : INetworkInput
     {
         return (Buttons & button) == button;
     }
+
     
 }

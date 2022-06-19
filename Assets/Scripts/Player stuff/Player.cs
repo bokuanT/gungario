@@ -27,8 +27,9 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     private Vector2 lookDir;
     private DeathManager _deathManager;
     private PlayerRef thisPlayerRef;
-    private Scoreboard scoreboard;
-    public Object _ScoreboardCanvasPrefab;
+    public Scoreboard_item scoreboard_item;
+    private GameObject scoreboardItemManager;
+    
  
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
@@ -76,9 +77,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         _collider = GetComponentInChildren<Collider>();
 		_hitBoxRoot = GetComponent<HitboxRoot>();
         _deathManager = GetComponent<DeathManager>();
-        Instantiate(_ScoreboardCanvasPrefab);
-        GameObject tmp = GameObject.Find("Scoreboard_canvas(Clone)/Scoreboard");
-        scoreboard = tmp.GetComponent<Scoreboard>();
+       
         
     }
 
@@ -261,7 +260,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         //Player attackingPlayer = PlayerInfoManager.Get(NetworkRunner.GetRunnerForGameObject(gameObject), attacker);
         //Spawner attackingPlayertmp = Runner.gameObject.GetComponent<Spawner>();
         Player attackingPlayer = PlayerInfoManager.Get(Runner, attacker);
-        Debug.Log("attacking pla " + attackingPlayer);
+        //Debug.Log("attacking pla " + attackingPlayer);
         if (attackingPlayer != null && attackingPlayer == this)
         {    
             return;
@@ -279,7 +278,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         else 
         {
         life -= damage;
-		Debug.Log($"Player {this} took {damage} damage, life = {life}");
+		//Debug.Log($"Player {this} took {damage} damage, life = {life}");
         }
     }
 
@@ -309,5 +308,33 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public void GetKilled()
     {
         this.deaths += 1;
+    }
+
+    public void ToggleOnScoreboard()
+    {
+        if (scoreboard_item != null)
+        {
+            if (scoreboardItemManager == null)
+            {
+                scoreboardItemManager = scoreboard_item.transform.parent.gameObject;
+                
+            }
+            scoreboardItemManager.transform.localScale = new Vector3(1, 1, 1);
+        }
+        
+    }
+
+    public void ToggleOffScoreboard()
+    {
+        if (scoreboard_item != null)
+        {
+            if (scoreboardItemManager == null)
+            {
+                scoreboardItemManager = scoreboard_item.transform.parent.gameObject;
+
+            }
+            scoreboardItemManager.transform.localScale = new Vector3(0, 0, 0);
+        }
+
     }
 }
