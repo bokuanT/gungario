@@ -15,6 +15,7 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     NetworkPlayer player;
     public Player playerObject;
     private bool _primaryFire;
+    private bool _scoreboard;
 
     /// <summary>
     /// Hook up to the Fusion callbacks so we can handle the input polling
@@ -51,27 +52,46 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
 
         if (Input.GetMouseButton(0) )
 			_primaryFire = true;
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            _scoreboard = !_scoreboard;
+        }
     }
 
+    void FixedUpdate()
+    {
+        if (_scoreboard)
+        {
+            playerObject.ToggleOnScoreboard();
+        }
+        else
+        {
+            playerObject.ToggleOffScoreboard();
+        }
+    }
     
     public override void FixedUpdateNetwork() 
     {
         if (GetInput(out NetworkInputData networkInputData))
         {
             //Move
-            Vector2 moveDirection = networkInputData.movementInput;
-            
-            moveDirection.Normalize();
-        
-            controller.Move(moveDirection);
-            
-            playerObject.setMouse(networkInputData.mouseInput);
-
-            if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))
+            if (playerObject.state == Player.State.Active) //only move if alive
             {
-                playerObject.Shoot(moveDirection);
-            }
+                Vector2 moveDirection = networkInputData.movementInput;
+                
+                moveDirection.Normalize();
+            
+                controller.Move(moveDirection);
+                
+                playerObject.setMouse(networkInputData.mouseInput);
 
+                if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))
+                {
+                    playerObject.Shoot(moveDirection);
+                }             
+
+            } 
         }
     }
 
@@ -88,6 +108,7 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
 
         input.Set(networkInputData);
         networkInputData.Buttons = 0;
+        
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason reason) { }
