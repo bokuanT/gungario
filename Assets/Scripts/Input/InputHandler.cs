@@ -42,14 +42,15 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     {
         //cam.enabled = true;
         //cam = GameObject.FindWithTag("PlayerCamera");
+        if (cam != null)
+        {
+            moveInputVector.x = Input.GetAxisRaw("Horizontal");
+            moveInputVector.y = Input.GetAxisRaw("Vertical");
 
-        moveInputVector.x = Input.GetAxisRaw("Horizontal");
-        moveInputVector.y = Input.GetAxisRaw("Vertical");
-
-        // Gets the mouse position
-        Vector3 mousePos =  cam.ScreenToWorldPoint(Input.mousePosition);
-		mouseInputVector = new Vector2(mousePos.x,mousePos.y );
-
+            // Gets the mouse position
+            Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+            mouseInputVector = new Vector2(mousePos.x, mousePos.y);
+        }
         if (Input.GetMouseButton(0) )
 			_primaryFire = true;
 

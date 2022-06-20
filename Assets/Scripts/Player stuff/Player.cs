@@ -23,7 +23,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public Transform gun;
     public Transform firePoint;
     private Vector2 mouseDirection;
-    private Vector2 aimDirection;
+    private Vector2 lookDir;
     private DeathManager _deathManager;
     private PlayerRef thisPlayerRef;
     public Scoreboard_item scoreboard_item;
@@ -129,19 +129,18 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
     private void SetDirections()
     {
-        aimDirection.x = mouseDirection.x - player.position.x;
-        aimDirection.y = mouseDirection.y - player.position.y;
+        lookDir.x = mouseDirection.x - player.position.x;
+        lookDir.y = mouseDirection.y - player.position.y;
 
         // Gun direction
         // Current Issue :
         // In multiplayer, other players' guns keep pointing towards origin
         // I believe this is because lookDir is deafult to (0,0) for other players
-        gun.right = Vector2.Lerp(gun.right, new Vector2(lookDir.x,lookDir.y), Runner.DeltaTime * 5f);
-        firePoint.right = Vector2.Lerp(firePoint.right, new Vector2(lookDir.x,lookDir.y), Runner.DeltaTime * 5f);
+        gun.right = Vector2.Lerp(gun.right, new Vector2(lookDir.x, lookDir.y), Runner.DeltaTime * 5f);
+        firePoint.right = Vector2.Lerp(firePoint.right, new Vector2(lookDir.x, lookDir.y), Runner.DeltaTime * 5f);
         firePoint.position = gun.position;
 
-
-        float angle = Mathf.Atan2(aimDirection.y ,aimDirection.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
         //left is 180/-180, right is 0. top is 90, bottom is -90
         //return values: up is 0, right is 1, down is 2, left is 3
         if (angle >= 45f && angle < 135f) {

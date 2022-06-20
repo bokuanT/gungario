@@ -355,9 +355,11 @@ MonoBehaviour:
   player: {fileID: 6342475573802360927}
   gun: {fileID: 4975518865356722445}
   firePoint: {fileID: 2206481334183210213}
-  _ScoreboardCanvasPrefab: {fileID: 6170771114184984817, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+  scoreboard_item: {fileID: 0}
   moveSpeed: 5
   _life: 0
+  _kills: 0
+  _deaths: 0
 --- !u!114 &6383632375332188090
 MonoBehaviour:
   m_ObjectHideFlags: 0
