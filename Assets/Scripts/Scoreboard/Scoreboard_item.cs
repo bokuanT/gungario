@@ -17,13 +17,13 @@ public class Scoreboard_item : MonoBehaviour
     public Player player;
 
     public void Initialize(NetworkRunner runner, PlayerRef playerRef)
-    {
-        string name = "player " + playerRef.PlayerId;
-        usernameText.SetText(name, true);
+    {        
         this.player_id = playerRef.PlayerId;
         player = PlayerInfoManager.Get(runner, playerRef);
         player.scoreboard_item = this;
-        
+        string name = player.playerName;
+        usernameText.SetText(name, true);
+
     }
 
     void Update()
@@ -40,5 +40,12 @@ public class Scoreboard_item : MonoBehaviour
         killsText.SetText(this.kills.ToString(), true);
         deathsText.SetText(this.deaths.ToString(), true);
     }
-        
+
+    public void Reset()
+    {
+        this.player.kills = 0;
+        this.player.deaths = 0;
+        player.ForceMakeHealthySetSpawn(Utils.GetRandomSpawnPoint());
+    }
+
 }
