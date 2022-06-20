@@ -29,7 +29,6 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public Scoreboard_item scoreboard_item;
     private GameObject scoreboardItemManager;
 
-
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
     public const byte MAX_HEALTH = 100;
@@ -48,6 +47,9 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
     [Networked(OnChanged = nameof(OnStateChanged))]
 	public byte deaths { get; set; }
+
+    [Networked]
+    public string playerName { get; set; }
 
     public enum Direction
     {
@@ -84,6 +86,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         life = MAX_HEALTH;
         state = State.Active;
         thisPlayerRef = pr;
+        playerName = "Player " + thisPlayerRef.PlayerId;
         kills = 0;
         deaths = 0;
     }
@@ -93,7 +96,13 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         // if (Object.HasStateAuthority)
         // {
             if (state == State.Dead)
-            {
+            { 
+                /*
+                if (respawnTimer.IsRunning)
+                {
+                    state = State.Spawning;
+                }
+                */
                 if (respawnTimer.Expired(Runner))
                 {
                     Transform thisTransform = GetComponent<Transform>();
@@ -334,5 +343,13 @@ public class Player : NetworkBehaviour, ICanTakeDamage
             scoreboardItemManager.transform.localScale = new Vector3(0, 0, 0);
         }
 
+    }
+
+    public void ForceMakeHealthySetSpawn(Vector3 spawnPoint)
+    {
+        NetworkCharacterControllerPrototypeCustom cc = Object.GetComponent
+            <NetworkCharacterControllerPrototypeCustom> ();
+        cc.TeleportToPosition(spawnPoint);
+        life = MAX_HEALTH;
     }
 }

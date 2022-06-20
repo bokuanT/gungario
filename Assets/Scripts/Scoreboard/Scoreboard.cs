@@ -77,6 +77,26 @@ public class Scoreboard : NetworkBehaviour
         return s_item;
     }
 
+    public void ResetScore()
+    {
+        foreach (Scoreboard_item item in hashtable.Values)
+        {
+            item.Reset();
+        }
+    }
+
+    public Player[] GetAllScoreboardPlayers()
+    {
+        int size = hashtable.Values.Count;
+        Player[] ret = new Player[size];
+        int i = 0;
+        foreach (Scoreboard_item item in hashtable.Values)
+        {
+            ret[i] = item.player;
+            i++;
+        }
+        return ret;
+    }
     // public void OnPlayerJoined (NetworkRunner runner, PlayerRef player)
  	// {
          
