@@ -14,8 +14,10 @@ using UnityEngine.SceneManagement;
         */        
 		public static LevelManager Instance => Singleton<LevelManager>.Instance;
 
+		public GameLauncher gameLauncher;
         public static int MENU_SCENE = 0;
-		public static int MAP1_SCENE = 1;
+		public static int TESTGAME_SCENE = 1;
+		public static int MAP1_SCENE = 2;
 		
 		public static void LoadMenu()
 		{
@@ -28,7 +30,7 @@ using UnityEngine.SceneManagement;
 			Instance.Runner.SetActiveScene(sceneIndex);
 		}
 		
-		public void LoadDeathmatch()
+		public static void LoadDeathmatch()
 		{
 			if (Instance.Runner == null) Debug.Log("This is the problem");
 			// Instance.Runner is null for some reason
@@ -56,18 +58,14 @@ using UnityEngine.SceneManagement;
 			// Delay one frame, so we're sure level objects has spawned locally
 			yield return null;
 
-			// // Now we can safely spawn players
-			// if (GameManager.CurrentTrack != null && newScene>MENU_SCENE)
-			// {
-			// 	if (Runner.GameMode == GameMode.Host)
-			// 	{
-			// 		foreach (var player in RoomPlayer.Players)
-			// 		{
-			// 			player.GameState = RoomPlayer.EGameState.GameCutscene;
-			// 			GameManager.CurrentTrack.SpawnPlayer(Runner, player);
-			// 		}
-			// 	}
-			// }
+			// Now we can safely spawn players
+			if (newScene>MENU_SCENE)
+			{
+				if (Runner.GameMode == GameMode.Host)
+				{
+					gameLauncher.SpawnPlayers();
+				}
+			}
 
 			PostLoadScene();
 		}
@@ -82,5 +80,6 @@ using UnityEngine.SceneManagement;
 		{
 			// post loading players and all
             // match start sequence
+			
 		}
 	}

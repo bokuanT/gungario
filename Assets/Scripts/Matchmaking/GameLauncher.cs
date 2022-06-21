@@ -23,13 +23,17 @@ public class GameLauncher : NetworkBehaviour, INetworkRunnerCallbacks
 	public NetworkObject playerPrefab;
 	private GameMode _gameMode;
 	private NetworkRunner _runner;
-	private LevelManager _levelManager;
+	private GameManager _gameManager;
+	private LobbyManager _lobbyManager;
+	private List<SessionInfo> _sessionList;
 	private String lobbyName;
 	private int MAX_PLAYERS = 2;
-	[Networked(OnChanged = nameof(OnStateChanged))] public NetworkBool LaunchGame { get; set; }
+
+	// initial list for spawning at the start of games
+	public static List<PlayerRef> SessionPlayers = new List<PlayerRef>();
 
 	// links player to their player object
-    private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
+    public static Dictionary<PlayerRef, NetworkObject> Players = new Dictionary<PlayerRef, NetworkObject>();
 
     //For Player.cs :: ApplyDamage -> maybe can try replace this with better soln
     private static Dictionary<PlayerRef, NetworkObject> _staticSpawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
@@ -41,102 +45,65 @@ public class GameLauncher : NetworkBehaviour, INetworkRunnerCallbacks
         return value.gameObject.GetComponent<Player>();
     }
 
-	public override void Spawned()
-	{
-		base.Spawned();
-	}
-
-	private void Start()
-	{
+	void Awake() {
 		// Application.runInBackground = true;
 
-		// Additional settings
-		Application.targetFrameRate = Screen.currentResolution.refreshRate;
-		QualitySettings.vSyncCount = 1;
-
-		_levelManager = GetComponent<LevelManager>();
-
-		DontDestroyOnLoad(gameObject);
+		_gameManager = GetComponent<GameManager>();
+		_lobbyManager = GetComponent<LobbyManager>();
 	}
 
-	// not initializing some behaviour
-	// not setting object
-	// Sends a RPC to all players to load map
-	[Rpc(sources: RpcSources.InputAuthority, targets: RpcTargets.All)]
-	public void RPC_LaunchGame(NetworkBool state)
+	public async void matchmakeDeathMatch() 
 	{
-		Debug.Log($"Launching game");
-		LaunchGame = state;
-	}
-
-	private static void OnStateChanged(Changed<GameLauncher> changed)
-    {
-        if(changed.Behaviour) 
-		{
-			Debug.Log("DB 2");
-			changed.Behaviour.startGame();
-			Debug.Log("DB 3");
-		}
-    }
-
-	private void startGame() {
-		// load the map
-		Debug.Log("game started");
-	}
-
-	public async void matchmakeDeathMatch(NetworkRunner runner, List<SessionInfo> sessionList) {
+		_runner = _gameManager.getRunner();
 		Debug.Log("Matchmaking");
 
-		foreach (var session in sessionList) {
+		if (_sessionList != null && _sessionList.Count > 0) // Other Sessions exist
+		{
+			foreach (var session in _sessionList) {
+				if (session.PlayerCount < session.MaxPlayers) {
+					SetJoinLobby();
+					Debug.Log($"Joining {session.Name}");
 
-			if (session.PlayerCount < session.MaxPlayers) {
-				SetJoinLobby();
-				Debug.Log($"Joining {session.Name}");
+					// This call will make Fusion join the first session as a Client
+					var result = await _runner.StartGame(new StartGameArgs() {
+						GameMode = _gameMode, // Client GameMode
+						SessionName = session.Name, // Session to Join
+						SceneObjectProvider = LevelManager.Instance, // Scene Provider
+						DisableClientSessionCreation = true, // Make sure the client will never create a Session
+					});
 
-				// This call will make Fusion join the first session as a Client
-				var result = await runner.StartGame(new StartGameArgs() {
-					GameMode = _gameMode, // Client GameMode
-					SessionName = session.Name, // Session to Join
-					SceneObjectProvider = _levelManager, // Scene Provider
-					DisableClientSessionCreation = true, // Make sure the client will never create a Session
-				});
+					if (result.Ok) {
+						// all good
+						Debug.Log("Session joined successfully");
+						Debug.Log($"Players: {session.PlayerCount}/{session.MaxPlayers}");
+					} else {
+						Debug.LogError($"Failed to Start: {result.ShutdownReason}");
+					}
+					return;
+				} 
+			}
+		} 
+		else 	// no sessions exist, start own session as host
+		{
+			Debug.Log("No Session Found");
+			Debug.Log("Creating Session");
+			SetCreateLobby();
+			int sessionNumber = (int) (UnityEngine.Random.value * 100);
 
-				if (result.Ok) {
-					// all good
-					Debug.Log("Session joined successfully");
-					Debug.Log($"Players: {session.PlayerCount + 1}/{session.MaxPlayers}");
-				} else {
-					Debug.LogError($"Failed to Start: {result.ShutdownReason}");
-				}
-
-				
-				// if player count for a session is full, launch game
-				if (session.PlayerCount == session.MaxPlayers - 1) {
-					Debug.Log("Player count reached.");
-					RPC_LaunchGame(true);
-				}
-				return;
-			} 
+			// This call will make Fusion create the first session as a host
+			await _runner.StartGame(new StartGameArgs() {
+				GameMode = _gameMode, // Host GameMode
+				SessionName = "Deathmatch" + sessionNumber, // Session to Join
+				SceneObjectProvider = LevelManager.Instance, // Scene Provider
+				PlayerCount = MAX_PLAYERS,
+			});
 		}
 
-		// no sessions exist, start own session as host
-		Debug.Log("No Session Found");
-		Debug.Log("Creating Session");
-		SetCreateLobby();
-		int sessionNumber = (int) (UnityEngine.Random.value * 100);
 
-		// This call will make Fusion create the first session as a host
-		await runner.StartGame(new StartGameArgs() {
-			GameMode = _gameMode, // Host GameMode
-			SessionName = "Deathmatch" + sessionNumber, // Session to Join
-			SceneObjectProvider = _levelManager, // Scene Provider
-			PlayerCount = MAX_PLAYERS,
-		});
     }
 
 	public void SetCreateLobby() => _gameMode = GameMode.Host;
 	public void SetJoinLobby() => _gameMode = GameMode.Client;
-
 	private void SetConnectionStatus(ConnectionStatus status)
 	{
 		Debug.Log($"Setting connection status to {status}");
@@ -151,7 +118,6 @@ public class GameLauncher : NetworkBehaviour, INetworkRunnerCallbacks
 			SceneManager.LoadScene(LevelManager.MENU_SCENE);
 		}
 	}
-	
 	public void LeaveSession()
 	{
 		if (_runner != null)
@@ -159,7 +125,6 @@ public class GameLauncher : NetworkBehaviour, INetworkRunnerCallbacks
 		else
 			SetConnectionStatus(ConnectionStatus.Disconnected);
 	}
-	
 	public void OnConnectedToServer(NetworkRunner runner)
 	{
 		Debug.Log("Connected to server");
@@ -192,13 +157,36 @@ public class GameLauncher : NetworkBehaviour, INetworkRunnerCallbacks
 	public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
 	{
 		Debug.Log($"Player {player} Joined!");
+		SessionPlayers.Add(player);
+		CheckSessions();
+		SetConnectionStatus(ConnectionStatus.Connected);
+	}
+
+	public void CheckSessions()
+	{
+		if (SessionPlayers.Count == MAX_PLAYERS) {
+			Debug.Log("LOADING DEATHMATCH");
+			LevelManager.LoadDeathmatch();
+		} 
+		
+	}
+
+	// called by external script, once map done loading
+	public void SpawnPlayers() {
+		foreach (var player in SessionPlayers)
+		{
+			SpawnPlayer(_runner, player);
+		}
+	}
+
+	public void SpawnPlayer(NetworkRunner runner, PlayerRef player)
+	{
 		if (runner.IsServer)
 		{
 			// singular game manager
 			// if(_gameMode==GameMode.Host)
 			// 	runner.Spawn(_gameManagerPrefab, Vector3.zero, Quaternion.identity);
-			
-			// each network player
+
 			NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, player, InitNetworkState);
 			void InitNetworkState(NetworkRunner runner, NetworkObject networkObject)
 			{
@@ -206,18 +194,19 @@ public class GameLauncher : NetworkBehaviour, INetworkRunnerCallbacks
 				Debug.Log($"Initializing player {player}");
 				player.InitNetworkState();
 			}
-			_spawnedCharacters.Add(player, networkPlayerObject);
+			Players.Add(player, networkPlayerObject);
 			_staticSpawnedCharacters.Add(player, networkPlayerObject);
-
 		}
-		SetConnectionStatus(ConnectionStatus.Connected);
 	}
 
 	public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
 	{
 		Debug.Log($"{player.PlayerId} disconnected.");
-
-		// RoomPlayer.RemovePlayer(runner, player);
+		// attempt to destroy player object
+		NetworkObject temp;
+		Players.TryGetValue(player, out temp);
+		Destroy(temp);
+		Players.Remove(player);
 
 		SetConnectionStatus(ConnectionStatus);
 	}
@@ -243,7 +232,15 @@ public class GameLauncher : NetworkBehaviour, INetworkRunnerCallbacks
 	public void OnInput(NetworkRunner runner, NetworkInput input) { }
 	public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
 	public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
-	public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) { }
+	public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) 
+	{ 
+		Debug.Log($"Session List Updated with {sessionList.Count} session(s)");
+		_sessionList = sessionList;
+        foreach (var session in sessionList) 
+        {
+            Debug.Log($"{session.Name} Players: {session.PlayerCount}/{session.MaxPlayers}");
+        }
+	}
 	public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
 	public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
 	public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data) { }

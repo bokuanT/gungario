@@ -14,7 +14,7 @@ public class LobbyManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _runner = gameManager.getRunner();
+
     }
 
     // Update is called once per frame

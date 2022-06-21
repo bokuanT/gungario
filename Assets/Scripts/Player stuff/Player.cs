@@ -185,8 +185,17 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         //     return;
         // }
 
-        Player attackingPlayer = Spawner.Get(attacker);
-        
+        // Since there are two launchers currently, this change supports both versions
+        Player attackingPlayer;
+        if (Spawner.Get(attacker) != null) 
+        {
+            attackingPlayer = Spawner.Get(attacker);
+        } 
+        else 
+        { 
+            attackingPlayer = GameLauncher.Get(attacker);
+        }
+
         if (attackingPlayer != null && attackingPlayer == this)
         {    
             return;

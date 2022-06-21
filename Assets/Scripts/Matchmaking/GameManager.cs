@@ -1,72 +1,39 @@
-using System;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
-using Fusion.Sockets;
 
-public class GameManager : NetworkBehaviour, INetworkRunnerCallbacks
+public class GameManager : NetworkBehaviour
 {
-    private NetworkRunner _runner;
+    private NetworkRunner runner;
     private List<SessionInfo> _sessionList;
-    public LobbyManager lobbyManager;
-    public GameLauncher gameLauncher;
+    private LobbyManager _lobbyManager;
+    private GameLauncher _gameLauncher;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake() 
     {
-        GameObject go = new GameObject("Session");
+        DontDestroyOnLoad(gameObject);
+
+		GameObject go = new GameObject("Session");
 		DontDestroyOnLoad(go);
 
-		_runner = go.AddComponent<NetworkRunner>();
-        _runner.AddCallbacks(this);
+		runner = go.AddComponent<NetworkRunner>();
+        _gameLauncher = GetComponent<GameLauncher>();
+        runner.AddCallbacks(_gameLauncher);
+        _lobbyManager = GetComponent<LobbyManager>();
     }
-
-    // Update is called once per frame
-    void Update()
+	public NetworkRunner getRunner()
     {
-        
+        return runner;
     }
-
-    public NetworkRunner getRunner() 
-    {
-        return _runner;
-    }
-
     public async void joinLobby() 
     {
         Debug.Log("Connecting");
-        await lobbyManager.JoinLobby(_runner);
+        await _lobbyManager.JoinLobby(runner);
     }
 
-    public void matchmakeDeathMatch() 
+    public void matchmakeDeathMatch()
     {
-        gameLauncher.matchmakeDeathMatch(_runner, _sessionList);
+        _gameLauncher.matchmakeDeathMatch();
     }
 
-    public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList) 
-    {
-        Debug.Log($"Session List Updated with {sessionList.Count} session(s)");
-        _sessionList = sessionList;
-        foreach (var session in sessionList) 
-        {
-            Debug.Log($"{session.Name} Players: {session.PlayerCount}/{session.MaxPlayers}");
-        }
-    }
-
-    public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) { }
-    public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }
-    public void OnInput(NetworkRunner runner, NetworkInput input) { }
-    public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
-    public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
-    public void OnConnectedToServer(NetworkRunner runner) { }
-    public void OnDisconnectedFromServer(NetworkRunner runner) { }
-    public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
-    public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
-    public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
-    public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data) { }
-    public void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken) { }
-    public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data) { }
-    public void OnSceneLoadDone(NetworkRunner runner) { }
-    public void OnSceneLoadStart(NetworkRunner runner) { }
 }
