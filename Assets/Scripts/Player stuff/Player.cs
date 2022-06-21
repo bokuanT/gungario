@@ -264,10 +264,19 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         //     return;
         // }
 
+        // Since there are two launchers currently, this change supports both versions
+        Player attackingPlayer;
         //Player attackingPlayer = PlayerInfoManager.Get(NetworkRunner.GetRunnerForGameObject(gameObject), attacker);
         //Spawner attackingPlayertmp = Runner.gameObject.GetComponent<Spawner>();
-        Player attackingPlayer = PlayerInfoManager.Get(Runner, attacker);
-        //Debug.Log("attacking pla " + attackingPlayer);
+        if (PlayerInfoManager.Get(Runner, attacker) != null) 
+        {
+            attackingPlayer = PlayerInfoManager.Get(Runner,attacker);
+        } 
+        else 
+        { 
+            attackingPlayer = GameLauncher.Get(attacker);
+        }
+
         if (attackingPlayer != null && attackingPlayer == this)
         {    
             return;
