@@ -36,9 +36,15 @@ public class NetworkPlayer : NetworkBehaviour, IPlayerLeft
             AudioListener audioListener = GetComponent<AudioListener>();
             audioListener.enabled = false;
 
-            GameObject Camera = gameObject.transform.Find("Camera").gameObject;
-            Camera localCamera = Camera.GetComponentInChildren<Camera>();
-            localCamera.enabled = false;
+            Transform CameraTmp = gameObject.transform.Find("Camera");
+            GameObject Camera = null;
+            if (CameraTmp != null)
+                Camera = CameraTmp.gameObject;
+            if (Camera != null)
+            {
+                Camera localCamera = Camera.GetComponentInChildren<Camera>();
+                localCamera.enabled = false;
+            }
 
             Debug.Log("Spawned remote player");
         }

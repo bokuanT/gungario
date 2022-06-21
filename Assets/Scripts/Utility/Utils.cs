@@ -7,7 +7,7 @@ public static class Utils
     // function to return a random Vector3 within the spawnable area
     public static Vector3 GetRandomSpawnPoint()
     {
-        return new Vector3(Random.Range(-1,1), Random.Range(-1,1), 0);
+        return new Vector3(Random.Range(-8,8), Random.Range(-8,8), 0);
     }
 
     /// <summary>

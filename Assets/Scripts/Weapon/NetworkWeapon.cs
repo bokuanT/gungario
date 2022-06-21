@@ -7,9 +7,9 @@ public class NetworkWeapon : NetworkRigidbody2D
 
     [Networked]
 	public TickTimer primaryFireDelay { get; set; }
-
     private const float DELAY = 0.8f;
     
+
     public void Fire(NetworkRunner runner, PlayerRef owner, Vector3 ownerVelocity)
     {
         if (primaryFireDelay.ExpiredOrNotRunning(Runner))
@@ -26,6 +26,7 @@ public class NetworkWeapon : NetworkRigidbody2D
         //Debug.Log($"Spawning Shot in tick {Runner.Simulation.Tick} stage={Runner.Simulation.Stage}");
         // Create a key that is unique to this shot on this client so that when we receive the actual NetworkObject
         // Fusion can match it against the predicted local bullet.
+        //Debug.Log("runner: " + Runner);
         var key = new NetworkObjectPredictionKey {Byte0 = (byte) owner.RawEncoded, Byte1 = (byte) runner.Simulation.Tick};
         runner.Spawn(_projectilePrefab, exit.position, exit.rotation, owner, (runner, obj) =>
         {

@@ -10,18 +10,24 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 	[SerializeField] private SpriteRenderer sprite;
     [SerializeField] private SpriteRenderer weaponSprite;
 
-    [Networked]//(OnChanged = nameof(OnStateChanged))]
+    [SerializeField] private const float RESPAWN_TIME = 3f;
+
+    [Networked(OnChanged = nameof(OnStateChanged))]
 	public State state { get; set; }
 
     private NetworkWeapon networkWeapon;
-    private NetworkCharacterControllerPrototypeCustom _cc;  
     private Collider _collider;
 	private HitboxRoot _hitBoxRoot;
     public Animator animator;
     public Transform player;
     public Transform gun;
+    public Transform firePoint;
     private Vector2 mouseDirection;
     private Vector2 lookDir;
+    private DeathManager _deathManager;
+    private PlayerRef thisPlayerRef;
+    public Scoreboard_item scoreboard_item;
+    private GameObject scoreboardItemManager;
 
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
@@ -35,6 +41,15 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
     [Networked]
 	private TickTimer respawnTimer { get; set; }
+
+    [Networked(OnChanged = nameof(OnStateChanged))]
+	public byte kills { get; set; }
+
+    [Networked(OnChanged = nameof(OnStateChanged))]
+	public byte deaths { get; set; }
+
+    [Networked]
+    public string playerName { get; set; }
 
     public enum Direction
     {
@@ -59,14 +74,46 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     void Awake()
     {
         networkWeapon = GetComponentInChildren<NetworkWeapon>();
-        _cc = GetComponent<NetworkCharacterControllerPrototypeCustom>();
         _collider = GetComponentInChildren<Collider>();
 		_hitBoxRoot = GetComponent<HitboxRoot>();
+        _deathManager = GetComponent<DeathManager>();
+       
+        
     }
 
-    public void InitNetworkState()
+    public void InitNetworkState(PlayerRef pr)
     {
         life = MAX_HEALTH;
+        state = State.Active;
+        thisPlayerRef = pr;
+        playerName = "Player " + thisPlayerRef.PlayerId;
+        kills = 0;
+        deaths = 0;
+    }
+
+    public override void FixedUpdateNetwork()
+    {
+        // if (Object.HasStateAuthority)
+        // {
+            if (state == State.Dead)
+            { 
+                /*
+                if (respawnTimer.IsRunning)
+                {
+                    state = State.Spawning;
+                }
+                */
+                if (respawnTimer.Expired(Runner))
+                {
+                    Transform thisTransform = GetComponent<Transform>();
+                    thisTransform.position = Utils.GetRandomSpawnPoint(); //can make this follow Tell dont ask principle better
+                    life = MAX_HEALTH;
+                    state = State.Active;
+                    setVisuals(true);
+
+                }
+            }
+        //}
     }
 
     /// <summary>
@@ -80,7 +127,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public override void Render()
     {
         SetDirections();
-        _collider.enabled = state != State.Dead;
+        //_collider.enabled = state != State.Dead;
 		_hitBoxRoot.enabled = state == State.Active;
     }
 
@@ -89,7 +136,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         this.mouseDirection = mouseDirection;
     }
 
-    public virtual void SetDirections()
+    private void SetDirections()
     {
         lookDir.x = mouseDirection.x - player.position.x;
         lookDir.y = mouseDirection.y - player.position.y;
@@ -98,9 +145,11 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         // Current Issue :
         // In multiplayer, other players' guns keep pointing towards origin
         // I believe this is because lookDir is deafult to (0,0) for other players
-        gun.right = Vector2.Lerp(gun.right, new Vector2(lookDir.x,lookDir.y), Runner.DeltaTime * 5f);
+        gun.right = Vector2.Lerp(gun.right, new Vector2(lookDir.x, lookDir.y), Runner.DeltaTime * 5f);
+        firePoint.right = Vector2.Lerp(firePoint.right, new Vector2(lookDir.x, lookDir.y), Runner.DeltaTime * 5f);
+        firePoint.position = gun.position;
 
-        float angle = Mathf.Atan2(lookDir.y ,lookDir.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
         //left is 180/-180, right is 0. top is 90, bottom is -90
         //return values: up is 0, right is 1, down is 2, left is 3
         if (angle >= 45f && angle < 135f) {
@@ -118,6 +167,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     {
         if(changed.Behaviour)
             changed.Behaviour.setAnimation();
+            changed.Behaviour.setState();
     }
 
     private void setAnimation() {
@@ -144,6 +194,35 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 					break;
 			}
   
+    }
+
+    public void setState()
+    {
+        switch (state)
+        {
+            case State.Spawning:
+                //TODO make spawn in animation
+                break;
+            case State.Active:
+                //TODO add end spawn animation
+                //hacky solution to spawner spawning player with z != 0
+                Vector3 spawnPt = transform.position;
+                spawnPt.z = 0;
+                transform.position = spawnPt;
+                break;
+            case State.Dead:
+                //TODO: add death animation
+                // _deathExplosionInstance.transform.position = transform.position;
+                // _deathExplosionInstance.SetActive(false); // dirty fix to reactivate the death explosion if the particlesystem is still active
+                // _deathExplosionInstance.SetActive(true);
+                _deathManager.OnDeath(Runner, Object.InputAuthority);
+                setVisuals(false);
+                StartRespawnSequence();
+                break;
+            case State.Despawned:
+                //_teleportOut.StartTeleport();
+                break;
+        }
     }
 
     public virtual void Shoot(Vector2 mvDir)
@@ -180,16 +259,18 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public void ApplyDamage(Vector3 impulse, byte damage, PlayerRef attacker)
     {
         // if (!isActivated) //TODO implement invulnerability
-		// {	
+        // {	
         //     Debug.Log("not activated");	
         //     return;
         // }
 
         // Since there are two launchers currently, this change supports both versions
         Player attackingPlayer;
-        if (Spawner.Get(attacker) != null) 
+        //Player attackingPlayer = PlayerInfoManager.Get(NetworkRunner.GetRunnerForGameObject(gameObject), attacker);
+        //Spawner attackingPlayertmp = Runner.gameObject.GetComponent<Spawner>();
+        if (PlayerInfoManager.Get(Runner, attacker) != null) 
         {
-            attackingPlayer = Spawner.Get(attacker);
+            attackingPlayer = PlayerInfoManager.Get(Runner,attacker);
         } 
         else 
         { 
@@ -200,9 +281,84 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         {    
             return;
         }
-        
-        life -= damage;
-		Debug.Log($"Player {this} took {damage} damage, life = {life}");
 
+        if (damage >= life)
+        {
+            life = 0;
+            //scoreboard.Update_Killed_and_killer(thisPlayerRef, attacker);
+            GetKilled();
+            attackingPlayer.GetKill();
+            state = State.Dead;
+        }
+        
+        else 
+        {
+        life -= damage;
+		//Debug.Log($"Player {this} took {damage} damage, life = {life}");
+        }
+    }
+
+    private void StartRespawnSequence()
+    {
+        respawnTimer = TickTimer.CreateFromSeconds(Runner, RESPAWN_TIME);
+    }
+
+    private void setVisuals(bool boolean)
+    {
+        Transform[] visuals = new Transform[3];
+        visuals[0] = transform.Find("HealthUI");
+        visuals[1] = transform.Find("GunVisual");
+        visuals[2] = transform.Find("InterpolationRoot");
+        
+        foreach (Transform visual in visuals)
+        {
+            visual.gameObject.SetActive(boolean);
+        }
+    }
+
+    public void GetKill()
+    {
+        this.kills += 1;
+    }
+
+    public void GetKilled()
+    {
+        this.deaths += 1;
+    }
+
+    public void ToggleOnScoreboard()
+    {
+        if (scoreboard_item != null)
+        {
+            if (scoreboardItemManager == null)
+            {
+                scoreboardItemManager = scoreboard_item.transform.parent.gameObject;
+                
+            }
+            scoreboardItemManager.transform.localScale = new Vector3(1, 1, 1);
+        }
+        
+    }
+
+    public void ToggleOffScoreboard()
+    {
+        if (scoreboard_item != null)
+        {
+            if (scoreboardItemManager == null)
+            {
+                scoreboardItemManager = scoreboard_item.transform.parent.gameObject;
+
+            }
+            scoreboardItemManager.transform.localScale = new Vector3(0, 0, 0);
+        }
+
+    }
+
+    public void ForceMakeHealthySetSpawn(Vector3 spawnPoint)
+    {
+        NetworkCharacterControllerPrototypeCustom cc = Object.GetComponent
+            <NetworkCharacterControllerPrototypeCustom> ();
+        cc.TeleportToPosition(spawnPoint);
+        life = MAX_HEALTH;
     }
 }

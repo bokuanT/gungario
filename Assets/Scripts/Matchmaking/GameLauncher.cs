@@ -192,7 +192,7 @@ public class GameLauncher : NetworkBehaviour, INetworkRunnerCallbacks
 			{
 				Player player = networkObject.gameObject.GetComponent<Player>();
 				Debug.Log($"Initializing player {player}");
-				player.InitNetworkState();
+				//player.InitNetworkState();
 			}
 			Players.Add(player, networkPlayerObject);
 			_staticSpawnedCharacters.Add(player, networkPlayerObject);
