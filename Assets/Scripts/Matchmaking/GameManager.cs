@@ -1,23 +1,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using PlayFab.ClientModels;
+using Fusion.Photon.Realtime;
 
 public class GameManager : NetworkBehaviour
 {
+    public GameObject networkRunnerPrefab;
     private NetworkRunner runner;
-    private List<SessionInfo> _sessionList;
     private LobbyManager _lobbyManager;
     private GameLauncher _gameLauncher;
+    private PlayerProfileModel _playerProfile;
 
     void Awake() 
     {
         DontDestroyOnLoad(gameObject);
 
-		GameObject go = new GameObject("Session");
+		GameObject go = Instantiate(networkRunnerPrefab);
 		DontDestroyOnLoad(go);
-
-		runner = go.AddComponent<NetworkRunner>();
-        _gameLauncher = GetComponent<GameLauncher>();
+        go.name = "Session";
+		runner = go.GetComponent<NetworkRunner>();
+        _gameLauncher = go.GetComponent<GameLauncher>();
         runner.AddCallbacks(_gameLauncher);
         _lobbyManager = GetComponent<LobbyManager>();
     }
@@ -36,4 +39,9 @@ public class GameManager : NetworkBehaviour
         _gameLauncher.matchmakeDeathMatch();
     }
 
+    public void setPlayerProfile(PlayerProfileModel ppm)
+    {
+        _playerProfile = ppm;
+        _gameLauncher.setPlayerProfile(ppm);
+    }
 }

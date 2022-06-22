@@ -11,6 +11,8 @@ public class Menu : MonoBehaviour
     public TMP_Text PlayerName; 
     public PlayFabAuthenticator authenticator;
     public GameManager gameManager;
+    private bool nameChanged = false;
+    
     
     // temporary boolean to make the apicall happen once per load
     // if not, Update will keep calling to the api
@@ -27,8 +29,10 @@ public class Menu : MonoBehaviour
     public void StartGame() {
         Debug.Log("StartGame");
 
+        if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
+
         // changed to this temporarily to stop loading game scene together with menu 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(LevelManager.TESTGAME_SCENE);
 
         //SceneManager.LoadScene(gameScene);
     }
@@ -38,6 +42,7 @@ public class Menu : MonoBehaviour
     }
 
     public void MatchmakeDeathMatch() {
+        if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
         gameManager.matchmakeDeathMatch();
     }
 
@@ -52,6 +57,7 @@ public class Menu : MonoBehaviour
             }, result => {
                 Debug.Log("The player's display name is now: " + result.DisplayName);
                 PlayerName.SetText("Welcome back, " + result.DisplayName + "!");
+                nameChanged = true;
             }, error => Debug.LogError(error.GenerateErrorReport()));
         }
     }
@@ -66,6 +72,7 @@ public class Menu : MonoBehaviour
         result => {
             if (result.PlayerProfile.DisplayName == null || result.PlayerProfile.DisplayName == "") result.PlayerProfile.DisplayName = "null";
             Debug.Log("Retrieved DisplayName. The player's DisplayName profile data is: " + result.PlayerProfile.DisplayName);
+            gameManager.setPlayerProfile(result.PlayerProfile);
             PlayerName.SetText("Welcome back, " + result.PlayerProfile.DisplayName + "!");
         },
         error => Debug.LogError(error.GenerateErrorReport()));

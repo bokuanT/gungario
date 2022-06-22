@@ -81,12 +81,18 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         
     }
 
-    public void InitNetworkState(PlayerRef pr)
+    public void InitNetworkState(PlayerRef pr, string name)
     {
         life = MAX_HEALTH;
         state = State.Active;
         thisPlayerRef = pr;
-        playerName = "Player " + thisPlayerRef.PlayerId;
+        if (name == null)
+        {
+            playerName = "Player " + thisPlayerRef.PlayerId;
+        } else
+        {
+            playerName = name;
+        } 
         kills = 0;
         deaths = 0;
     }
@@ -264,18 +270,11 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         //     return;
         // }
 
-        // Since there are two launchers currently, this change supports both versions
-        Player attackingPlayer;
+       
         //Player attackingPlayer = PlayerInfoManager.Get(NetworkRunner.GetRunnerForGameObject(gameObject), attacker);
         //Spawner attackingPlayertmp = Runner.gameObject.GetComponent<Spawner>();
-        if (PlayerInfoManager.Get(Runner, attacker) != null) 
-        {
-            attackingPlayer = PlayerInfoManager.Get(Runner,attacker);
-        } 
-        else 
-        { 
-            attackingPlayer = GameLauncher.Get(attacker);
-        }
+        Player attackingPlayer = PlayerInfoManager.Get(Runner,attacker);
+        
 
         if (attackingPlayer != null && attackingPlayer == this)
         {    

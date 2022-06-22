@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Fusion;
 using Fusion.Sockets;
+using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,47 +15,50 @@ public enum ConnectionStatus
 }
 
 [RequireComponent(typeof(LevelManager))]
-public class GameLauncher : NetworkBehaviour, INetworkRunnerCallbacks
+public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
 	// [SerializeField] private GameManager _gameManagerPrefab;
 
 	public static ConnectionStatus ConnectionStatus = ConnectionStatus.Disconnected;
 
 	public NetworkObject playerPrefab;
+	private PlayerProfileModel _playerProfile { get; set; }
 	private GameMode _gameMode;
 	private NetworkRunner _runner;
-	private GameManager _gameManager;
-	private LobbyManager _lobbyManager;
 	private List<SessionInfo> _sessionList;
-	private String lobbyName;
 	private int MAX_PLAYERS = 2;
 
 	// initial list for spawning at the start of games
 	public static List<PlayerRef> SessionPlayers = new List<PlayerRef>();
 
-	// links player to their player object
-    public static Dictionary<PlayerRef, NetworkObject> Players = new Dictionary<PlayerRef, NetworkObject>();
+    // links player to their player object
+    private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
-    //For Player.cs :: ApplyDamage -> maybe can try replace this with better soln
-    private static Dictionary<PlayerRef, NetworkObject> _staticSpawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
-
-    //For Player::ApplyDamage
-    public static Player Get(PlayerRef playerRef)
-    {
-        NetworkObject value = _staticSpawnedCharacters[playerRef];
-        return value.gameObject.GetComponent<Player>();
-    }
-
-	void Awake() {
-		// Application.runInBackground = true;
-
-		_gameManager = GetComponent<GameManager>();
-		_lobbyManager = GetComponent<LobbyManager>();
+	void Awake() 
+	{ 
+		_runner = GetComponent<NetworkRunner>();
 	}
+
+	public Player Get(PlayerRef playerRef)
+	{
+		//NetworkObject obj = _spawnedCharacters[playerRef];
+		//foreach (PlayerRef p in _spawnedCharacters.Keys)
+		//{
+		//    Debug.Log(p);
+		//}
+		//return obj.gameObject.GetComponent<Player>();
+		NetworkObject obj = _runner.GetPlayerObject(playerRef);
+		Player player = obj.gameObject.GetComponent<Player>();
+		return player;
+	}
+
+	public void setPlayerProfile(PlayerProfileModel ppm)
+    {
+		_playerProfile = ppm;
+    }
 
 	public async void matchmakeDeathMatch() 
 	{
-		_runner = _gameManager.getRunner();
 		Debug.Log("Matchmaking");
 
 		if (_sessionList != null && _sessionList.Count > 0) // Other Sessions exist
@@ -179,37 +183,62 @@ public class GameLauncher : NetworkBehaviour, INetworkRunnerCallbacks
 		}
 	}
 
-	public void SpawnPlayer(NetworkRunner runner, PlayerRef player)
+	public void SpawnPlayer(NetworkRunner runner, PlayerRef playerRef)
 	{
-		if (runner.IsServer)
-		{
-			// singular game manager
-			// if(_gameMode==GameMode.Host)
-			// 	runner.Spawn(_gameManagerPrefab, Vector3.zero, Quaternion.identity);
 
-			NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, player, InitNetworkState);
-			void InitNetworkState(NetworkRunner runner, NetworkObject networkObject)
-			{
-				Player player = networkObject.gameObject.GetComponent<Player>();
-				Debug.Log($"Initializing player {player}");
-				//player.InitNetworkState();
-			}
-			Players.Add(player, networkPlayerObject);
-			_staticSpawnedCharacters.Add(player, networkPlayerObject);
+		// singular game manager
+		// if(_gameMode==GameMode.Host)
+		// 	runner.Spawn(_gameManagerPrefab, Vector3.zero, Quaternion.identity);
+
+		NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, playerRef, InitNetworkState);
+		void InitNetworkState(NetworkRunner runner, NetworkObject networkObject)
+		{
+			Player player = networkObject.gameObject.GetComponent<Player>();
+			Debug.Log($"Initializing player {player}");
+			player.InitNetworkState(playerRef, _playerProfile.DisplayName);
 		}
+		//_spawnedCharacters.Add(playerRef, networkPlayerObject);
+        runner.SetPlayerObject(playerRef, networkPlayerObject);
+        //Hopefully this syncs the dict across all clients
+        IEnumerable<PlayerRef> activePlayers = runner.ActivePlayers;
+        foreach (PlayerRef pr in activePlayers)
+        {
+            NetworkObject player = runner.GetPlayerObject(pr);
+
+            if (!_spawnedCharacters.ContainsKey(pr))
+                _spawnedCharacters.Add(pr, player);
+        }
+
+		
 	}
 
 	public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
 	{
 		Debug.Log($"{player.PlayerId} disconnected.");
-		// attempt to destroy player object
-		NetworkObject temp;
-		Players.TryGetValue(player, out temp);
-		Destroy(temp);
-		Players.Remove(player);
+
+		// Find and remove the players avatar
+        if (_spawnedCharacters.TryGetValue(player, out NetworkObject networkObject))
+        {
+            Player playerGameObject = networkObject.gameObject.GetComponent<Player>();
+            //Debug.Log("playerg.o. " + playerGameObject);
+            if (playerGameObject.scoreboard_item != null)
+            {
+                //Debug.Log("Destroying: " + playerGameObject.scoreboard_item);
+                Destroy(playerGameObject.scoreboard_item.gameObject);
+            }
+            // takes in a NetworkObject
+            runner.Despawn(networkObject);
+            _spawnedCharacters.Remove(player);
+            Debug.Log("Player removed successfully");
+        }
+
+        GameObject scoreboardObject = GameObject.Find("Scoreboard_canvas/Scoreboard");
+        Scoreboard scoreboard = scoreboardObject.GetComponent<Scoreboard>();
+        scoreboard.OnPlayerLeft(player);
 
 		SetConnectionStatus(ConnectionStatus);
 	}
+
 	public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
 	{
 		Debug.Log($"OnShutdown {shutdownReason}");

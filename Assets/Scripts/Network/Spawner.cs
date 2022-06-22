@@ -50,7 +50,7 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
         {
             Player player = networkObject.gameObject.GetComponent<Player>();
             Debug.Log($"Initializing player {player}");
-            player.InitNetworkState(playerRef);
+            player.InitNetworkState(playerRef, null);
         }
         //_spawnedCharacters.Add(playerRef, networkPlayerObject);
         runner.SetPlayerObject(playerRef, networkPlayerObject);

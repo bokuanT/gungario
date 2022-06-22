@@ -14,10 +14,15 @@ public class PlayerInfoManager : MonoBehaviour
         {
             //Debug.Log("networkrunner: " + r.ActivePlayers);
             GameObject gameobj = r.gameObject;
-            if (gameobj.TryGetComponent(out Spawner spwn))
+/*            if (gameobj.TryGetComponent(out Spawner spwn))
             {
 
                 return spwn.Get(playerRef);
+            }*/
+            if (gameobj.TryGetComponent(out GameLauncher launcher))
+            {
+
+                return launcher.Get(playerRef);
             }
         }
 
