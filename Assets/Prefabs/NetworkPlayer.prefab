@@ -188,7 +188,6 @@ GameObject:
   - component: {fileID: 2206481333446730771}
   - component: {fileID: 2206481333446730980}
   - component: {fileID: 2206481333446730779}
-  - component: {fileID: 3527068903768885315}
   - component: {fileID: 5829982391114275133}
   - component: {fileID: 277278695806396713}
   - component: {fileID: 1174997952378022643}
@@ -196,6 +195,7 @@ GameObject:
   - component: {fileID: 6383632375332188090}
   - component: {fileID: 2584563593335655822}
   - component: {fileID: 3078968015110332391}
+  - component: {fileID: 1459601690917525531}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Player
@@ -211,7 +211,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2206481333446730981}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.009, y: 0.229, z: 0}
   m_LocalScale: {x: 3.7314827, y: 4.275946, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -267,24 +267,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
---- !u!143 &3527068903768885315
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2206481333446730981}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 0.32
-  m_Radius: 0.16
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.01
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &5829982391114275133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,6 +342,7 @@ MonoBehaviour:
   _life: 0
   _kills: 0
   _deaths: 0
+  _playerName: 
 --- !u!114 &6383632375332188090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,7 +356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  BroadRadius: 0.56
+  BroadRadius: 0.5
   Offset: {x: 0, y: 0, z: 0}
   Hitboxes:
   - {fileID: 2584563593335655822}
@@ -408,6 +391,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   _deathPrefab: {fileID: 4304645457694878716, guid: 8503ef79a06e1be48b417055dfd7ffe8, type: 3}
+--- !u!143 &1459601690917525531
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2206481333446730981}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 0.25
+  m_Radius: 0.09
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2206481333741145468
 GameObject:
   m_ObjectHideFlags: 0
@@ -889,7 +890,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4568449890270638852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.016, y: -0.489, z: 0}
+  m_LocalPosition: {x: -0.001, y: -0.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
