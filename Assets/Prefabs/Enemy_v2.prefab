@@ -216,6 +216,7 @@ MonoBehaviour:
   _life: 0
   _kills: 0
   _deaths: 0
+  _playerName: 
 --- !u!114 &1608531750703581507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +278,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  enemyTransform: {fileID: 5790344740983210730}
+  controller: {fileID: 2174625988231724996}
 --- !u!1 &5790344741022870273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,17 +1028,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: Radar
       objectReference: {fileID: 0}
+    - target: {fileID: 1366193555951771235, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 3950388938240732023}
     - target: {fileID: 7032138752257966443, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7032138752257966443, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.26799
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032138752257966443, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.23386636
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032138752257966443, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.052375983
+      value: 0.05237599
       objectReference: {fileID: 0}
     - target: {fileID: 7032138752257966443, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.038706247
+      value: -0.038706243
       objectReference: {fileID: 0}
     - target: {fileID: 7032138752257966443, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
       propertyPath: m_LocalPosition.z

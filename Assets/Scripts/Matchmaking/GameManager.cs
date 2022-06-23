@@ -11,6 +11,7 @@ public class GameManager : NetworkBehaviour
     private LobbyManager _lobbyManager;
     private GameLauncher _gameLauncher;
     private PlayerProfileModel _playerProfile;
+    private int activeScene;
 
     void Awake() 
     {
@@ -24,24 +25,36 @@ public class GameManager : NetworkBehaviour
         runner.AddCallbacks(_gameLauncher);
         _lobbyManager = GetComponent<LobbyManager>();
     }
-	public NetworkRunner getRunner()
+
+    public void SetScene(int scene) 
     {
-        return runner;
+        activeScene = scene;
     }
+
     public async void joinLobby() 
     {
         Debug.Log("Connecting");
         await _lobbyManager.JoinLobby(runner);
     }
 
-    public void matchmakeDeathMatch()
+    public void MatchmakeDeathMatch()
     {
-        _gameLauncher.matchmakeDeathMatch();
+        _gameLauncher.MatchmakeDeathMatch();
     }
 
-    public void setPlayerProfile(PlayerProfileModel ppm)
+    public void StartGame()
+    {
+        _gameLauncher.StartGame();
+    }
+
+    public int getScene()
+    {
+        return activeScene;
+    }
+
+    public void SetPlayerProfile(PlayerProfileModel ppm)
     {
         _playerProfile = ppm;
-        _gameLauncher.setPlayerProfile(ppm);
+        _gameLauncher.SetPlayerProfile(ppm);
     }
 }

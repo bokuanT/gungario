@@ -61,7 +61,7 @@ using UnityEngine.SceneManagement;
 			// Now we can safely spawn players
 			if (newScene>MENU_SCENE)
 			{
-				if (Runner.GameMode == GameMode.Host)
+				if (Runner.GameMode == GameMode.Host || Runner.GameMode == GameMode.Single)
 				{
 					gameLauncher.SpawnPlayers();
 				}

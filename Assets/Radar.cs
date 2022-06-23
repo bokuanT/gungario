@@ -12,7 +12,7 @@ public class Radar : MonoBehaviour
         
         // dont target fellow enemy, don't target (for now, til teams are implemented)
         // DOESNT WORK, STILL TARGETS ENEMIES
-        if (col.gameObject.GetComponent<Enemy>() == null) 
+        if (col.name == "PlayerDetectionRadius") 
         {
             enemy.setTarget(col.gameObject);
         }

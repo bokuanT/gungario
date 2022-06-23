@@ -6,7 +6,6 @@ using TMPro;
 
 public class Menu : MonoBehaviour
 {
-    public string gameScene;
     public TMP_Text ChangeName; 
     public TMP_Text PlayerName; 
     public PlayFabAuthenticator authenticator;
@@ -32,9 +31,9 @@ public class Menu : MonoBehaviour
         if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
 
         // changed to this temporarily to stop loading game scene together with menu 
-        SceneManager.LoadScene(LevelManager.TESTGAME_SCENE);
-
-        //SceneManager.LoadScene(gameScene);
+        // SceneManager.LoadScene(LevelManager.TESTGAME_SCENE);
+        gameManager.SetScene(LevelManager.TESTGAME_SCENE);
+        gameManager.StartGame();
     }
 
     public void QuitGame() {
@@ -43,7 +42,8 @@ public class Menu : MonoBehaviour
 
     public void MatchmakeDeathMatch() {
         if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
-        gameManager.matchmakeDeathMatch();
+        gameManager.SetScene(LevelManager.MAP1_SCENE);
+        gameManager.MatchmakeDeathMatch();
     }
 
     // Temporary method to demonstrate persistent data being stored in player profile
@@ -72,7 +72,7 @@ public class Menu : MonoBehaviour
         result => {
             if (result.PlayerProfile.DisplayName == null || result.PlayerProfile.DisplayName == "") result.PlayerProfile.DisplayName = "null";
             Debug.Log("Retrieved DisplayName. The player's DisplayName profile data is: " + result.PlayerProfile.DisplayName);
-            gameManager.setPlayerProfile(result.PlayerProfile);
+            gameManager.SetPlayerProfile(result.PlayerProfile);
             PlayerName.SetText("Welcome back, " + result.PlayerProfile.DisplayName + "!");
         },
         error => Debug.LogError(error.GenerateErrorReport()));

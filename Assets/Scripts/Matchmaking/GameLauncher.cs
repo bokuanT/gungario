@@ -52,12 +52,12 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		return player;
 	}
 
-	public void setPlayerProfile(PlayerProfileModel ppm)
+	public void SetPlayerProfile(PlayerProfileModel ppm)
     {
 		_playerProfile = ppm;
     }
 
-	public async void matchmakeDeathMatch() 
+	public async void MatchmakeDeathMatch() 
 	{
 		Debug.Log("Matchmaking");
 
@@ -102,10 +102,23 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 				PlayerCount = MAX_PLAYERS,
 			});
 		}
-
-
     }
 
+	public async void StartGame()
+    {
+        Debug.Log("Starting Practice Map");
+
+		SetSingleLobby();
+
+		await _runner.StartGame(new StartGameArgs 
+        {
+            GameMode = _gameMode, 
+            SessionName = "TestRoom",
+            SceneObjectProvider = LevelManager.Instance, 
+        });
+    }
+
+	public void SetSingleLobby() => _gameMode = GameMode.Single; 
 	public void SetCreateLobby() => _gameMode = GameMode.Host;
 	public void SetJoinLobby() => _gameMode = GameMode.Client;
 	private void SetConnectionStatus(ConnectionStatus status)
@@ -170,8 +183,11 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	{
 		if (SessionPlayers.Count == MAX_PLAYERS) {
 			Debug.Log("LOADING DEATHMATCH");
-			LevelManager.LoadDeathmatch();
-		} 
+			LevelManager.LoadMap(LevelManager.MAP1_SCENE);
+		} else if (_gameMode == GameMode.Single){
+			Debug.Log("LOADING PRACTICEMAP");
+			LevelManager.LoadMap(LevelManager.TESTGAME_SCENE);
+		}
 		
 	}
 

@@ -12,34 +12,31 @@ using Fusion;
 public class Enemy : NetworkBehaviour
 {
 
-    Transform targetLocation = null;
+    Transform targetLocation;
     Player enemyInput;
-    Transform enemyTransform;
+    public Transform enemyTransform;
     Vector2 aimDirection;
     Vector2 moveDirection;
-    NetworkCharacterControllerPrototypeCustom controller;
-    Rigidbody2D enemyRb;
-    float retreatDistance = 5.0f;
+    public NetworkCharacterControllerPrototypeCustom controller;
+    float retreatDistance = 4.0f;
     float moveSpeed = 4.5f;
-    float shootingRange = 5.5f;
+    float shootingRange = 4.5f;
     float chasingRange = 10f;
     bool isChasing = false;
 
     void Start()
     {
         enemyInput = GetComponent<Player>();
-        enemyTransform = GetComponent<Transform>();
-        enemyRb = GetComponent<Rigidbody2D>();
-        controller = GetComponent<NetworkCharacterControllerPrototypeCustom>();
+        enemyInput.InitEnemyState();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (targetLocation != null) { // target exists
+        if (targetLocation != null && enemyTransform != null) { // target exists
             // sets Mouse location
             setDirection(targetLocation);
-
+            
             // stops chasing the target if exits range 
             if (Vector2.Distance(enemyTransform.position, targetLocation.position) > chasingRange) 
             {
@@ -60,7 +57,9 @@ public class Enemy : NetworkBehaviour
         // Shooting is fked up here
         // =================================
         moveDirection.Normalize();
-            
+
+        Debug.Log(moveDirection);
+
         // shoot if player within range
         if (isChasing == true)
         {

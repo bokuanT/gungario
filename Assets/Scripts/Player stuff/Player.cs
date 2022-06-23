@@ -97,6 +97,12 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         deaths = 0;
     }
 
+    public void InitEnemyState()
+    {
+        life = MAX_HEALTH;
+        state = State.Active;
+    }
+
     public override void FixedUpdateNetwork()
     {
         // if (Object.HasStateAuthority)
@@ -237,30 +243,6 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         networkWeapon.Fire(Runner, Object.InputAuthority, mvDir * moveSpeed * deltaTime);
     } 
 
-    // private void animate(int direction) {
-    //     if (direction == RIGHT || direction == LEFT) {
-    //         animator.SetFloat("Speed", 1); //to update, 1 is temp value
-
-    //     if (!isRight && direction == RIGHT) {
-    //         FlipHorizontal();
-    //         isRight = true;
-    //     } else if (isRight && direction == LEFT){
-    //         FlipHorizontal();
-    //         isRight = false;
-    //     }
-    //     } else {
-    //         animator.SetFloat("Speed", 0); //to update, 0 is temp value
-    //     }
-    // }
-
-//   private void FlipHorizontal() {
-//     sprite.flipX = !sprite.flipX;
-
-//     Vector3 curScaleGun = firePoint.transform.localScale;
-//     curScaleGun.x *= -1;
-//     curScaleGun.y *= -1;
-//     firePoint.transform.localScale = curScaleGun;
-//   } 
     //Apply impulse for future updates- visual feedback from taking dmg by moving
     public void ApplyDamage(Vector3 impulse, byte damage, PlayerRef attacker)
     {
