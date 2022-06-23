@@ -12,7 +12,7 @@ using TMPro;
 
 public class LevelBehaviour : NetworkBehaviour
 {
-    [SerializeField] private float _levelTime = 20f;
+    [SerializeField] private float _levelTime = 300f;
     [SerializeField] private float _startTime = 7f;
 
     [Networked]
