@@ -28,6 +28,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     private PlayerRef thisPlayerRef;
     public Scoreboard_item scoreboard_item;
     private GameObject scoreboardItemManager;
+    public GameObject cursor;
 
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
@@ -77,7 +78,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         _collider = GetComponentInChildren<Collider>();
 		_hitBoxRoot = GetComponent<HitboxRoot>();
         _deathManager = GetComponent<DeathManager>();
-       
+        Instantiate(cursor);
         
     }
 
