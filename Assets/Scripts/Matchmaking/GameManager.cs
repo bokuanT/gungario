@@ -13,6 +13,7 @@ public class GameManager : NetworkBehaviour
     private PlayerProfileModel _playerProfile;
     private int activeScene;
 
+
     void Awake() 
     {
         DontDestroyOnLoad(gameObject);
