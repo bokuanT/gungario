@@ -79,7 +79,6 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 		_hitBoxRoot = GetComponent<HitboxRoot>();
         _deathManager = GetComponent<DeathManager>();
         Instantiate(cursor);
-        
     }
 
     public void InitNetworkState(PlayerRef pr, string name)

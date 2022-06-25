@@ -13,7 +13,6 @@ using UnityEngine.SceneManagement;
         ===========================================================================
         */        
 		public static LevelManager Instance => Singleton<LevelManager>.Instance;
-
 		public GameLauncher gameLauncher;
         public static int MENU_SCENE = 0;
 		public static int TESTGAME_SCENE = 1;
@@ -45,7 +44,7 @@ using UnityEngine.SceneManagement;
 
 			List<NetworkObject> sceneObjects = new List<NetworkObject>();
 
-			if (newScene >= MENU_SCENE)
+			if (newScene > MENU_SCENE)
 			{
 				yield return SceneManager.LoadSceneAsync(newScene, LoadSceneMode.Single);
 				Scene loadedScene = SceneManager.GetSceneByBuildIndex(newScene);

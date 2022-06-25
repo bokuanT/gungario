@@ -180,7 +180,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	}
 
 	public void CheckSessions()
-	{
+	{	
 		if (SessionPlayers.Count == MAX_PLAYERS) {
 			Debug.Log("LOADING DEATHMATCH");
 			LevelManager.LoadMap(LevelManager.MAP1_SCENE);

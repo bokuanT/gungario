@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/LoginMenu.unity
+    path: Assets/Scenes/Menu.unity
     guid: 9bebb6c4c4c484f478b8cceb2874a1be
   - enabled: 1
     path: Assets/Scenes/Game.unity
@@ -14,7 +14,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Deathmatch.unity
     guid: bb223525b83ac12409f7e8a92a757ed9
-  - enabled: 0
-    path: Assets/Scenes/Menu.unity
-    guid: 32c833fa0734a6545abaa20dff5bed0d
   m_configObjects: {}
