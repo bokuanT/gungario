@@ -7,6 +7,7 @@ TagManager:
   - FirePoint
   - PlayerCamera
   - Auth
+  - GameManager
   layers:
   - Default
   - TransparentFX

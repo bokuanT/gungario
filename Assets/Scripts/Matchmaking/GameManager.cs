@@ -10,7 +10,7 @@ public class GameManager : NetworkBehaviour
     private NetworkRunner runner;
     private LobbyManager _lobbyManager;
     private GameLauncher _gameLauncher;
-    private PlayerProfileModel _playerProfile;
+    private PlayerProfileModel playerProfile;
     private int activeScene;
 
 
@@ -25,11 +25,6 @@ public class GameManager : NetworkBehaviour
         _gameLauncher = go.GetComponent<GameLauncher>();
         runner.AddCallbacks(_gameLauncher);
         _lobbyManager = GetComponent<LobbyManager>();
-    }
-
-    public void SetScene(int scene) 
-    {
-        activeScene = scene;
     }
 
     public async void joinLobby() 
@@ -48,6 +43,11 @@ public class GameManager : NetworkBehaviour
         _gameLauncher.StartGame();
     }
 
+    public void SetScene(int scene) 
+    {
+        activeScene = scene;
+    }
+
     public int getScene()
     {
         return activeScene;
@@ -55,7 +55,13 @@ public class GameManager : NetworkBehaviour
 
     public void SetPlayerProfile(PlayerProfileModel ppm)
     {
-        _playerProfile = ppm;
+        playerProfile = ppm;
         _gameLauncher.SetPlayerProfile(ppm);
+        runner.AuthenticationValues.UserId = ppm.DisplayName;
+    }
+
+    public PlayerProfileModel getPlayerProfile()
+    {
+        return playerProfile;
     }
 }

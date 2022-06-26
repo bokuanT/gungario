@@ -29,6 +29,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public Scoreboard_item scoreboard_item;
     private GameObject scoreboardItemManager;
     public GameObject cursor;
+    private GameManager gameManager;
 
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
@@ -79,6 +80,18 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 		_hitBoxRoot = GetComponent<HitboxRoot>();
         _deathManager = GetComponent<DeathManager>();
         Instantiate(cursor);
+        gameManager = GameObject.FindObjectOfType<GameManager>();
+        Debug.Log("gameMANAGER is null : " + gameManager == null);
+
+    }
+
+    public override void Spawned()
+    {
+        base.Spawned();
+        if (Object.HasInputAuthority)
+        {
+            playerName = gameManager.getPlayerProfile().DisplayName;  
+        }
     }
 
     public void InitNetworkState(PlayerRef pr, string name)
@@ -86,13 +99,14 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         life = MAX_HEALTH;
         state = State.Active;
         thisPlayerRef = pr;
-        if (name == null)
-        {
-            playerName = "Player " + thisPlayerRef.PlayerId;
-        } else
-        {
-            playerName = name;
-        } 
+
+        // if (name == null)
+        // {
+        //     playerName = "Player " + thisPlayerRef.PlayerId;
+        // } else
+        // {
+        //     playerName = name;
+        // } 
         kills = 0;
         deaths = 0;
     }

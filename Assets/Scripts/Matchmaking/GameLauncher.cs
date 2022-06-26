@@ -29,7 +29,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	private int MAX_PLAYERS = 2;
 
 	// initial list for spawning at the start of games
-	public static List<PlayerRef> SessionPlayers = new List<PlayerRef>();
+	public static Dictionary<PlayerRef, String> SessionPlayers = new Dictionary<PlayerRef, String>();
 
     // links player to their player object
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
@@ -74,6 +74,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 						SessionName = session.Name, // Session to Join
 						SceneObjectProvider = LevelManager.Instance, // Scene Provider
 						DisableClientSessionCreation = true, // Make sure the client will never create a Session
+						AuthValues = _runner.AuthenticationValues,
 					});
 
 					if (result.Ok) {
@@ -100,6 +101,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 				SessionName = "Deathmatch" + sessionNumber, // Session to Join
 				SceneObjectProvider = LevelManager.Instance, // Scene Provider
 				PlayerCount = MAX_PLAYERS,
+				AuthValues = _runner.AuthenticationValues,
 			});
 		}
     }
@@ -174,7 +176,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
 	{
 		Debug.Log($"Player {player} Joined!");
-		SessionPlayers.Add(player);
+		SessionPlayers.Add(player, runner.AuthenticationValues.UserId);
 		CheckSessions();
 		SetConnectionStatus(ConnectionStatus.Connected);
 	}
@@ -195,11 +197,11 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	public void SpawnPlayers() {
 		foreach (var player in SessionPlayers)
 		{
-			SpawnPlayer(_runner, player);
+			SpawnPlayer(_runner, player.Key, player.Value);
 		}
 	}
 
-	public void SpawnPlayer(NetworkRunner runner, PlayerRef playerRef)
+	public void SpawnPlayer(NetworkRunner runner, PlayerRef playerRef, String displayName)
 	{
 
 		// singular game manager
@@ -211,7 +213,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		{
 			Player player = networkObject.gameObject.GetComponent<Player>();
 			Debug.Log($"Initializing player {player}");
-			player.InitNetworkState(playerRef, _playerProfile.DisplayName);
+			player.InitNetworkState(playerRef, displayName);
 		}
 		//_spawnedCharacters.Add(playerRef, networkPlayerObject);
         runner.SetPlayerObject(playerRef, networkPlayerObject);

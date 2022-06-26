@@ -58,8 +58,6 @@ public class Enemy : NetworkBehaviour
         // =================================
         moveDirection.Normalize();
 
-        Debug.Log(moveDirection);
-
         // shoot if player within range
         if (isChasing == true)
         {
