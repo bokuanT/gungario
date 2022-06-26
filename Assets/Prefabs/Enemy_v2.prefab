@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1474215683448829029}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.002601819, y: 0.109, z: 0.2431202}
+  m_LocalPosition: {x: -0.002601819, y: 0.109, z: 0.3}
   m_LocalScale: {x: 0.26799, y: 0.23386636, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -212,6 +212,7 @@ MonoBehaviour:
   gun: {fileID: 849219642509752308}
   firePoint: {fileID: 5790344741585504796}
   scoreboard_item: {fileID: 0}
+  cursor: {fileID: 0}
   moveSpeed: 5
   _life: 0
   _kills: 0
@@ -317,7 +318,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.006, y: 0.254}
+  m_AnchoredPosition: {x: -0.006, y: 0.171}
   m_SizeDelta: {x: 57.5271, y: 13.2784}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5790344741022870277
@@ -483,7 +484,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5790344741585504799}
   m_LocalRotation: {x: -0.020868946, y: 0.0067924224, z: -0.008522743, w: 0.9997229}
-  m_LocalPosition: {x: 0.28, y: -0.062, z: 0.06}
+  m_LocalPosition: {x: 0.28, y: -0.062, z: 0}
   m_LocalScale: {x: 0.10113184, y: 0.10207639, z: 1.0039828}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -853,7 +854,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8188657036180100605}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.016, y: -0.489, z: 0}
+  m_LocalPosition: {x: 0.016, y: -0.489, z: 0.116}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -957,7 +958,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8397311579220035242}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.002, y: -0.037, z: -0.059}
+  m_LocalPosition: {x: 0.002, y: -0.104, z: 0}
   m_LocalScale: {x: 0.6, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -79,15 +79,17 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         _collider = GetComponentInChildren<Collider>();
 		_hitBoxRoot = GetComponent<HitboxRoot>();
         _deathManager = GetComponent<DeathManager>();
-        Instantiate(cursor);
+        
+        // this avoids crashing enemy.cs since enemies do not have a cursor 
+        if (cursor != null) Instantiate(cursor);
         gameManager = GameObject.FindObjectOfType<GameManager>();
-        Debug.Log("gameMANAGER is null : " + gameManager == null);
-
     }
 
     public override void Spawned()
     {
         base.Spawned();
+        // temporary fix for scoreboard; 
+        // host cant see the players names.
         if (Object.HasInputAuthority)
         {
             playerName = gameManager.getPlayerProfile().DisplayName;  
@@ -99,7 +101,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         life = MAX_HEALTH;
         state = State.Active;
         thisPlayerRef = pr;
-
+        // name is set above in the Spawned() method
         // if (name == null)
         // {
         //     playerName = "Player " + thisPlayerRef.PlayerId;
@@ -110,7 +112,8 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         kills = 0;
         deaths = 0;
     }
-
+    
+    // Currently, enemies have 0 health initially since they are not spawned in.
     public void InitEnemyState()
     {
         life = MAX_HEALTH;

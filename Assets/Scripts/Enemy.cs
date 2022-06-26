@@ -27,6 +27,11 @@ public class Enemy : NetworkBehaviour
     void Start()
     {
         enemyInput = GetComponent<Player>();
+    }
+
+    public override void Spawned()
+    {
+        base.Spawned();
         enemyInput.InitEnemyState();
     }
 
@@ -63,7 +68,7 @@ public class Enemy : NetworkBehaviour
         {
             if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= retreatDistance) {
                 controller.Move(moveDirection * -1, moveSpeed);
-            } else if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= shootingRange) {
+            } else if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= shootingRange && enemyInput.state != Player.State.Dead) {
                 enemyInput.Shoot(moveDirection);
                 float rand = Random.value;
                 // if (rand <= 0.4) { // move along x vector
