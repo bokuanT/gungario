@@ -1,0 +1,2498 @@
+fileFormatVersion: 2
+guid: 74774a04b747b9548a1af1f641002bba
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 474
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b1af309cb79f5a4ca49a60ca3f12bfe
+      internalID: -1950791465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 474
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68d8c72de4bc8a54ba0f32f40b7c593a
+      internalID: -534033377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 470
+        width: 24
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e4297f25fc65b74bb66a22c06a395de
+      internalID: 701365567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 471
+        width: 21
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 662244737fde0f94c8c9e466168cf9cf
+      internalID: -468758892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 468
+        width: 31
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3959f6bbae7d50418dff09674f13f6c
+      internalID: 64728399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 472
+        width: 35
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d775eb9ca099d524894eaf6c626b7441
+      internalID: 1498434885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 469
+        width: 33
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3afac0db7b48844fa2e45aa634016b7
+      internalID: 2145835367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 468
+        width: 33
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4014c9edb543bdf4287488759e9d45c6
+      internalID: 176603204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 462
+        width: 36
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf0cb016ea6e6b446823c0829f6b3654
+      internalID: 454764774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 449
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b813b378d91cf994da7892261a14281e
+      internalID: 1127111866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 449
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc0c84f9be8715745a0e6b0dcdb7cb03
+      internalID: 1156046549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 441
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2184ad4971f880b4b957d87fa1d8e53a
+      internalID: -1412037440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 447
+        width: 39
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5690aaff3e743048bd157a4c4eb5e2b
+      internalID: -409106828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 444
+        width: 30
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e29fb7ee5a490d140ad4e699d048f252
+      internalID: -173902458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 448
+        width: 39
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aab723b73b62ee7438dfe91eec1ac88b
+      internalID: 158732936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 443
+        width: 39
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fbe5f1cacee6964787001a39ed5398c
+      internalID: -1222017676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 445
+        width: 47
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d88a52151f6f6149a60a4d77030ef9b
+      internalID: -1389363927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 444
+        width: 36
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 640de4e30d3c6674281b636b1f660db9
+      internalID: 1959935109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 425
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a64683e3052116418acc372999878fc
+      internalID: -1038965134
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 426
+        width: 13
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba19352f200ad944b8bd09d043c09af8
+      internalID: -1131625874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 417
+        width: 24
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 995dee7e8b68a9946ae1f93a402fd909
+      internalID: -2080865417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 424
+        width: 35
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c5543cc4d5700e4a898b17d1ed20c2d
+      internalID: 1287364066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 422
+        width: 37
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fb37f9a111ddd64c898f8018f229380
+      internalID: 1830185949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 424
+        width: 39
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f68f944966cdeb4da18ee101e1c999a
+      internalID: 1213415434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 421
+        width: 41
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b3059da11d00cf4c84225e981b622c2
+      internalID: -1966435420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 419
+        width: 39
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a19884576cdd97944916a918a1bab1dd
+      internalID: 1485252554
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 419
+        width: 36
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5df91c0a349610f42a7699c881874558
+      internalID: -557736016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 401
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c346cad13dcfe34da8c275135c37a96
+      internalID: 1877252458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 402
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e68ce474d3a753445b3e10cdb369f0bd
+      internalID: 680472297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 394
+        width: 19
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 938f4a5cb11f6b240bd86e90116561ed
+      internalID: -1615047985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 401
+        width: 35
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22a888254acd45b4ebcbdee1ff345012
+      internalID: 1009668391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 398
+        width: 34
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 045528d82b1f9374098ab421415eca82
+      internalID: 344426246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 399
+        width: 45
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 718543e194100f84a9dc9661b01b1b36
+      internalID: 1246430571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 395
+        width: 41
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fabd77af0719d7e4db6c68f1e6341f38
+      internalID: -1746070484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 336
+        y: 396
+        width: 38
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6ae9f654a636b444a994325fa21dfa9f
+      internalID: 276829692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 384
+        width: 37
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9259c80b4c4c1de4ba84a206c42c329a
+      internalID: 1539328754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 375
+        width: 6
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 526ef2058a906b84fa7abcea12778b5c
+      internalID: -1605927565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 377
+        width: 11
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b3175684c97e5246888ac961750e2d8
+      internalID: 913825739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 371
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68c56e212af35414db768869ccf9e325
+      internalID: -327292799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 375
+        width: 28
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc9d74c935785044cb1c4491b7b29a3a
+      internalID: -2070881849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 372
+        width: 31
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a4a1a0585c352e4fa0317b9a4bae73b
+      internalID: -493085626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 376
+        width: 46
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47469bf8280dd5041bb8259e09280e75
+      internalID: -737127933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_42
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 369
+        width: 46
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d66c5729a77024e4f875f8b918e77b18
+      internalID: -1436925575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_43
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 360
+        width: 32
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95d54e612bfb3284ab87f9f5faff917e
+      internalID: 1741569426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_44
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 360
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdbdcc0c255b8a248a03d9cd7774e73a
+      internalID: -1376916550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 352
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34cb4d0350040164d8a4294550a4d70b
+      internalID: -1581385714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_46
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 352
+        width: 13
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c233d3a5a19944940bb6a180a05f5211
+      internalID: 12153292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_47
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 351
+        width: 31
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 119239edc5cc7664eb57f8220f04739a
+      internalID: -1319442201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_48
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 352
+        width: 37
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b83b79d5fdd3cf14ab0a1be81bd7fb5b
+      internalID: 1579975443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_49
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 347
+        width: 33
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec6220823d6e7454bbe701870458d93a
+      internalID: 191168210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_50
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 348
+        width: 39
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3705ae1b6ace214597bcdd08b314ce6
+      internalID: 1776263013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_51
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 347
+        width: 47
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea4cf0e38d4da0c4ebbd4f1f8d04105e
+      internalID: -1197972048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_52
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 327
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a430e62b063355742b2ff9bf93b095e9
+      internalID: 1488420561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_53
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 329
+        width: 14
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75592e62fcbb55643a2976883721cafe
+      internalID: -1517504520
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_54
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 324
+        width: 25
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72d7084b37070af4da9ddfa2fdc55ebc
+      internalID: 2042710366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_55
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 329
+        width: 35
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcb3b463ce19f3347a10b2d715f4d33d
+      internalID: -685706395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_56
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 319
+        width: 36
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 326fac6e78973e3459520dc8094a15ac
+      internalID: 797272641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_57
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 323
+        width: 45
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd65dce3f022c104891d90df0363f1ed
+      internalID: -1584847080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_58
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 324
+        width: 44
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3950adce70a7ee346bbf0b9ffc4de522
+      internalID: 1875920897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_59
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 297
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 140d55a252b647949980de94195ebcd7
+      internalID: 2046894604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_60
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 304
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 644262af01ade974faf5fc30284ef238
+      internalID: -1174709609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_61
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 300
+        width: 28
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 026fa6d1517ffbc4b96cae1a7d0c1ac7
+      internalID: -1391632395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_62
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 303
+        width: 29
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f50f5401a4db86b4f9fbca71c0ce1f81
+      internalID: 1693339294
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_63
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 297
+        width: 33
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff06f680fdc108d459a6f5e4f70292cd
+      internalID: -361655574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_64
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 300
+        width: 45
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c036fa3b71b06b64abbec7d6fd4696ad
+      internalID: 770019566
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_65
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 301
+        width: 45
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7d166a5bc7dd194c9d037ed7e9d71f6
+      internalID: -1918222078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_66
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 278
+        width: 4
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 075b8c7c28314fe4ea68ffcfd035895c
+      internalID: -1221724967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_67
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 280
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbee331f7b2e9864e8c9fdc41eecb5a0
+      internalID: 1108865177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_68
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 273
+        width: 27
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dccdb8ec11441794694148f42f3e336c
+      internalID: -132076220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_69
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 277
+        width: 28
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e4eac5dcd7c85946ac6a49caa526193
+      internalID: 896915842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_70
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 279
+        width: 32
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fdf6140354c4204a8e2219292309641
+      internalID: -719231192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_71
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 278
+        width: 40
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66a3882e47e9f114b9339c6ad2f48e7e
+      internalID: 899061976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_72
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 273
+        width: 38
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50cd93f1ec00d6e4dab5e2ac09953b76
+      internalID: -1467368570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_73
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 253
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23cdd8f925709c84fb22e7351279471e
+      internalID: -1168991430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_74
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 257
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 22d2d9dfee4173744b1850f08fbf0c8d
+      internalID: 468003272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_75
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 250
+        width: 28
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa2410616743ee7418f06e2954a93c74
+      internalID: -1847848124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_76
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 253
+        width: 25
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84fc4f3a2a7eb4d429354fed84d9c922
+      internalID: 1379660440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_77
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 254
+        width: 36
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 01d3237ea784cb14191b2111a33d35c9
+      internalID: 2081889069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_78
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 254
+        width: 41
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd9d013d3394413469179d570778b3c1
+      internalID: -952496370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_79
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 231
+        width: 33
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b288c6e6bd5758418c06fd43a21c608
+      internalID: -981823971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_80
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 233
+        width: 21
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3098034f42fdd0b46844bb6e6f870b5a
+      internalID: -1670469029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_81
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 231
+        width: 25
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf36643f5ca71d740908f15377eeee7f
+      internalID: -2075772202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_82
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 226
+        width: 28
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a093696e57aeaba428fb0e5b50463043
+      internalID: -857234832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_83
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 228
+        width: 38
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88c9a8ab10c3ba14991f6ace0d6566b4
+      internalID: -189345652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_84
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 225
+        width: 43
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 168a71cc80267404ab2f726a3556dbd5
+      internalID: -291955060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_85
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 204
+        width: 31
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 440b126313280ea47ad4eea4529e8eab
+      internalID: 1237054795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_86
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 207
+        width: 18
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ddeb93dd78e37241b65bc2f2160b0e9
+      internalID: 1463752773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_87
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 202
+        width: 30
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b41d850f513fdb42a2d2a8cc9692059
+      internalID: 643524772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_88
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 200
+        width: 41
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed2d6e00851799e419e1d5fdad6ce46d
+      internalID: 1292452977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_89
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 204
+        width: 35
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 055a11596d07afb47b0d951aa222c3a8
+      internalID: -1304332081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_90
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 182
+        width: 36
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a533ac8f2a7d10542a4101fbd7985667
+      internalID: -1228660265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_91
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 180
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a70eba91b25b0348b001b0bd39e1dca
+      internalID: 2053561976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_92
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 182
+        width: 28
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bdf3c063cb1dd5545883c6372626b177
+      internalID: -1538911304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_93
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 182
+        width: 38
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64c4dce9b0746474aa845fc48c897bb9
+      internalID: -802887257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_94
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 181
+        width: 33
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5aaa09ddff54ad4590c2e5f3086a06d
+      internalID: -1019858883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_95
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 163
+        width: 39
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a0dd1474b83e2a44aea9718537cb0f0
+      internalID: -878068287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_96
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 158
+        width: 30
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 937a08a650865434d809aac267e2aa92
+      internalID: 639762047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_97
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 158
+        width: 39
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b50b3d8d5c8b25247994d08d24c80552
+      internalID: 288631811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_98
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 159
+        width: 42
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d75b11e6be7e6144cb27abf68d1258ac
+      internalID: -577196442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_99
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 140
+        width: 37
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 467d59a6e504d314d822bed89b00837d
+      internalID: 745092154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_100
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 134
+        width: 45
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcb70133ce2f0734e9403a608a822312
+      internalID: 1374592561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_101
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 115
+        width: 38
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a67d9c9f1e89b0448beba27717e8afc0
+      internalID: -831385374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_102
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 110
+        width: 36
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91b2ab844ea2a03479544bd945852e07
+      internalID: -2126479578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_103
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 91
+        width: 38
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86478484820693c449d5b36be8c1a54f
+      internalID: 1396795242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_104
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 83
+        width: 29
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7c647b838deb81439361b5860e5a07c
+      internalID: 1747024912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_105
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 67
+        width: 38
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3810901d5145e8b4e9dca1abf948985c
+      internalID: -1291225189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_106
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 43
+        width: 38
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bc4a912171c8ec46857c59e99795aff
+      internalID: -517998717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TheUltimateWeaponsPack_Sheet_107
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 19
+        width: 70
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25ea8e1a52552e842833eaa4e8138ad7
+      internalID: 185781955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      TheUltimateWeaponsPack_Sheet_71: 899061976
+      TheUltimateWeaponsPack_Sheet_62: 1693339294
+      TheUltimateWeaponsPack_Sheet_105: -1291225189
+      TheUltimateWeaponsPack_Sheet_35: 1539328754
+      TheUltimateWeaponsPack_Sheet_92: -1538911304
+      TheUltimateWeaponsPack_Sheet_20: -2080865417
+      TheUltimateWeaponsPack_Sheet_70: -719231192
+      TheUltimateWeaponsPack_Sheet_91: 2053561976
+      TheUltimateWeaponsPack_Sheet_28: 680472297
+      TheUltimateWeaponsPack_Sheet_77: 2081889069
+      TheUltimateWeaponsPack_Sheet_107: 185781955
+      TheUltimateWeaponsPack_Sheet_22: 1830185949
+      TheUltimateWeaponsPack_Sheet_45: -1581385714
+      TheUltimateWeaponsPack_Sheet_69: 896915842
+      TheUltimateWeaponsPack_Sheet_18: -1038965134
+      TheUltimateWeaponsPack_Sheet_86: 1463752773
+      TheUltimateWeaponsPack_Sheet_59: 2046894604
+      TheUltimateWeaponsPack_Sheet_38: -327292799
+      TheUltimateWeaponsPack_Sheet_84: -291955060
+      TheUltimateWeaponsPack_Sheet_58: 1875920897
+      TheUltimateWeaponsPack_Sheet_66: -1221724967
+      TheUltimateWeaponsPack_Sheet_14: 158732936
+      TheUltimateWeaponsPack_Sheet_78: -952496370
+      TheUltimateWeaponsPack_Sheet_79: -981823971
+      TheUltimateWeaponsPack_Sheet_0: -1950791465
+      TheUltimateWeaponsPack_Sheet_49: 191168210
+      TheUltimateWeaponsPack_Sheet_40: -493085626
+      TheUltimateWeaponsPack_Sheet_34: 276829692
+      TheUltimateWeaponsPack_Sheet_3: -468758892
+      TheUltimateWeaponsPack_Sheet_85: 1237054795
+      TheUltimateWeaponsPack_Sheet_81: -2075772202
+      TheUltimateWeaponsPack_Sheet_61: -1391632395
+      TheUltimateWeaponsPack_Sheet_5: 1498434885
+      TheUltimateWeaponsPack_Sheet_100: 1374592561
+      TheUltimateWeaponsPack_Sheet_44: -1376916550
+      TheUltimateWeaponsPack_Sheet_24: -1966435420
+      TheUltimateWeaponsPack_Sheet_65: -1918222078
+      TheUltimateWeaponsPack_Sheet_67: 1108865177
+      TheUltimateWeaponsPack_Sheet_72: -1467368570
+      TheUltimateWeaponsPack_Sheet_2: 701365567
+      TheUltimateWeaponsPack_Sheet_74: 468003272
+      TheUltimateWeaponsPack_Sheet_89: -1304332081
+      TheUltimateWeaponsPack_Sheet_95: -878068287
+      TheUltimateWeaponsPack_Sheet_97: 288631811
+      TheUltimateWeaponsPack_Sheet_13: -173902458
+      TheUltimateWeaponsPack_Sheet_7: 176603204
+      TheUltimateWeaponsPack_Sheet_60: -1174709609
+      TheUltimateWeaponsPack_Sheet_55: -685706395
+      TheUltimateWeaponsPack_Sheet_30: 1009668391
+      TheUltimateWeaponsPack_Sheet_93: -802887257
+      TheUltimateWeaponsPack_Sheet_64: 770019566
+      TheUltimateWeaponsPack_Sheet_32: 1246430571
+      TheUltimateWeaponsPack_Sheet_9: 1127111866
+      TheUltimateWeaponsPack_Sheet_21: 1287364066
+      TheUltimateWeaponsPack_Sheet_73: -1168991430
+      TheUltimateWeaponsPack_Sheet_17: 1959935109
+      TheUltimateWeaponsPack_Sheet_68: -132076220
+      TheUltimateWeaponsPack_Sheet_46: 12153292
+      TheUltimateWeaponsPack_Sheet_56: 797272641
+      TheUltimateWeaponsPack_Sheet_101: -831385374
+      TheUltimateWeaponsPack_Sheet_43: 1741569426
+      TheUltimateWeaponsPack_Sheet_83: -189345652
+      TheUltimateWeaponsPack_Sheet_102: -2126479578
+      TheUltimateWeaponsPack_Sheet_15: -1222017676
+      TheUltimateWeaponsPack_Sheet_87: 643524772
+      TheUltimateWeaponsPack_Sheet_6: 2145835367
+      TheUltimateWeaponsPack_Sheet_96: 639762047
+      TheUltimateWeaponsPack_Sheet_39: -2070881849
+      TheUltimateWeaponsPack_Sheet_99: 745092154
+      TheUltimateWeaponsPack_Sheet_27: 1877252458
+      TheUltimateWeaponsPack_Sheet_106: -517998717
+      TheUltimateWeaponsPack_Sheet_25: 1485252554
+      TheUltimateWeaponsPack_Sheet_76: 1379660440
+      TheUltimateWeaponsPack_Sheet_1: -534033377
+      TheUltimateWeaponsPack_Sheet_10: 1156046549
+      TheUltimateWeaponsPack_Sheet_47: -1319442201
+      TheUltimateWeaponsPack_Sheet_88: 1292452977
+      TheUltimateWeaponsPack_Sheet_90: -1228660265
+      TheUltimateWeaponsPack_Sheet_16: -1389363927
+      TheUltimateWeaponsPack_Sheet_51: -1197972048
+      TheUltimateWeaponsPack_Sheet_52: 1488420561
+      TheUltimateWeaponsPack_Sheet_31: 344426246
+      TheUltimateWeaponsPack_Sheet_63: -361655574
+      TheUltimateWeaponsPack_Sheet_4: 64728399
+      TheUltimateWeaponsPack_Sheet_54: 2042710366
+      TheUltimateWeaponsPack_Sheet_94: -1019858883
+      TheUltimateWeaponsPack_Sheet_98: -577196442
+      TheUltimateWeaponsPack_Sheet_82: -857234832
+      TheUltimateWeaponsPack_Sheet_53: -1517504520
+      TheUltimateWeaponsPack_Sheet_33: -1746070484
+      TheUltimateWeaponsPack_Sheet_80: -1670469029
+      TheUltimateWeaponsPack_Sheet_29: -1615047985
+      TheUltimateWeaponsPack_Sheet_42: -1436925575
+      TheUltimateWeaponsPack_Sheet_12: -409106828
+      TheUltimateWeaponsPack_Sheet_11: -1412037440
+      TheUltimateWeaponsPack_Sheet_103: 1396795242
+      TheUltimateWeaponsPack_Sheet_104: 1747024912
+      TheUltimateWeaponsPack_Sheet_48: 1579975443
+      TheUltimateWeaponsPack_Sheet_75: -1847848124
+      TheUltimateWeaponsPack_Sheet_23: 1213415434
+      TheUltimateWeaponsPack_Sheet_57: -1584847080
+      TheUltimateWeaponsPack_Sheet_26: -557736016
+      TheUltimateWeaponsPack_Sheet_36: -1605927565
+      TheUltimateWeaponsPack_Sheet_50: 1776263013
+      TheUltimateWeaponsPack_Sheet_8: 454764774
+      TheUltimateWeaponsPack_Sheet_19: -1131625874
+      TheUltimateWeaponsPack_Sheet_41: -737127933
+      TheUltimateWeaponsPack_Sheet_37: 913825739
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
