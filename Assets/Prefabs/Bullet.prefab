@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -8845847926095506687}
   - component: {fileID: -857061316622841527}
   - component: {fileID: 3514885030307818011}
+  - component: {fileID: 4819291815951825039}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -170,6 +171,27 @@ MonoBehaviour:
     RotBlendStart: 0.1
     RotBlendEnd: 0.5
     RotTeleportRadians: 1.5
+--- !u!50 &4819291815951825039
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026664892546766046}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &1346978307686512111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -228,6 +250,10 @@ PrefabInstance:
     - target: {fileID: 503582499888140408, guid: 92c5e7e56a2316644a89db7e904ea974, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668410194631328048, guid: 92c5e7e56a2316644a89db7e904ea974, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92c5e7e56a2316644a89db7e904ea974, type: 3}
