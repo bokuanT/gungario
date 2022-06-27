@@ -110,8 +110,8 @@ MonoBehaviour:
     areaRadius: 0.25
     areaImpulse: 0
     areaDamage: 10
-    speed: 10
-    radius: 0.25
+    speed: 20
+    radius: 0
     gravity: 0
     timeToLive: 3
     timeToFade: 0.5
