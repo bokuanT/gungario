@@ -282,11 +282,13 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
         if (damage >= life)
         {
-            life = 0;
-            //scoreboard.Update_Killed_and_killer(thisPlayerRef, attacker);
-            GetKilled();
-            attackingPlayer.GetKill();
-            state = State.Dead;
+            if (state == State.Active)
+            {
+                life = 0;
+                GetKilled();
+                attackingPlayer.GetKill();
+                state = State.Dead;
+            }
         }
         
         else 
