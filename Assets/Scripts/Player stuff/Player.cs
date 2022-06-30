@@ -88,27 +88,14 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public override void Spawned()
     {
         base.Spawned();
-        // temporary fix for scoreboard; 
-        // host cant see the players names.
-        if (Object.HasInputAuthority)
-        {
-            playerName = gameManager.getPlayerProfile().DisplayName;  
-        }
     }
 
-    public void InitNetworkState(PlayerRef pr, string name)
+    public void InitNetworkState(PlayerRef pr)
     {
         life = MAX_HEALTH;
         state = State.Active;
         thisPlayerRef = pr;
-        // name is set above in the Spawned() method
-        // if (name == null)
-        // {
-        //     playerName = "Player " + thisPlayerRef.PlayerId;
-        // } else
-        // {
-        //     playerName = name;
-        // } 
+        playerName = GameLauncher.Instance.GetPlayer(pr).Name.Value;
         kills = 0;
         deaths = 0;
     }

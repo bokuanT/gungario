@@ -29,7 +29,7 @@ public class LobbyUI : MonoBehaviour
     }
 
     public void MatchmakeDeathMatch() {
-        if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
+      //  if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
         gameManager.SetScene(LevelManager.MAP1_SCENE);
         gameManager.MatchmakeDeathMatch();
         menu.IsMatchmaking(true);

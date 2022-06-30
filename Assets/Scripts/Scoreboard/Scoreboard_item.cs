@@ -19,9 +19,12 @@ public class Scoreboard_item : MonoBehaviour
     public void Initialize(NetworkRunner runner, PlayerRef playerRef)
     {        
         this.player_id = playerRef.PlayerId;
+        Debug.Log($"playerRef is {playerRef}");
+        PlayerInfo info = GameLauncher.Instance.GetPlayer(playerRef);
         player = PlayerInfoManager.Get(runner, playerRef);
         player.scoreboard_item = this;
-        string name = player.playerName;
+        string name = info.Name.Value;
+        Debug.Log($"name is {name}");
         usernameText.SetText(name, true);
 
     }

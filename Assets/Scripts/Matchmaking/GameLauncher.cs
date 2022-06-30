@@ -20,16 +20,27 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	// [SerializeField] private GameManager _gameManagerPrefab;
 
 	public static ConnectionStatus ConnectionStatus = ConnectionStatus.Disconnected;
-
+	[SerializeField] private PlayerInfo _playerInfoPrefab;
+	[SerializeField] private PlayerInfoManager _playerInfoManagerPrefab;
+	private PlayerInfoManager _playerInfoManager;
 	public NetworkObject playerPrefab;
 	private PlayerProfileModel _playerProfile { get; set; }
 	private GameMode _gameMode;
 	private NetworkRunner _runner;
 	private List<SessionInfo> _sessionList;
 	private int MAX_PLAYERS = 2;
+	private static GameLauncher _instance;
+	public static GameLauncher Instance
+    {
+        get
+        {
+			if (_instance == null) _instance = FindObjectOfType<GameLauncher>();
+			return _instance;
+		}
+    }
 
 	// initial list for spawning at the start of games
-	public static Dictionary<PlayerRef, String> SessionPlayers = new Dictionary<PlayerRef, String>();
+	private Dictionary<PlayerRef, PlayerInfo> _players = new Dictionary<PlayerRef, PlayerInfo>();
 
     // links player to their player object
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
@@ -37,6 +48,29 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	void Awake() 
 	{ 
 		_runner = GetComponent<NetworkRunner>();
+	}
+
+	public void SetPlayer(PlayerRef playerRef, PlayerInfo playerInfo)
+	{
+		_players[playerRef] = playerInfo;
+		playerInfo.transform.SetParent(_runner.transform);
+	}
+
+	public PlayerInfo GetPlayer(PlayerRef ply)
+	{
+		if (!_runner)
+		{
+			Debug.Log("Returning null");
+			return null;
+		}
+		_players.TryGetValue(ply, out PlayerInfo playerInfo);
+		return playerInfo;
+	}
+
+	public PlayerInfoManager PlayerInfoManager
+	{
+		get => _playerInfoManager;
+		set { _playerInfoManager = value; _playerInfoManager.transform.SetParent(_runner.transform); }
 	}
 
 	public Player Get(PlayerRef playerRef)
@@ -123,67 +157,27 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	public void SetSingleLobby() => _gameMode = GameMode.Single; 
 	public void SetCreateLobby() => _gameMode = GameMode.Host;
 	public void SetJoinLobby() => _gameMode = GameMode.Client;
-	private void SetConnectionStatus(ConnectionStatus status)
-	{
-		Debug.Log($"Setting connection status to {status}");
-
-		ConnectionStatus = status;
-		
-		if (!Application.isPlaying) 
-			return;
-
-		if (status == ConnectionStatus.Disconnected || status == ConnectionStatus.Failed)
-		{
-			SceneManager.LoadScene(LevelManager.MENU_SCENE);
-		}
-	}
-	public void LeaveSession()
-	{
-		if (_runner != null)
-			_runner.Shutdown();
-		else
-			SetConnectionStatus(ConnectionStatus.Disconnected);
-	}
-	public void OnConnectedToServer(NetworkRunner runner)
-	{
-		Debug.Log("Connected to server");
-		SetConnectionStatus(ConnectionStatus.Connected);
-	}
-	public void OnDisconnectedFromServer(NetworkRunner runner)
-	{
-		Debug.Log("Disconnected from server");
-		LeaveSession();
-		SetConnectionStatus(ConnectionStatus.Disconnected);
-	}
-	public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
-	{
-		if (runner.CurrentScene>0)
-		{
-			Debug.LogWarning($"Refused connection requested by {request.RemoteAddress}");
-			request.Refuse();
-		}
-		else
-			request.Accept();
-	}
-	public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
-	{
-		Debug.Log($"Connect failed {reason}");
-		LeaveSession();
-		SetConnectionStatus(ConnectionStatus.Failed);
-		(string status, string message) = ConnectFailedReasonToHuman(reason);
-		//_disconnectUI.ShowMessage(status,message);
-	}
 	public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
 	{
 		Debug.Log($"Player {player} Joined!");
-		SessionPlayers.Add(player, runner.AuthenticationValues.UserId);
+		if (_playerInfoManager == null && (_gameMode == GameMode.Host || _gameMode == GameMode.Single))
+		{
+			Debug.Log("Spawning world");
+			_playerInfoManager = runner.Spawn(_playerInfoManagerPrefab, Vector3.zero, Quaternion.identity);
+		}
+		if (runner.IsServer || runner.Topology == SimulationConfig.Topologies.Shared && player == runner.LocalPlayer)
+		{
+			Debug.Log("Spawning player");
+			runner.Spawn(_playerInfoPrefab, Vector3.zero, Quaternion.identity, player);
+		}
+
 		CheckSessions();
 		SetConnectionStatus(ConnectionStatus.Connected);
 	}
 
 	public void CheckSessions()
-	{	
-		if (SessionPlayers.Count == MAX_PLAYERS) {
+	{
+		if (_players.Count == MAX_PLAYERS) {
 			Debug.Log("LOADING DEATHMATCH");
 			LevelManager.LoadMap(LevelManager.MAP1_SCENE);
 		} else if (_gameMode == GameMode.Single){
@@ -195,13 +189,13 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 	// called by external script, once map done loading
 	public void SpawnPlayers() {
-		foreach (var player in SessionPlayers)
+		foreach (var player in _players)
 		{
-			SpawnPlayer(_runner, player.Key, player.Value);
+			SpawnPlayer(_runner, player.Key);
 		}
 	}
 
-	public void SpawnPlayer(NetworkRunner runner, PlayerRef playerRef, String displayName)
+	public void SpawnPlayer(NetworkRunner runner, PlayerRef playerRef)
 	{
 
 		// singular game manager
@@ -213,7 +207,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		{
 			Player player = networkObject.gameObject.GetComponent<Player>();
 			Debug.Log($"Initializing player {player}");
-			player.InitNetworkState(playerRef, displayName);
+			player.InitNetworkState(playerRef);
 		}
 		//_spawnedCharacters.Add(playerRef, networkPlayerObject);
         runner.SetPlayerObject(playerRef, networkPlayerObject);
@@ -276,6 +270,58 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 		_runner = null;
 	}
+
+	private void SetConnectionStatus(ConnectionStatus status)
+	{
+		Debug.Log($"Setting connection status to {status}");
+
+		ConnectionStatus = status;
+
+		if (!Application.isPlaying)
+			return;
+
+		if (status == ConnectionStatus.Disconnected || status == ConnectionStatus.Failed)
+		{
+			SceneManager.LoadScene(LevelManager.MENU_SCENE);
+		}
+	}
+	public void LeaveSession()
+	{
+		if (_runner != null)
+			_runner.Shutdown();
+		else
+			SetConnectionStatus(ConnectionStatus.Disconnected);
+	}
+	public void OnConnectedToServer(NetworkRunner runner)
+	{
+		Debug.Log("Connected to server");
+		SetConnectionStatus(ConnectionStatus.Connected);
+	}
+	public void OnDisconnectedFromServer(NetworkRunner runner)
+	{
+		Debug.Log("Disconnected from server");
+		LeaveSession();
+		SetConnectionStatus(ConnectionStatus.Disconnected);
+	}
+	public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
+	{
+		if (runner.CurrentScene > 0)
+		{
+			Debug.LogWarning($"Refused connection requested by {request.RemoteAddress}");
+			request.Refuse();
+		}
+		else
+			request.Accept();
+	}
+	public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
+	{
+		Debug.Log($"Connect failed {reason}");
+		LeaveSession();
+		SetConnectionStatus(ConnectionStatus.Failed);
+		(string status, string message) = ConnectFailedReasonToHuman(reason);
+		//_disconnectUI.ShowMessage(status,message);
+	}
+
 	public void OnInput(NetworkRunner runner, NetworkInput input) { }
 	public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
 	public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message) { }
