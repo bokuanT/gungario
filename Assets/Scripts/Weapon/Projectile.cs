@@ -9,8 +9,8 @@ public class Projectile : NetworkBehaviour
 	[SerializeField] private Transform _bulletVisualParent;
     [SerializeField] ExplosionFX _explosionFX;
 
-    [Header("Settings")] 
-    [SerializeField] private BulletSettings _bulletSettings = new BulletSettings();
+    [Header("Settings")]
+    [SerializeField] private BulletSettings _bulletSettings;
 
     [Serializable]
     public class BulletSettings 
@@ -19,12 +19,12 @@ public class Projectile : NetworkBehaviour
         public float areaRadius;
         public float areaImpulse;
         public byte areaDamage;
-        public float speed = 10f;
-        public float radius = 0.25f;
-        public float gravity = -10f;
-        public float timeToLive = 3f;
-        public float timeToFade = 0.5f;
-        public float ownerVelocityMultiplier = 1f;
+        public float speed;
+        public float radius;
+        public float gravity;
+        public float timeToLive;
+        public float timeToFade;
+        public float ownerVelocityMultiplier;
 	}
 
     [Networked]
@@ -73,7 +73,7 @@ public class Projectile : NetworkBehaviour
     {
         lifeTimer = TickTimer.CreateFromSeconds(Runner, _bulletSettings.timeToLive + _bulletSettings.timeToFade);
         fadeTimer = TickTimer.CreateFromSeconds(Runner, _bulletSettings.timeToFade);
-
+       
         destroyed = false;
         
         velocity = gun.right * _bulletSettings.speed + ownervelocity;
@@ -114,7 +114,7 @@ public class Projectile : NetworkBehaviour
 
         if (!destroyed)
         {
-            if (fadeTimer.Expired(Runner))
+            if (lifeTimer.Expired(Runner))
             {
                 Detonate(transform.position);
             }

@@ -7,9 +7,9 @@ public class NetworkWeapon : NetworkRigidbody2D
 
     [Networked]
 	public TickTimer primaryFireDelay { get; set; }
-    private const float DELAY = 0.8f;
-    
+    [SerializeField] private float DELAY = 0.8f;
 
+    [SerializeField] public int index;
     public void Fire(NetworkRunner runner, PlayerRef owner, Vector3 ownerVelocity)
     {
         if (primaryFireDelay.ExpiredOrNotRunning(Runner))
@@ -28,7 +28,8 @@ public class NetworkWeapon : NetworkRigidbody2D
         // Fusion can match it against the predicted local bullet.
         //Debug.Log("runner: " + Runner);
         var key = new NetworkObjectPredictionKey {Byte0 = (byte) owner.RawEncoded, Byte1 = (byte) runner.Simulation.Tick};
-        runner.Spawn(_projectilePrefab, exit.position, exit.rotation, owner, (runner, obj) =>
+        Vector3 spn = new Vector3(exit.position.x, exit.position.y);
+        runner.Spawn(_projectilePrefab, spn, exit.rotation, owner, (runner, obj) =>
         {
             obj.GetComponent<Projectile>().InitNetworkState(ownerVelocity, gameObject.transform);
         }, key );
@@ -38,5 +39,21 @@ public class NetworkWeapon : NetworkRigidbody2D
     private Transform GetExitPoint()
     {
         return gameObject.transform;
+    }
+
+    public override bool Equals(System.Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+
+        NetworkWeapon p = obj as NetworkWeapon;
+        if ((System.Object)p == null)
+        {
+            return false;
+        }
+
+        return this.index == p.index;
     }
 }

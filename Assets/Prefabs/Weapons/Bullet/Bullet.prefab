@@ -108,7 +108,7 @@ MonoBehaviour:
     hitMask:
       serializedVersion: 2
       m_Bits: 1
-    areaRadius: 0.25
+    areaRadius: 0.2
     areaImpulse: 0
     areaDamage: 10
     speed: 20
