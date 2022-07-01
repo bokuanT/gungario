@@ -31,8 +31,6 @@ using UnityEngine.SceneManagement;
 		
 		public static void LoadDeathmatch()
 		{
-			if (Instance.Runner == null) Debug.Log("This is the problem");
-			// Instance.Runner is null for some reason
 			Instance.Runner.SetActiveScene(MAP1_SCENE);
 		}
 
@@ -62,7 +60,7 @@ using UnityEngine.SceneManagement;
 			{
 				if (Runner.GameMode == GameMode.Host || Runner.GameMode == GameMode.Single)
 				{
-					gameLauncher.SpawnPlayers();
+					GameLauncher.Instance.SpawnPlayers();
 				}
 			}
 
@@ -71,8 +69,8 @@ using UnityEngine.SceneManagement;
 
 		private void PreLoadScene(int scene)
 		{
-            // preload things
-            // fading in etc
+			// preload things
+			// fading in etc
 		}
 	
 		private void PostLoadScene()

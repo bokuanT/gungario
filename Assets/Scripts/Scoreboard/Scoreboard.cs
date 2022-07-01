@@ -36,8 +36,15 @@ public class Scoreboard : NetworkBehaviour
         
         foreach (PlayerRef pr in playerList)
         {
-            if (!hashSet.Contains(pr.PlayerId)) 
+            // dont load until name is set
+            string name = GameLauncher.Instance.GetPlayerInfo(pr).Name.Value;
+            if (!hashSet.Contains(pr.PlayerId) && name != "") 
             {
+                // set name in Player script
+                NetworkObject obj = Runner.GetPlayerObject(pr);
+                Player player = obj.gameObject.GetComponent<Player>();
+                player.playerName = name;
+
                 Debug.Log("creating item for " + pr);
                 hashSet.Add(pr.PlayerId);
                 Scoreboard_item item = CreateScoreboardItem(pr);

@@ -29,7 +29,6 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public Scoreboard_item scoreboard_item;
     private GameObject scoreboardItemManager;
     public GameObject cursor;
-    private GameManager gameManager;
 
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
@@ -82,7 +81,6 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         
         // this avoids crashing enemy.cs since enemies do not have a cursor 
         if (cursor != null) Instantiate(cursor);
-        gameManager = GameObject.FindObjectOfType<GameManager>();
     }
 
     public override void Spawned()
@@ -95,7 +93,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         life = MAX_HEALTH;
         state = State.Active;
         thisPlayerRef = pr;
-        playerName = GameLauncher.Instance.GetPlayer(pr).Name.Value;
+        // playerName = name;
         kills = 0;
         deaths = 0;
     }

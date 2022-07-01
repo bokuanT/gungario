@@ -1,5 +1,6 @@
 using Fusion;
 using PlayFab.ClientModels;
+using UnityEngine;
 
 /// <summary>
 /// Player is a network object that represents a players core data. One instance is spawned
@@ -15,12 +16,14 @@ public class PlayerInfo : NetworkBehaviour
 
 	public override void Spawned()
 	{
-		if (Object.InputAuthority)
+		base.Spawned();
+		GameLauncher.Instance.SetPlayerInfo(Object.InputAuthority, this);
+		if (Object.HasInputAuthority)
         {
+			// if the peer's object spawns on the peer's client, set the name  
 			PlayerProfileModel profile = GameManager.Instance.GetPlayerProfile();
 			Name = profile.DisplayName;
-			GameLauncher.Instance.SetPlayer(Object.InputAuthority, this);
-			// RPC_SetName(profile.DisplayName);
+			RPC_SetName(Name);
 		}
 	}
 
