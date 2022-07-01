@@ -555,6 +555,87 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1001 &1381165001
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4505715841038232512, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: m_Name
+      value: WeaponSpawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232518, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232518, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.9568663
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232518, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.095918894
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232518, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232518, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232518, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232518, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232518, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232518, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232518, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232518, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232519, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: Flags
+      value: 2561
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232519, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
+      value: -8698636318020847112
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841038232519, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
+      value: -5403049715604714567
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841392749724, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: Flags
+      value: 2561
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841392749724, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
+      value: 5927348958810838620
+      objectReference: {fileID: 0}
+    - target: {fileID: 4505715841392749724, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
+      propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
+      value: -744078269925444961
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 40603d36ba05bef4bb1f8a3dcf8631da, type: 3}
 --- !u!114 &1689770328 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4063216930303313673, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
@@ -636,5 +717,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

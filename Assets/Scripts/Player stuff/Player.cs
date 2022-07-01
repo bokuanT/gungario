@@ -11,17 +11,19 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     [SerializeField] private SpriteRenderer weaponSprite;
 
     [SerializeField] private const float RESPAWN_TIME = 3f;
+    [SerializeField] private float _pickupRadius;
+    [SerializeField] private LayerMask _pickupMask;
 
     [Networked(OnChanged = nameof(OnStateChanged))]
 	public State state { get; set; }
 
-    private NetworkWeapon networkWeapon;
+    private WeaponManager weaponManager;
     private Collider _collider;
 	private HitboxRoot _hitBoxRoot;
     public Animator animator;
     public Transform player;
-    public Transform gun;
-    public Transform firePoint;
+    private Transform gun;
+    private Transform firePoint;
     private Vector2 mouseDirection;
     private Vector2 lookDir;
     private DeathManager _deathManager;
@@ -29,6 +31,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public Scoreboard_item scoreboard_item;
     private GameObject scoreboardItemManager;
     public GameObject cursor;
+    private Collider[] _overlaps = new Collider[1];
 
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
@@ -74,7 +77,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
     void Awake()
     {
-        networkWeapon = GetComponentInChildren<NetworkWeapon>();
+        weaponManager = GetComponentInChildren<WeaponManager>();
         _collider = GetComponentInChildren<Collider>();
 		_hitBoxRoot = GetComponent<HitboxRoot>();
         _deathManager = GetComponent<DeathManager>();
@@ -86,6 +89,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public override void Spawned()
     {
         base.Spawned();
+        weaponManager.InitNetworkState();
     }
 
     public void InitNetworkState(PlayerRef pr)
@@ -96,6 +100,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         // playerName = name;
         kills = 0;
         deaths = 0;
+        
     }
     
     // Currently, enemies have 0 health initially since they are not spawned in.
@@ -103,13 +108,14 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     {
         life = MAX_HEALTH;
         state = State.Active;
+        weaponManager.InitNetworkState();
     }
 
     public override void FixedUpdateNetwork()
     {
         // if (Object.HasStateAuthority)
         // {
-            if (state == State.Dead)
+        if (state == State.Dead)
             { 
                 /*
                 if (respawnTimer.IsRunning)
@@ -127,7 +133,11 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
                 }
             }
+
         //}
+
+        CheckForWeaponPickup();
+
     }
 
     /// <summary>
@@ -140,7 +150,11 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     /// </summary>
     public override void Render()
     {
-        SetDirections();
+        if (gun != null && firePoint != null)
+            SetDirections();
+
+        if (state == State.Active)
+            weaponManager.ShowCorrectWeapon();
         //_collider.enabled = state != State.Dead;
 		_hitBoxRoot.enabled = state == State.Active;
     }
@@ -242,7 +256,8 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public virtual void Shoot(Vector2 mvDir)
     {
         var deltaTime = Runner.DeltaTime;
-        networkWeapon.Fire(Runner, Object.InputAuthority, mvDir * moveSpeed * deltaTime);
+        if (weaponManager != null)
+            weaponManager.Fire(Runner, Object.InputAuthority, mvDir * moveSpeed * deltaTime);
     } 
 
     //Apply impulse for future updates- visual feedback from taking dmg by moving
@@ -292,7 +307,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     {
         Transform[] visuals = new Transform[3];
         visuals[0] = transform.Find("HealthUI");
-        visuals[1] = transform.Find("GunVisual");
+        visuals[1] = weaponManager.GetActiveWeapon().transform.parent;
         visuals[2] = transform.Find("InterpolationRoot");
         
         foreach (Transform visual in visuals)
@@ -346,4 +361,36 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         cc.TeleportToPosition(spawnPoint);
         life = MAX_HEALTH;
     }
+
+    public void Pickup(WeaponSpawnScript wepSpawner)
+    {
+        if (!wepSpawner)
+            return;
+        NetworkRunner runner = Runner;
+        NetworkWeapon pickedUp = wepSpawner.Pickup();
+
+        if (pickedUp == null)
+            return;
+
+        weaponManager.SetActiveWeapon(pickedUp, false);
+
+    }
+
+    private void CheckForWeaponPickup()
+    {
+        PhysicsScene scene = Runner.GetPhysicsScene();
+        int overlaps = scene.OverlapSphere(transform.position, _pickupRadius, _overlaps, _pickupMask, QueryTriggerInteraction.Collide);
+        if (state == State.Active && overlaps > 0)
+        {
+            Pickup(_overlaps[0].GetComponentInChildren<WeaponSpawnScript>());
+        }
+    }
+
+    public void SetGunTransforms(NetworkWeapon wep)
+    {
+        gun = wep.transform.parent;
+        firePoint = wep.transform;
+    }
+
+     
 }
