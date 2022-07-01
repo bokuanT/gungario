@@ -17,6 +17,11 @@ public class WeaponSpawnScript : NetworkBehaviour
 
     public GameObject AvailableIcon;
 
+    public override void Spawned()
+    {
+        base.Spawned();
+        respawnDelay = TickTimer.None;
+    }
     public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();

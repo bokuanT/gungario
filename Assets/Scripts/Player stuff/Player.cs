@@ -95,9 +95,10 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         // host cant see the players names.
         if (Object.HasInputAuthority)
         {
-            playerName = gameManager.getPlayerProfile().DisplayName;  
+            playerName = gameManager.getPlayerProfile().DisplayName;
+            
         }
-
+        weaponManager.InitNetworkState();
 
     }
 
@@ -116,6 +117,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         // } 
         kills = 0;
         deaths = 0;
+        
     }
     
     // Currently, enemies have 0 health initially since they are not spawned in.
@@ -123,6 +125,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     {
         life = MAX_HEALTH;
         state = State.Active;
+        weaponManager.InitNetworkState();
     }
 
     public override void FixedUpdateNetwork()
@@ -151,7 +154,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         //}
 
         CheckForWeaponPickup();
-        
+
     }
 
     /// <summary>
@@ -166,6 +169,9 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     {
         if (gun != null && firePoint != null)
             SetDirections();
+
+        if (state == State.Active)
+            weaponManager.ShowCorrectWeapon();
         //_collider.enabled = state != State.Dead;
 		_hitBoxRoot.enabled = state == State.Active;
     }
@@ -377,13 +383,13 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     {
         if (!wepSpawner)
             return;
-
+        NetworkRunner runner = Runner;
         NetworkWeapon pickedUp = wepSpawner.Pickup();
 
         if (pickedUp == null)
             return;
 
-        weaponManager.SetActiveWeapon(pickedUp);
+        weaponManager.SetActiveWeapon(pickedUp, false);
 
     }
 
@@ -402,4 +408,6 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         gun = wep.transform.parent;
         firePoint = wep.transform;
     }
+
+     
 }

@@ -7,36 +7,80 @@ public class WeaponManager : NetworkBehaviour
     [SerializeField] private Player _player;
     
     [Networked]
-    private NetworkWeapon activeWeapon { get; set; }
+    public NetworkWeapon activeWeapon { get; set; }
 
-    public override void Spawned()
+    public void InitNetworkState()
     {
-        SetActiveWeapon(_weapons[0]);
+        
+        SetActiveWeapon(_weapons[0], true);
         activeWeapon = _weapons[0];
+        
     }
 
-    public void SetActiveWeapon(NetworkWeapon weapon)
+    //public void Awake()
+    //{
+    //    SetActiveWeapon(_weapons[0], true);
+    //    activeWeapon = _weapons[0];
+    //}
+
+    public void ShowCorrectWeapon()
     {
+        if (activeWeapon != null)
+        {
+            //check active weps
+            int count = 0;
+            foreach (NetworkWeapon w in _weapons)
+            {
+                if (w.gameObject.active)
+                    count += 1;
+            }
+            if (count > 1)
+            {
+                foreach (NetworkWeapon w in _weapons)
+                {
+                    w.gameObject.transform.parent.gameObject.SetActive(false);
+                }
+            }
+            activeWeapon.gameObject.transform.parent.gameObject.SetActive(true);
+            _player.SetGunTransforms(activeWeapon);
+        }
+    }
+
+
+    public void SetActiveWeapon(NetworkWeapon weapon, bool init)
+    {
+
         foreach (NetworkWeapon w in _weapons)
         {
             w.gameObject.transform.parent.gameObject.SetActive(false);
+        }
 
+        foreach (NetworkWeapon w in _weapons)
+        {
             if (w.Equals(weapon))
             {
-                if (!w.Equals(activeWeapon))
+                if (init || !w.Equals(activeWeapon))
                 {
                     w.gameObject.transform.parent.gameObject.SetActive(true);
                     activeWeapon = w;
                     _player.SetGunTransforms(w);
+                    break;
                 } else //always gets different weapon
                 {
                     if (activeWeapon.index + 1 < _weapons.Length)
                     {
-                        SetActiveWeapon(_weapons[activeWeapon.index + 1]);
+                        NetworkWeapon weaponTMP = _weapons[activeWeapon.index + 1];
+                        weaponTMP.gameObject.transform.parent.gameObject.SetActive(true);
+                        activeWeapon = weaponTMP;
+                        _player.SetGunTransforms(weaponTMP);
                         break;
+                        
                     } else
                     {
-                        SetActiveWeapon(_weapons[activeWeapon.index - 1]);
+                        NetworkWeapon weaponTMP = _weapons[activeWeapon.index - 1];
+                        weaponTMP.gameObject.transform.parent.gameObject.SetActive(true);
+                        activeWeapon = weaponTMP;
+                        _player.SetGunTransforms(weaponTMP);
                         break;
                     }
                 }
