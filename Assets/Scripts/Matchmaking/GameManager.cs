@@ -12,11 +12,22 @@ public class GameManager : NetworkBehaviour
     private GameLauncher _gameLauncher;
     private PlayerProfileModel playerProfile;
     private int activeScene;
-
+    public static GameManager _instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (_instance == null) _instance = FindObjectOfType<GameManager>();
+            return _instance;
+        }
+    }
 
     void Awake() 
     {
+        if (_instance == null) _instance = this;
+        if (_instance != this) Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
+
 
 		GameObject go = Instantiate(networkRunnerPrefab);
 		DontDestroyOnLoad(go);
@@ -60,7 +71,7 @@ public class GameManager : NetworkBehaviour
         runner.AuthenticationValues.UserId = ppm.DisplayName;
     }
 
-    public PlayerProfileModel getPlayerProfile()
+    public PlayerProfileModel GetPlayerProfile()
     {
         return playerProfile;
     }

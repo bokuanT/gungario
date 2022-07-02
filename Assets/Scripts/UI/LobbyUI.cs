@@ -29,7 +29,7 @@ public class LobbyUI : MonoBehaviour
     }
 
     public void MatchmakeDeathMatch() {
-        if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
+      //  if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
         gameManager.SetScene(LevelManager.MAP1_SCENE);
         gameManager.MatchmakeDeathMatch();
         menu.IsMatchmaking(true);
@@ -59,7 +59,8 @@ public class LobbyUI : MonoBehaviour
             }
         },
         result => {
-            if (result.PlayerProfile.DisplayName == null || result.PlayerProfile.DisplayName == "") result.PlayerProfile.DisplayName = "null";
+            // So won't be null on login
+            if (result.PlayerProfile.DisplayName == null || result.PlayerProfile.DisplayName == "") result.PlayerProfile.DisplayName = "Player";
             Debug.Log("Retrieved DisplayName. The player's DisplayName profile data is: " + result.PlayerProfile.DisplayName);
             gameManager.SetPlayerProfile(result.PlayerProfile);
             PlayerName.SetText("Welcome back, " + result.PlayerProfile.DisplayName + "!");

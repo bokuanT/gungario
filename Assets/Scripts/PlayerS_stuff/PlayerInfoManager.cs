@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerInfoManager : MonoBehaviour
 {
+
     //For Player::ApplyDamage
     public static Player Get(NetworkRunner runner, PlayerRef playerRef)
     {
@@ -14,11 +15,6 @@ public class PlayerInfoManager : MonoBehaviour
         {
             //Debug.Log("networkrunner: " + r.ActivePlayers);
             GameObject gameobj = r.gameObject;
-/*            if (gameobj.TryGetComponent(out Spawner spwn))
-            {
-
-                return spwn.Get(playerRef);
-            }*/
             if (gameobj.TryGetComponent(out GameLauncher launcher))
             {
 

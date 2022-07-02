@@ -31,7 +31,6 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public Scoreboard_item scoreboard_item;
     private GameObject scoreboardItemManager;
     public GameObject cursor;
-    private GameManager gameManager;
     private Collider[] _overlaps = new Collider[1];
 
     // Temporary variable to move shooting here
@@ -85,36 +84,20 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         
         // this avoids crashing enemy.cs since enemies do not have a cursor 
         if (cursor != null) Instantiate(cursor);
-        gameManager = GameObject.FindObjectOfType<GameManager>();
     }
 
     public override void Spawned()
     {
         base.Spawned();
-        // temporary fix for scoreboard; 
-        // host cant see the players names.
-        if (Object.HasInputAuthority)
-        {
-            playerName = gameManager.getPlayerProfile().DisplayName;
-            
-        }
         weaponManager.InitNetworkState();
-
     }
 
-    public void InitNetworkState(PlayerRef pr, string name)
+    public void InitNetworkState(PlayerRef pr)
     {
         life = MAX_HEALTH;
         state = State.Active;
         thisPlayerRef = pr;
-        // name is set above in the Spawned() method
-        // if (name == null)
-        // {
-        //     playerName = "Player " + thisPlayerRef.PlayerId;
-        // } else
-        // {
-        //     playerName = name;
-        // } 
+        // playerName = name;
         kills = 0;
         deaths = 0;
         

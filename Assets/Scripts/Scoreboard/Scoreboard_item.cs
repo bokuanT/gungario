@@ -22,6 +22,7 @@ public class Scoreboard_item : MonoBehaviour
         player = PlayerInfoManager.Get(runner, playerRef);
         player.scoreboard_item = this;
         string name = player.playerName;
+        Debug.Log($"name is {name}");
         usernameText.SetText(name, true);
 
     }
