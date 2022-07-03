@@ -9,52 +9,28 @@ public class MenuUI : MonoBehaviour
     public MatchmakingUI matchmakingUI;
     public LobbyManager lobbyManager;
     public PlayFabAuthenticator authenticator;
-    private bool menuScene = false;
-    private bool APICall = false;
-    private bool matchmaking = false;
 
-    void Awake()
+    private static MenuUI _instance;
+    public static MenuUI Instance
     {
-        // this results in nullreference
-        //LoginUI loginUI = GetComponentInChildren<LoginUI>();
-        //LobbyUI lobbyUI = GetComponentInChildren<LobbyUI>();
-        //MatchmakingUI matchmakingUI = GetComponentInChildren<MatchmakingUI>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {   
-        if (matchmaking)
+        get
         {
-            matchmakingUI.gameObject.SetActive(true);
-            loginUI.gameObject.SetActive(false);
-            lobbyUI.gameObject.SetActive(false);
-        } 
-        else if (authenticator.isAuthenticated() && lobbyManager.inLobby()) 
-        {
-            if (!APICall)
-            {
-                lobbyUI.GetPlayerName(authenticator.getPlayFabID());
-                lobbyUI.gameObject.SetActive(true);
-                APICall = true;
-                return;
-            }
-            if (!menuScene)
-            { 
-                loginUI.gameObject.SetActive(false);
-                menuScene = true;
-            }
+            if (_instance == null) _instance = FindObjectOfType<MenuUI>();
+            return _instance;
         }
     }
 
-    public void IsMatchmaking(bool val)
+    public void OnMatchmake()
     {
-        matchmaking = val;
+        matchmakingUI.gameObject.SetActive(true);
+        loginUI.gameObject.SetActive(false);
+        lobbyUI.gameObject.SetActive(false);
+    }
+    
+    public void OnJoinLobby()
+    {
+        lobbyUI.GetPlayerName(authenticator.getPlayFabID());
+        loginUI.gameObject.SetActive(false);
+        lobbyUI.gameObject.SetActive(true);
     }
 }

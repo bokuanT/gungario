@@ -32,7 +32,7 @@ public class LobbyUI : MonoBehaviour
       //  if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
         gameManager.SetScene(LevelManager.MAP1_SCENE);
         gameManager.MatchmakeDeathMatch();
-        menu.IsMatchmaking(true);
+        MenuUI.Instance.OnMatchmake();
     }
 
     // Temporary method to demonstrate persistent data being stored in player profile
