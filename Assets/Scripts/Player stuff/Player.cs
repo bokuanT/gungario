@@ -41,6 +41,9 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     private Direction direction { get; set; }
 
     [Networked(OnChanged = nameof(OnStateChanged))]
+    public float gunDirection { get; set; }
+
+    [Networked(OnChanged = nameof(OnStateChanged))]
 	public byte life { get; set; }
 
     [Networked]
@@ -102,8 +105,10 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         deaths = 0;
         
     }
-    
-    // Currently, enemies have 0 health initially since they are not spawned in.
+
+    // =========================== BUG ============================ 
+    // Currently, enemies have are not spawned in when round starts,
+    // meaning that damage taken pre-round is kept when round start
     public void InitEnemyState()
     {
         life = MAX_HEALTH;
@@ -162,22 +167,23 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public virtual void setMouse(Vector2 mouseDirection) 
     {
         this.mouseDirection = mouseDirection;
+        lookDir.x = mouseDirection.x - player.position.x;
+        lookDir.y = mouseDirection.y - player.position.y;
+        
+        // set networked variable 
+        gunDirection = Vector2.SignedAngle(Vector2.up, lookDir) * Mathf.Deg2Rad * -1;
     }
 
     private void SetDirections()
     {
-        lookDir.x = mouseDirection.x - player.position.x;
-        lookDir.y = mouseDirection.y - player.position.y;
 
-        // Gun direction
-        // Current Issue :
-        // In multiplayer, other players' guns keep pointing towards origin
-        // I believe this is because lookDir is deafult to (0,0) for other players
+        // locally, set your own weapon
         gun.right = Vector2.Lerp(gun.right, new Vector2(lookDir.x, lookDir.y), Runner.DeltaTime * 5f);
         firePoint.right = Vector2.Lerp(firePoint.right, new Vector2(lookDir.x, lookDir.y), Runner.DeltaTime * 5f);
         firePoint.position = gun.position;
 
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
+        
         //left is 180/-180, right is 0. top is 90, bottom is -90
         //return values: up is 0, right is 1, down is 2, left is 3
         if (angle >= 45f && angle < 135f) {
@@ -198,29 +204,38 @@ public class Player : NetworkBehaviour, ICanTakeDamage
             changed.Behaviour.setState();
     }
 
+    // controls player and gun sprite direction
     private void setAnimation() {
-        // player and gun sprite direction
+ 
+        // update remote players that you dont have authority for with their networked variable
+        if (!Object.HasInputAuthority)
+        {
+            gun.right = Vector2.Lerp(gun.right, new Vector2(Mathf.Sin(gunDirection), Mathf.Cos(gunDirection)), Runner.DeltaTime * 5f);
+            firePoint.right = Vector2.Lerp(firePoint.right, new Vector2(Mathf.Sin(gunDirection), Mathf.Cos(gunDirection)), Runner.DeltaTime * 5f);
+        }
+
+
         switch (direction)
-			{
-				case Direction.UP:
-                    animator.SetFloat("Speed", 0);
-                    sprite.flipX = false;
-                    break;
-				case Direction.RIGHT:
-                    animator.SetFloat("Speed", 1);
-                    sprite.flipX = false;
-                    weaponSprite.flipY = false;
-					break;
-				case Direction.DOWN:
-                    animator.SetFloat("Speed", 0);
-                    sprite.flipX = true;
-					break;
-				case Direction.LEFT:
-                    animator.SetFloat("Speed", 1);
-                    sprite.flipX = true;
-                    weaponSprite.flipY = true;
-					break;
-			}
+		{
+		    case Direction.UP:
+                animator.SetFloat("Speed", 0);
+                sprite.flipX = false;
+                break;
+			case Direction.RIGHT:
+                animator.SetFloat("Speed", 1);
+                sprite.flipX = false;
+                weaponSprite.flipY = false;
+				break;
+			case Direction.DOWN:
+                animator.SetFloat("Speed", 0);
+                sprite.flipX = true;
+				break;
+			case Direction.LEFT:
+                animator.SetFloat("Speed", 1);
+                sprite.flipX = true;
+                weaponSprite.flipY = true;
+				break;
+		}
   
     }
 
