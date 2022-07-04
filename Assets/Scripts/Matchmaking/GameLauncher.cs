@@ -85,6 +85,13 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		//}
 		//return obj.gameObject.GetComponent<Player>();
 		NetworkObject obj = _runner.GetPlayerObject(playerRef);
+		
+		// enemy attacker case
+		if (obj == null)
+        {
+			return null;
+        }
+
 		Player player = obj.gameObject.GetComponent<Player>();
 		return player;
 	}

@@ -301,7 +301,10 @@ public class Player : NetworkBehaviour, ICanTakeDamage
             {
                 life = 0;
                 GetKilled();
-                attackingPlayer.GetKill();
+                
+                // enemy attacker case
+                if (attackingPlayer != null) attackingPlayer.GetKill();
+
                 state = State.Dead;
             }
         }

@@ -14,7 +14,7 @@ public class Radar : MonoBehaviour
         // DOESNT WORK, STILL TARGETS ENEMIES
         if (col.name == "PlayerDetectionRadius") 
         {
-            enemy.setTarget(col.gameObject);
+            enemy.SetTarget(col.gameObject);
         }
     }
 }

@@ -15,6 +15,7 @@ public class Enemy : NetworkBehaviour
     Transform targetLocation;
     Player enemyInput;
     public Transform enemyTransform;
+    Player target;
     Vector2 aimDirection;
     Vector2 moveDirection;
     public NetworkCharacterControllerPrototypeCustom controller;
@@ -23,6 +24,9 @@ public class Enemy : NetworkBehaviour
     float shootingRange = 4.5f;
     float chasingRange = 10f;
     bool isChasing = false;
+    private float rand1;
+    private float rand2;
+    private float rand3;
 
     void Start()
     {
@@ -40,7 +44,7 @@ public class Enemy : NetworkBehaviour
     {
         if (targetLocation != null && enemyTransform != null) { // target exists
             // sets Mouse location
-            setDirection(targetLocation);
+            SetDirection(targetLocation);
             
             // stops chasing the target if exits range 
             if (Vector2.Distance(enemyTransform.position, targetLocation.position) > chasingRange) 
@@ -48,6 +52,7 @@ public class Enemy : NetworkBehaviour
                 Debug.Log("Target Lost");
                 targetLocation = null;
                 // enemyRb.velocity = moveDirection * 0;
+                target = null;
                 isChasing = false;
             }    
         }
@@ -55,6 +60,17 @@ public class Enemy : NetworkBehaviour
 
   public override void FixedUpdateNetwork() 
     {
+        // reset target if target exists, once target dies
+        // OR this enemy is dead, reset everything
+        if ((target != null && target.state == Player.State.Dead) || enemyInput.state == Player.State.Dead)
+        {
+            targetLocation = null;
+            target = null;
+            isChasing = false;
+        }
+
+        if (target != null) Debug.Log(target);
+
         moveDirection.x = aimDirection.x - enemyTransform.position.x;
         moveDirection.y = aimDirection.y - enemyTransform.position.y;
         
@@ -70,7 +86,7 @@ public class Enemy : NetworkBehaviour
                 controller.Move(moveDirection * -1, moveSpeed);
             } else if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= shootingRange && enemyInput.state != Player.State.Dead) {
                 enemyInput.Shoot(moveDirection);
-                float rand = Random.value;
+
                 // if (rand <= 0.4) { // move along x vector
                 //     controller.Move(new Vector2(moveDirection.x, 0), moveSpeed);
                 // } else if (rand >= 0.6) { // move along y vector
@@ -85,29 +101,50 @@ public class Enemy : NetworkBehaviour
     }
 
     // Aims at target, uses Player.cs to set mouse and facing direction
-    private void setDirection(Transform target)
+    private void SetDirection(Transform target)
     {
-        aimDirection = targetLocation.position;
+        rand1 = Random.value;
+        
+        // 40% chance for enemy to misfire
+        if (rand1 <= 0.4)
+        {
+            aimDirection = LousyShooting(targetLocation.position);
+        } else
+        {
+            aimDirection = targetLocation.position;
+        }
+
         enemyInput.setMouse(aimDirection);
     }
 
-    public void setTarget(GameObject target) 
+    public void SetTarget(GameObject target) 
     {
         if (targetLocation == null) {
             Debug.Log("Target Set");
             targetLocation = target.transform;
+            this.target = target.GetComponent<Player>();
             isChasing = true;
         }
     }
 
-    void OnTriggerStay2D(Collider2D col)
+    // Adding a chance to miss to enemyAI
+    public Vector2 LousyShooting(Vector2 dir)
     {
-        // ============= TO IMPLEMENT =============
-        // No targetting of each other
-        // =======================================
-        // Debug.Log("Enemy has sensed " + col.name);
-        setTarget(col.gameObject);
-        
+        // constant for sufficient displacement in world
+        rand1 = Random.value;
+        rand2 = Random.value;
+
+        // random displacement
+        rand3 = Random.value;
+        if (rand3 > 0.5)
+        {
+            rand1 *= -1;
+        } 
+
+        dir.x += rand1 * 4;
+        dir.y += rand2 * 4;
+
+        return dir;
     }
 
     // Enemy tier 1 characteristics:
