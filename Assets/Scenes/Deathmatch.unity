@@ -220,7 +220,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2391612223824730326, guid: fb686ba7b22f14b4db8e57eebac0bb6c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.872506
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2391612223824730326, guid: fb686ba7b22f14b4db8e57eebac0bb6c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -250,6 +250,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3722969863417188086, guid: fb686ba7b22f14b4db8e57eebac0bb6c, type: 3}
+      propertyPath: Flags
+      value: 2561
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722969863417188086, guid: fb686ba7b22f14b4db8e57eebac0bb6c, type: 3}
+      propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
+      value: -8556815308738961948
+      objectReference: {fileID: 0}
+    - target: {fileID: 3722969863417188086, guid: fb686ba7b22f14b4db8e57eebac0bb6c, type: 3}
+      propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
+      value: 342291007927536019
+      objectReference: {fileID: 0}
     - target: {fileID: 4364872899819747528, guid: fb686ba7b22f14b4db8e57eebac0bb6c, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -257,6 +269,18 @@ PrefabInstance:
     - target: {fileID: 4364872899819747528, guid: fb686ba7b22f14b4db8e57eebac0bb6c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7366519476220411762, guid: fb686ba7b22f14b4db8e57eebac0bb6c, type: 3}
+      propertyPath: Flags
+      value: 2561
+      objectReference: {fileID: 0}
+    - target: {fileID: 7366519476220411762, guid: fb686ba7b22f14b4db8e57eebac0bb6c, type: 3}
+      propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
+      value: -2285091242875051866
+      objectReference: {fileID: 0}
+    - target: {fileID: 7366519476220411762, guid: fb686ba7b22f14b4db8e57eebac0bb6c, type: 3}
+      propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
+      value: -2543197696997265533
       objectReference: {fileID: 0}
     - target: {fileID: 8970088115988793961, guid: fb686ba7b22f14b4db8e57eebac0bb6c, type: 3}
       propertyPath: m_Name
@@ -886,5 +910,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

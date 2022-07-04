@@ -318,11 +318,14 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   _state: 0
+  _team: 0
   animator: {fileID: 685858889220421083}
   player: {fileID: 6069591925033917872}
   scoreboard_item: {fileID: 0}
   cursor: {fileID: 0}
+  collider: {fileID: 1765118985526830580}
   moveSpeed: 5
+  _gunDirection: 0
   _life: 0
   _kills: 0
   _deaths: 0
@@ -410,6 +413,7 @@ MonoBehaviour:
   - {fileID: 4679725857193898635}
   - {fileID: 5324708198118651891}
   _player: {fileID: 3062497025097380588}
+  _activeWeapon: {fileID: 0}
 --- !u!114 &503817256652951964
 MonoBehaviour:
   m_ObjectHideFlags: 0

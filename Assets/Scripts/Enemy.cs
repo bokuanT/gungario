@@ -38,48 +38,60 @@ public class Enemy : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (targetLocation != null && enemyTransform != null) { // target exists
-            // sets Mouse location
-            setDirection(targetLocation);
-            
-            // stops chasing the target if exits range 
-            if (Vector2.Distance(enemyTransform.position, targetLocation.position) > chasingRange) 
-            {
-                Debug.Log("Target Lost");
-                targetLocation = null;
-                // enemyRb.velocity = moveDirection * 0;
-                isChasing = false;
-            }    
+        if (enemyInput.state == Player.State.Active)
+        {
+            if (targetLocation != null && enemyTransform != null)
+            { // target exists
+              // sets Mouse location
+                setDirection(targetLocation);
+
+                // stops chasing the target if exits range 
+                if (Vector2.Distance(enemyTransform.position, targetLocation.position) > chasingRange)
+                {
+                    Debug.Log("Target Lost");
+                    targetLocation = null;
+                    // enemyRb.velocity = moveDirection * 0;
+                    isChasing = false;
+                }
+            }
         }
     }
 
   public override void FixedUpdateNetwork() 
     {
-        moveDirection.x = aimDirection.x - enemyTransform.position.x;
-        moveDirection.y = aimDirection.y - enemyTransform.position.y;
-        
-        // ============= ISSUE =============
-        // Shooting is fked up here
-        // =================================
-        moveDirection.Normalize();
-
-        // shoot if player within range
-        if (isChasing == true)
+        if (enemyInput.state == Player.State.Active)
         {
-            if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= retreatDistance) {
-                controller.Move(moveDirection * -1, moveSpeed);
-            } else if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= shootingRange && enemyInput.state != Player.State.Dead) {
-                enemyInput.Shoot(moveDirection);
-                float rand = Random.value;
-                // if (rand <= 0.4) { // move along x vector
-                //     controller.Move(new Vector2(moveDirection.x, 0), moveSpeed);
-                // } else if (rand >= 0.6) { // move along y vector
-                //     controller.Move(new Vector2(0, moveDirection.x), moveSpeed);
-                // } else {
-                //     // Stay
-                // }
-            } else {
-                controller.Move(moveDirection, moveSpeed);
+            moveDirection.x = aimDirection.x - enemyTransform.position.x;
+            moveDirection.y = aimDirection.y - enemyTransform.position.y;
+
+            // ============= ISSUE =============
+            // Shooting is fked up here
+            // =================================
+            moveDirection.Normalize();
+
+            // shoot if player within range
+            if (isChasing == true)
+            {
+                if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= retreatDistance)
+                {
+                    controller.Move(moveDirection * -1, moveSpeed);
+                }
+                else if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= shootingRange && enemyInput.state != Player.State.Dead)
+                {
+                    enemyInput.Shoot(moveDirection);
+                    float rand = Random.value;
+                    // if (rand <= 0.4) { // move along x vector
+                    //     controller.Move(new Vector2(moveDirection.x, 0), moveSpeed);
+                    // } else if (rand >= 0.6) { // move along y vector
+                    //     controller.Move(new Vector2(0, moveDirection.x), moveSpeed);
+                    // } else {
+                    //     // Stay
+                    // }
+                }
+                else
+                {
+                    controller.Move(moveDirection, moveSpeed);
+                }
             }
         }
     }
