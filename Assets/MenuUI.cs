@@ -30,6 +30,7 @@ public class MenuUI : MonoBehaviour
     public void OnJoinLobby()
     {
         lobbyUI.GetPlayerName(authenticator.getPlayFabID());
+        matchmakingUI.gameObject.SetActive(false);
         loginUI.gameObject.SetActive(false);
         lobbyUI.gameObject.SetActive(true);
     }

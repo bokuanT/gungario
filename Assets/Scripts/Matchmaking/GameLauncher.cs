@@ -291,9 +291,10 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	public void LeaveSession()
 	{
 		if (_runner != null)
+        {
 			_runner.Shutdown();
-		else
 			SetConnectionStatus(ConnectionStatus.Disconnected);
+		}
 	}
 	public void OnConnectedToServer(NetworkRunner runner)
 	{
