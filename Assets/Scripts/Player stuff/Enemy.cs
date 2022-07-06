@@ -19,14 +19,18 @@ public class Enemy : NetworkBehaviour
     Vector2 aimDirection;
     Vector2 moveDirection;
     public NetworkCharacterControllerPrototypeCustom controller;
-    float retreatDistance = 4.0f;
+    float retreatDistance = 4.5f;
     float moveSpeed = 4.5f;
-    float shootingRange = 4.5f;
+    float shootingRange = 6.0f;
     float chasingRange = 10f;
     bool isChasing = false;
     private float rand1;
     private float rand2;
     private float rand3;
+    int wanderCount = 0;
+    public Collider2D wallDetection;
+    private RaycastHit2D[] _obstacles = new RaycastHit2D[1];
+
 
     void Start()
     {
@@ -42,6 +46,15 @@ public class Enemy : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        // reset target if target exists, once target dies
+        // OR this enemy is dead, reset everything
+        if ((target != null && target.state == Player.State.Dead) || enemyInput.state == Player.State.Dead)
+        {
+            targetLocation = null;
+            target = null;
+            isChasing = false;
+        }
+
         if (targetLocation != null && enemyTransform != null) { // target exists
             // sets Mouse location
             SetDirection(targetLocation);
@@ -60,43 +73,46 @@ public class Enemy : NetworkBehaviour
 
   public override void FixedUpdateNetwork() 
     {
-        // reset target if target exists, once target dies
-        // OR this enemy is dead, reset everything
-        if ((target != null && target.state == Player.State.Dead) || enemyInput.state == Player.State.Dead)
-        {
-            targetLocation = null;
-            target = null;
-            isChasing = false;
-        }
-
-        if (target != null) Debug.Log(target);
-
         moveDirection.x = aimDirection.x - enemyTransform.position.x;
         moveDirection.y = aimDirection.y - enemyTransform.position.y;
         
-        // ============= ISSUE =============
-        // Shooting is fked up here
-        // =================================
         moveDirection.Normalize();
 
         // shoot if player within range
         if (isChasing == true)
         {
-            if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= retreatDistance) {
-                controller.Move(moveDirection * -1, moveSpeed);
-            } else if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= shootingRange && enemyInput.state != Player.State.Dead) {
+            // if distance to target is less than desired distance, retreat
+            if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= retreatDistance) 
+            {
+                //// check for obstacles in the retreat direction 
+                //wallDetection.Raycast(moveDirection * -1, _obstacles, 2.0f);
+
+                //// obstacles exist, rush diagonally at the player
+                //if (wallDetection.Raycast(moveDirection * -1, _obstacles, 1.0f) > 0)
+                //{
+                //    Debug.Log("Obstacle detected");
+                //    controller.Move(Vector2.Lerp(moveDirection, Vector2.Perpendicular(moveDirection), 0.5f), moveSpeed);
+
+                //// no obstacles, retreat
+                //}
+                //else
+                //{
+                    controller.Move(moveDirection * -1, moveSpeed);
+                //}
+
+
+            // if distance is suitable for shooting, shoot
+            } else if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= shootingRange && enemyInput.state != Player.State.Dead) 
+            {
                 enemyInput.Shoot(moveDirection);
 
-                // if (rand <= 0.4) { // move along x vector
-                //     controller.Move(new Vector2(moveDirection.x, 0), moveSpeed);
-                // } else if (rand >= 0.6) { // move along y vector
-                //     controller.Move(new Vector2(0, moveDirection.x), moveSpeed);
-                // } else {
-                //     // Stay
-                // }
+            // else, move closer 
             } else {
                 controller.Move(moveDirection, moveSpeed);
             }
+        // wandering in a fixed direction, with no enemies
+        } else if (wanderCount > 0) {
+
         }
     }
 
@@ -105,8 +121,8 @@ public class Enemy : NetworkBehaviour
     {
         rand1 = Random.value;
         
-        // 40% chance for enemy to misfire
-        if (rand1 <= 0.4)
+        // 50% chance for enemy to misfire
+        if (rand1 <= 0.5)
         {
             aimDirection = LousyShooting(targetLocation.position);
         } else
@@ -141,11 +157,18 @@ public class Enemy : NetworkBehaviour
             rand1 *= -1;
         } 
 
-        dir.x += rand1 * 4;
-        dir.y += rand2 * 4;
+        dir.x += rand1 * 3;
+        dir.y += rand2 * 3;
 
         return dir;
     }
+    
+    // To be Implemented
+    public void Wander()
+    {
+
+    }
+
 
     // Enemy tier 1 characteristics:
     // Shoot at the player

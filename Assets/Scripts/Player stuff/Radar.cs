@@ -9,7 +9,7 @@ public class Radar : MonoBehaviour
     void OnTriggerStay2D(Collider2D col)
     {
         // Debug.Log("Enemy has sensed " + col.name);
-        
+
         // dont target fellow enemy, don't target (for now, til teams are implemented)
         // DOESNT WORK, STILL TARGETS ENEMIES
         if (col.name == "PlayerDetectionRadius") 
