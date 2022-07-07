@@ -26,11 +26,36 @@ public class LevelBehaviourCP : NetworkBehaviour
 
     private Scoreboard scoreboard;
 
+    public GameObject controlPoint;
+
     [Networked]
-    private NetworkBool roundStarted { get; set; }
+    public NetworkBool roundStarted { get; set; }
+
+
+    [Networked]
+    private NetworkBool initiated { get; set; }
+
+    public bool activated = true;
 
     public override void Spawned()
     {
+        if (activated)
+        {
+            initiated = false;
+            Debug.Log("spawned");
+            controlPoint.SetActive(true);
+            StartLevel();
+            GameObject tmp = GameObject.Find("Scoreboard_canvas/Scoreboard");
+            if (tmp != null)
+                scoreboard = tmp.GetComponent<Scoreboard>();
+        }
+    }
+
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    public void ManualStart()
+    {
+        Debug.Log("manual start");
+        controlPoint.SetActive(true);
         StartLevel();
         GameObject tmp = GameObject.Find("Scoreboard_canvas/Scoreboard");
         if (tmp != null)
@@ -39,6 +64,7 @@ public class LevelBehaviourCP : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+
         if (StartTimer.IsRunning && _startTimerText.gameObject.activeInHierarchy)
         {
             _startTimerText.text = "Round starts in: " + ((int?)StartTimer.RemainingTime(Runner)).ToString();
@@ -75,6 +101,7 @@ public class LevelBehaviourCP : NetworkBehaviour
         _startTimerText.gameObject.SetActive(true);
         StartTimer = TickTimer.CreateFromSeconds(Runner, _startTime);
         roundStarted = false;
+        initiated = true;
     }
 
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
@@ -91,7 +118,12 @@ public class LevelBehaviourCP : NetworkBehaviour
         resultsScreen.SetActive(true);
         KillLeaderEntryContainer entryContainer = resultsScreen
             .GetComponentInChildren<KillLeaderEntryContainer>();
-
+        
+        //Display team winner
+        TeamWinnerUI t_w_UI = resultsScreen.GetComponentInChildren<TeamWinnerUI>();
+        ControlPoint cp = controlPoint.GetComponent<ControlPoint>();
+        t_w_UI.DisplayInfo(cp);
+        
         int position = 1;
         foreach (Player winner in results)
         {
@@ -120,8 +152,20 @@ public class LevelBehaviourCP : NetworkBehaviour
         KillLeaderEntryContainer entryContainer = resultsScreen
             .GetComponentInChildren<KillLeaderEntryContainer>();
         entryContainer.ResetEntries();
+
+        ControlPoint cp = controlPoint.GetComponent<ControlPoint>();
+        cp.ResetPoints();
+
         StartLevel();
 
+    }
+
+    public void TurnOff()
+    {
+        StartTimer = TickTimer.None;
+        LevelTimer = TickTimer.None;
+        initiated = false;
+        roundStarted = false;
     }
 }
 

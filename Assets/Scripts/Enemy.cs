@@ -78,7 +78,7 @@ public class Enemy : NetworkBehaviour
                 }
                 else if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= shootingRange && enemyInput.state != Player.State.Dead)
                 {
-                    enemyInput.Shoot(moveDirection);
+                    //enemyInput.Shoot(moveDirection);
                     float rand = Random.value;
                     // if (rand <= 0.4) { // move along x vector
                     //     controller.Move(new Vector2(moveDirection.x, 0), moveSpeed);

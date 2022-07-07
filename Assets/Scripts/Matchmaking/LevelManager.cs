@@ -63,8 +63,8 @@ using UnityEngine.SceneManagement;
 					GameLauncher.Instance.SpawnPlayers();
 				}
 			}
-
-			PostLoadScene();
+			
+			Invoke("PostLoadScene", 1);
 		}
 
 		private void PreLoadScene(int scene)
@@ -75,8 +75,32 @@ using UnityEngine.SceneManagement;
 	
 		private void PostLoadScene()
 		{
-			// post loading players and all
-            // match start sequence
-			
+			SetManagers();
+		}
+
+		[Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+		private void SetManagers()
+		{
+			GameObject gameModes = GameObject.Find("Scoreboard_canvas")
+				.transform.Find("Gamemodes").gameObject;
+			if (gameModes == null)
+			{
+				Debug.Log("Cannot find gamemode managers");
+				return;
+			}
+			if (gameLauncher.gamemode == 1)
+			{
+				GameObject otherMan = gameModes.transform.Find("Manager").gameObject;
+				otherMan.SetActive(false);
+				
+
+			}
+			if (gameLauncher.gamemode == 2)
+			{
+				//gameModes.transform.Find("Manager").gameObject.SetActive(true);
+				GameObject correctManager = gameModes.transform.Find("ManagerControlPoints").gameObject;
+				correctManager.SetActive(false);
+				GameObject.Find("ControlPoint").SetActive(false);
+		}
 		}
 	}

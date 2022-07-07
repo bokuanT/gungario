@@ -105,4 +105,11 @@ public class ProgressBar : NetworkBehaviour
         return team == Team.None;
     }
 
+    public void ResetProgress()
+    {
+        team = Team.None;
+        sliderValue = 100F;
+        SetColour();
+    }
+
 }

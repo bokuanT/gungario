@@ -17,7 +17,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     [Networked(OnChanged = nameof(OnStateChanged))]
 	public State state { get; set; }
 
-    [Networked]
+    [Networked(OnChanged = nameof(OnStateChanged))]
     public Team team { get; set; }
 
     private WeaponManager weaponManager;
@@ -107,7 +107,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         weaponManager.InitNetworkState();
     }
 
-    public void InitNetworkState(PlayerRef pr)
+    public void InitNetworkState(PlayerRef pr, Team tim)
     {
         life = MAX_HEALTH;
         state = State.Active;
@@ -115,7 +115,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         // playerName = name;
         kills = 0;
         deaths = 0;
-        team = Team.None;
+        team = tim;
         
     }
 
@@ -218,9 +218,25 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         {
             changed.Behaviour.setAnimation();
             changed.Behaviour.setState();
+            changed.Behaviour.SetTeamColour();
         }
     }
-
+    private void SetTeamColour()
+    {
+        SpriteRenderer sr = gameObject.GetComponentInChildren<SpriteRenderer>();
+        switch (team)
+        {
+            case Team.None:
+                sr.color = Color.white;
+                break;
+            case Team.Red:
+                sr.color = Color.red;
+                break;
+            case Team.Blue:
+                sr.color = Color.blue;
+                break;
+        }
+    }
     // controls player and gun sprite direction
     private void setAnimation() {
  
@@ -433,12 +449,19 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         {
             cc.height = 0.25F;
             cc.radius = 0.09F;
+            //cc.enabled = true;
         }
         else
         {
             cc.height = 0F;
             cc.radius = 0F;
+            //cc.enabled = false;
         }
+    }
+
+    public void SetTeam(Team teamSet)
+    {
+        team = teamSet;
     }
      
 }

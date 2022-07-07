@@ -169,7 +169,6 @@ MonoBehaviour:
   player: {fileID: 6342475573802360927}
   scoreboard_item: {fileID: 0}
   cursor: {fileID: 7970933119681957879, guid: 5f07a21a9bcf8584bbd5c6911fde2298, type: 3}
-  collider: {fileID: 1459601690917525531}
   moveSpeed: 5
   _gunDirection: 0
   _life: 0

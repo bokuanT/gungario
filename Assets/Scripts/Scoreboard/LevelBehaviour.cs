@@ -29,8 +29,20 @@ public class LevelBehaviour : NetworkBehaviour
     [Networked]
     private NetworkBool roundStarted { get; set; }
 
+    public bool activated = true;
+
     public override void Spawned()
-    {    
+    {   if (activated)
+        {
+            StartLevel();
+            GameObject tmp = GameObject.Find("Scoreboard_canvas/Scoreboard");
+            if (tmp != null)
+                scoreboard = tmp.GetComponent<Scoreboard>();
+        }
+    }
+
+    public void ManualStart()
+    {
         StartLevel();
         GameObject tmp = GameObject.Find("Scoreboard_canvas/Scoreboard");
         if (tmp != null)
