@@ -25,7 +25,7 @@ public class NetworkRunnerHandler : MonoBehaviour
 
         // AutoHostOrClient: First person starting the game is the host
         // To be changed at a later date
-        var clientTask = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex, null);
+        var clientTask = InitializeNetworkRunner(networkRunner, GameMode.Single, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex, null);
 
         Debug.Log("Networkrunner started");
     }
