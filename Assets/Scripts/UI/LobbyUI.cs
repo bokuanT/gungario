@@ -8,9 +8,9 @@ public class LobbyUI : MonoBehaviour
 {
     public TMP_Text ChangeName; 
     public TMP_Text PlayerName; 
+    public TMP_Text ActivePlayerCount;
+    public TMP_Text AvailableSessions;
     public PlayFabAuthenticator authenticator;
-    public GameManager gameManager;
-    public MenuUI menu;
     private bool nameChanged = false;
 
     public void StartGame() {
@@ -20,18 +20,19 @@ public class LobbyUI : MonoBehaviour
 
         // changed to this temporarily to stop loading game scene together with menu 
         // SceneManager.LoadScene(LevelManager.TESTGAME_SCENE);
-        gameManager.SetScene(LevelManager.TESTGAME_SCENE);
-        gameManager.StartGame();
+        GameManager.Instance.SetScene(LevelManager.TESTGAME_SCENE);
+        GameManager.Instance.StartGame();
     }
 
     public void QuitGame() {
         Application.Quit();
+        GameLauncher.Instance.LeaveGame();
     }
 
     public void MatchmakeDeathMatch() {
-      //  if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
-        gameManager.SetScene(LevelManager.MAP1_SCENE);
-        gameManager.MatchmakeDeathMatch();
+        //  if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
+        GameManager.Instance.SetScene(LevelManager.MAP1_SCENE);
+        GameManager.Instance.MatchmakeDeathMatch();
         MenuUI.Instance.OnMatchmake();
     }
 
@@ -62,9 +63,19 @@ public class LobbyUI : MonoBehaviour
             // So won't be null on login
             if (result.PlayerProfile.DisplayName == null || result.PlayerProfile.DisplayName == "") result.PlayerProfile.DisplayName = "Player";
             Debug.Log("Retrieved DisplayName. The player's DisplayName profile data is: " + result.PlayerProfile.DisplayName);
-            gameManager.SetPlayerProfile(result.PlayerProfile);
+            GameManager.Instance.SetPlayerProfile(result.PlayerProfile);
             PlayerName.SetText("Welcome back, " + result.PlayerProfile.DisplayName + "!");
         },
         error => Debug.LogError(error.GenerateErrorReport()));
     }
+
+    public void UpdateSessionData(int players, int sessions)
+    {
+        if (players > 1) ActivePlayerCount.SetText($"{players}");
+        if (sessions > 0) AvailableSessions.SetText($"{sessions}");
+        
+        // In the future, a "active session count" can be implemented by updating when a game starts and ends.
+        // To be implemented after game ending and transition is in place
+    }
+
 }

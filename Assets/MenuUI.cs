@@ -19,6 +19,25 @@ public class MenuUI : MonoBehaviour
             return _instance;
         }
     }
+    
+    private void Start()
+    {
+        loginUI.gameObject.SetActive(true);
+        matchmakingUI.gameObject.SetActive(false);
+        lobbyUI.gameObject.SetActive(false);
+    }
+
+    private void FixedUpdate()
+    {
+        // if in lobby
+        if (lobbyUI.gameObject.activeInHierarchy)
+        {
+            // grab number of active players
+            int players = GameManager.Instance.GetActivePlayers();
+            int sessions = GameLauncher.Instance.sessionCount;
+            lobbyUI.UpdateSessionData(players, sessions);
+        }
+    }
 
     public void OnMatchmake()
     {
@@ -34,4 +53,7 @@ public class MenuUI : MonoBehaviour
         loginUI.gameObject.SetActive(false);
         lobbyUI.gameObject.SetActive(true);
     }
+
+
+
 }

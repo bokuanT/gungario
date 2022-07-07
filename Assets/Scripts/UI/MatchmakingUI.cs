@@ -8,7 +8,7 @@ public class MatchmakingUI : MonoBehaviour
     public void QuitMatchmake()
     {
         Debug.Log("Exit Matchmaking");
-        MenuUI.Instance.OnJoinLobby();
+        //MenuUI.Instance.OnJoinLobby();
         GameLauncher.Instance.LeaveSession();
     }
 

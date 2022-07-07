@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public enum ConnectionStatus
 {
 	Disconnected,
+	InLobby,
 	Connecting,
 	Failed,
 	Connected
@@ -28,7 +29,9 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	private GameMode _gameMode;
 	private NetworkRunner _runner;
 	private List<SessionInfo> _sessionList;
+	public int sessionCount; 
 	private int MAX_PLAYERS = 2;
+	//private int LocalPlayerRef;
 	private static GameLauncher _instance;
 	public static GameLauncher Instance
     {
@@ -167,6 +170,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		if (runner.IsServer || runner.Topology == SimulationConfig.Topologies.Shared && player == runner.LocalPlayer)
 		{
 			Debug.Log("Spawning player");
+			//LocalPlayerRef = player;
 			runner.Spawn(_playerInfoPrefab, Vector3.zero, Quaternion.identity, player);
 		}
 
@@ -292,10 +296,33 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	{
 		if (_runner != null)
         {
+			//Debug.Log(_runner.LocalPlayer);
+			//PlayerRef player = _gameMode == GameMode.Host ? 0 : LocalPlayerRef;
+			//// if host is leaving session, his playerRef is always 0, but _runner.LocalPlayer will return MAX_PLAYERS - 1
+			//_runner.Disconnect(player);
+
+			//// Find and remove the players info gameobject
+			//if (_players.TryGetValue(player, out PlayerInfo playerInfo))
+			//{
+			//	_runner.Despawn(playerInfo.Object);
+			//	_players.Remove(player);
+			//	Debug.Log("PlayerInfo removed successfully");
+			//}
+			Debug.Log("Back to Lobby from exiting matchmaking is a work-in-progress. To be implemented.");
+			_runner.Shutdown();
+		}
+	}
+
+	// Quits game
+	public void LeaveGame()
+	{
+		if (_runner != null)
+		{
 			_runner.Shutdown();
 			SetConnectionStatus(ConnectionStatus.Disconnected);
 		}
 	}
+
 	public void OnConnectedToServer(NetworkRunner runner)
 	{
 		Debug.Log("Connected to server");
@@ -304,7 +331,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	public void OnDisconnectedFromServer(NetworkRunner runner)
 	{
 		Debug.Log("Disconnected from server");
-		LeaveSession();
+		LeaveGame();
 		SetConnectionStatus(ConnectionStatus.Disconnected);
 	}
 	public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
@@ -320,8 +347,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
 	{
 		Debug.Log($"Connect failed {reason}");
-		LeaveSession();
-		SetConnectionStatus(ConnectionStatus.Failed);
+		LeaveGame();
+		SetConnectionStatus(ConnectionStatus.Disconnected);
 		(string status, string message) = ConnectFailedReasonToHuman(reason);
 		//_disconnectUI.ShowMessage(status,message);
 	}
@@ -333,6 +360,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	{ 
 		Debug.Log($"Session List Updated with {sessionList.Count} session(s)");
 		_sessionList = sessionList;
+		sessionCount = sessionList.Count;
         foreach (var session in sessionList) 
         {
             Debug.Log($"{session.Name} Players: {session.PlayerCount}/{session.MaxPlayers}");
