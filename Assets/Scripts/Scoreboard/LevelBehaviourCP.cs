@@ -10,7 +10,7 @@ using TMPro;
 
 //using FusionUtilsEvents;
 
-public class LevelBehaviour : NetworkBehaviour
+public class LevelBehaviourCP : NetworkBehaviour
 {
     [SerializeField] private float _levelTime = 300f;
     [SerializeField] private float _startTime = 7f;
@@ -26,14 +26,24 @@ public class LevelBehaviour : NetworkBehaviour
 
     private Scoreboard scoreboard;
 
+    public GameObject controlPoint;
+
     [Networked]
-    private NetworkBool roundStarted { get; set; }
+    public NetworkBool roundStarted { get; set; }
+
+
+    [Networked]
+    private NetworkBool initiated { get; set; }
 
     public bool activated = true;
 
     public override void Spawned()
-    {   if (activated)
+    {
+        if (activated)
         {
+            initiated = false;
+            Debug.Log("spawned");
+            controlPoint.SetActive(true);
             StartLevel();
             GameObject tmp = GameObject.Find("Scoreboard_canvas/Scoreboard");
             if (tmp != null)
@@ -41,8 +51,11 @@ public class LevelBehaviour : NetworkBehaviour
         }
     }
 
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void ManualStart()
     {
+        Debug.Log("manual start");
+        controlPoint.SetActive(true);
         StartLevel();
         GameObject tmp = GameObject.Find("Scoreboard_canvas/Scoreboard");
         if (tmp != null)
@@ -51,6 +64,7 @@ public class LevelBehaviour : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
+
         if (StartTimer.IsRunning && _startTimerText.gameObject.activeInHierarchy)
         {
             _startTimerText.text = "Round starts in: " + ((int?)StartTimer.RemainingTime(Runner)).ToString();
@@ -67,7 +81,7 @@ public class LevelBehaviour : NetworkBehaviour
         {
             if (Object.HasStateAuthority && LevelTimer.Expired(Runner))
             {
-                
+
                 RPC_FinishLevel();
                 LevelTimer = TickTimer.None;
             }
@@ -87,6 +101,7 @@ public class LevelBehaviour : NetworkBehaviour
         _startTimerText.gameObject.SetActive(true);
         StartTimer = TickTimer.CreateFromSeconds(Runner, _startTime);
         roundStarted = false;
+        initiated = true;
     }
 
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
@@ -103,7 +118,12 @@ public class LevelBehaviour : NetworkBehaviour
         resultsScreen.SetActive(true);
         KillLeaderEntryContainer entryContainer = resultsScreen
             .GetComponentInChildren<KillLeaderEntryContainer>();
-
+        
+        //Display team winner
+        TeamWinnerUI t_w_UI = resultsScreen.GetComponentInChildren<TeamWinnerUI>();
+        ControlPoint cp = controlPoint.GetComponent<ControlPoint>();
+        t_w_UI.DisplayInfo(cp);
+        
         int position = 1;
         foreach (Player winner in results)
         {
@@ -132,15 +152,21 @@ public class LevelBehaviour : NetworkBehaviour
         KillLeaderEntryContainer entryContainer = resultsScreen
             .GetComponentInChildren<KillLeaderEntryContainer>();
         entryContainer.ResetEntries();
+
+        ControlPoint cp = controlPoint.GetComponent<ControlPoint>();
+        cp.ResetPoints();
+
         StartLevel();
 
     }
-}
 
-public class IPlayerComparer : IComparer<Player>
-{
-    public int Compare(Player first, Player second)
+    public void TurnOff()
     {
-        return first.kills.CompareTo(second.kills) * -1;
+        StartTimer = TickTimer.None;
+        LevelTimer = TickTimer.None;
+        initiated = false;
+        roundStarted = false;
     }
 }
+
+

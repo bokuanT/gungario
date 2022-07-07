@@ -30,6 +30,10 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	private List<SessionInfo> _sessionList;
 	private int MAX_PLAYERS = 2;
 	private static GameLauncher _instance;
+
+	//For control point/dm
+	public int gamemode;
+
 	public static GameLauncher Instance
     {
         get
@@ -101,10 +105,47 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		_playerProfile = ppm;
     }
 
-	public async void MatchmakeDeathMatch() 
+	public async void MatchmakeControlPoint()
 	{
 		Debug.Log("Matchmaking");
+		gamemode = 1;
+		// check for any existing sessions
+		foreach (var session in _sessionList)
+		{
+			if (session.PlayerCount < session.MaxPlayers)
+			{
+				SetJoinLobby();
+				Debug.Log($"Joining {session.Name}");
 
+				// This call will make Fusion join the first session as a Client
+				var result = await _runner.StartGame(new StartGameArgs()
+				{
+					GameMode = _gameMode, // Client GameMode
+					SessionName = session.Name, // Session to Join
+					SceneObjectProvider = LevelManager.Instance, // Scene Provider
+					DisableClientSessionCreation = true, // Make sure the client will never create a Session
+					AuthValues = _runner.AuthenticationValues,
+				});
+
+				if (result.Ok)
+				{
+					// all good
+					Debug.Log("Session joined successfully");
+					Debug.Log($"Players: {session.PlayerCount}/{session.MaxPlayers}");
+				}
+				else
+				{
+					Debug.LogError($"Failed to Start: {result.ShutdownReason}");
+				}
+				return;
+			}
+		}
+	}
+
+		public async void MatchmakeDeathMatch() 
+	{
+		Debug.Log("Matchmaking");
+		gamemode = 2;
 		// check for any existing sessions
 		foreach (var session in _sessionList) 
 		{
@@ -196,22 +237,26 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 	// called by external script, once map done loading
 	public void SpawnPlayers() {
-
+		int i = 0;
 		foreach (var player in _players)
 		{
-			SpawnPlayer(_runner, player.Key);
+			Player.Team tim = gamemode == 0 ? Player.Team.None
+				: i % 2 == 0 ? Player.Team.Red
+					: Player.Team.Blue;
+			SpawnPlayer(_runner, player.Key, tim);
+			i++;
 		}
 
 	}
 
-	public void SpawnPlayer(NetworkRunner runner, PlayerRef playerRef)
+	public void SpawnPlayer(NetworkRunner runner, PlayerRef playerRef, Player.Team tim)
 	{
 		NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, playerRef, InitNetworkState);
 		void InitNetworkState(NetworkRunner runner, NetworkObject networkObject)
 		{
 			Player player = networkObject.gameObject.GetComponent<Player>();
 			Debug.Log($"Initializing player {player}");
-			player.InitNetworkState(playerRef);
+			player.InitNetworkState(playerRef, tim);
 		}
 		//_spawnedCharacters.Add(playerRef, networkPlayerObject);
         runner.SetPlayerObject(playerRef, networkPlayerObject);

@@ -17,9 +17,13 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     [Networked(OnChanged = nameof(OnStateChanged))]
 	public State state { get; set; }
 
+    [Networked(OnChanged = nameof(OnStateChanged))]
+    public Team team { get; set; }
+
     private WeaponManager weaponManager;
     private Collider _collider;
 	private HitboxRoot _hitBoxRoot;
+    private Hitbox _hitbox;
     public Animator animator;
     public Transform player;
     private Transform gun;
@@ -74,6 +78,13 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         Active,
         Dead
     }
+
+    public enum Team
+    {
+        None,
+        Red,
+        Blue
+    }
     public bool isActivated => (gameObject.activeInHierarchy && (state == State.Active || state == State.Spawning));
 	public bool isDead => state == State.Dead;
 	public bool isRespawningDone => state == State.Spawning && respawnTimer.Expired(Runner);
@@ -84,6 +95,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         _collider = GetComponentInChildren<Collider>();
 		_hitBoxRoot = GetComponent<HitboxRoot>();
         _deathManager = GetComponent<DeathManager>();
+        _hitbox = GetComponent<Hitbox>();
         
         // this avoids crashing enemy.cs since enemies do not have a cursor 
         if (cursor != null) Instantiate(cursor);
@@ -95,7 +107,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         weaponManager.InitNetworkState();
     }
 
-    public void InitNetworkState(PlayerRef pr)
+    public void InitNetworkState(PlayerRef pr, Team tim)
     {
         life = MAX_HEALTH;
         state = State.Active;
@@ -103,6 +115,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         // playerName = name;
         kills = 0;
         deaths = 0;
+        team = tim;
         
     }
 
@@ -130,6 +143,8 @@ public class Player : NetworkBehaviour, ICanTakeDamage
                 */
                 if (respawnTimer.Expired(Runner))
                 {
+                    ChangeColliderState(true);
+                    _hitBoxRoot.SetHitboxActive(_hitbox, true);
                     Transform thisTransform = GetComponent<Transform>();
                     thisTransform.position = Utils.GetRandomSpawnPoint(); //can make this follow Tell dont ask principle better
                     life = MAX_HEALTH;
@@ -199,11 +214,29 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
     public static void OnStateChanged(Changed<Player> changed)
     {
-        if(changed.Behaviour)
+        if (changed.Behaviour)
+        {
             changed.Behaviour.setAnimation();
             changed.Behaviour.setState();
+            changed.Behaviour.SetTeamColour();
+        }
     }
-
+    private void SetTeamColour()
+    {
+        SpriteRenderer sr = gameObject.GetComponentInChildren<SpriteRenderer>();
+        switch (team)
+        {
+            case Team.None:
+                sr.color = Color.white;
+                break;
+            case Team.Red:
+                sr.color = Color.red;
+                break;
+            case Team.Blue:
+                sr.color = Color.blue;
+                break;
+        }
+    }
     // controls player and gun sprite direction
     private void setAnimation() {
  
@@ -260,6 +293,8 @@ public class Player : NetworkBehaviour, ICanTakeDamage
                 // _deathExplosionInstance.SetActive(true);
                 _deathManager.OnDeath(Runner, Object.InputAuthority);
                 setVisuals(false);
+                ChangeColliderState(false);
+                _hitBoxRoot.SetHitboxActive(_hitbox, false);
                 StartRespawnSequence();
                 break;
             case State.Despawned:
@@ -410,5 +445,26 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         firePoint = wep.transform;
     }
 
+    private void ChangeColliderState(bool value)
+    {
+        CharacterController cc = (CharacterController)_collider;
+        if (value)
+        {
+            cc.height = 0.25F;
+            cc.radius = 0.09F;
+            //cc.enabled = true;
+        }
+        else
+        {
+            cc.height = 0F;
+            cc.radius = 0F;
+            //cc.enabled = false;
+        }
+    }
+
+    public void SetTeam(Team teamSet)
+    {
+        team = teamSet;
+    }
      
 }
