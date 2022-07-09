@@ -9,6 +9,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     [Header("Visuals")] 
 	[SerializeField] private SpriteRenderer sprite;
     [SerializeField] private SpriteRenderer weaponSprite;
+    [SerializeField] public SpriteRenderer hatSprite;
 
     [SerializeField] private const float RESPAWN_TIME = 3f;
     [SerializeField] private float _pickupRadius;
@@ -258,7 +259,9 @@ public class Player : NetworkBehaviour, ICanTakeDamage
                 animator.SetFloat("Speed", 1);
                 sprite.flipX = false;
                 weaponSprite.flipY = false;
-				break;
+                // TEMPORARY FIX --> WONT NEED ONCE ENEMY PREFAB IS UPDATED
+                if (hatSprite != null) hatSprite.flipX = true;
+                break;
 			case Direction.DOWN:
                 animator.SetFloat("Speed", 0);
                 sprite.flipX = true;
@@ -267,6 +270,8 @@ public class Player : NetworkBehaviour, ICanTakeDamage
                 animator.SetFloat("Speed", 1);
                 sprite.flipX = true;
                 weaponSprite.flipY = true;
+                // TEMPORARY FIX --> WONT NEED ONCE ENEMY PREFAB IS UPDATED
+                if (hatSprite != null) hatSprite.flipX = false;
 				break;
 		}
   

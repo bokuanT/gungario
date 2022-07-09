@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Fusion;
 using PlayFab.ClientModels;
 using Fusion.Photon.Realtime;
@@ -12,7 +13,7 @@ public class GameManager : NetworkBehaviour
     private GameLauncher _gameLauncher;
     private PlayerProfileModel playerProfile;
     private int activeScene;
-    public static GameManager _instance;
+    private static GameManager _instance;
     public static GameManager Instance
     {
         get
@@ -24,19 +25,24 @@ public class GameManager : NetworkBehaviour
 
     void Awake() 
     {
+        // may return itself or the current instance
+        _instance = GameManager.Instance;
         if (_instance == null) _instance = this;
         if (_instance != this) Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
 
-
-		GameObject go = Instantiate(networkRunnerPrefab);
-		DontDestroyOnLoad(go);
-        go.name = "Session";
-		runner = go.GetComponent<NetworkRunner>();
-        _gameLauncher = go.GetComponent<GameLauncher>();
-        runner.AddCallbacks(_gameLauncher);
-        _lobbyManager = GetComponent<LobbyManager>();
+        // if a seperate instance is spawned, runner will always be null
+        if (runner == null) {
+            GameObject go = Instantiate(networkRunnerPrefab);
+            DontDestroyOnLoad(go);
+            go.name = "Session";
+            runner = go.GetComponent<NetworkRunner>();
+            _gameLauncher = go.GetComponent<GameLauncher>();
+            runner.AddCallbacks(_gameLauncher);
+            _lobbyManager = GetComponent<LobbyManager>();
+        }
     }
+
 
     public async void joinLobby() 
     {
@@ -68,11 +74,24 @@ public class GameManager : NetworkBehaviour
     {
         playerProfile = ppm;
         _gameLauncher.SetPlayerProfile(ppm);
-        runner.AuthenticationValues.UserId = ppm.DisplayName;
     }
 
     public PlayerProfileModel GetPlayerProfile()
     {
         return playerProfile;
+    }
+
+    // DOESNT WORK
+    // returns the number of players in lobby/session
+    public int GetActivePlayers()
+    {
+        // ONLY AVAILABLE IN SESSION
+        IEnumerable<PlayerRef> players = runner.ActivePlayers;
+        int count = 0;
+        foreach (PlayerRef player in players)
+        {
+            count++;
+        }
+        return count;
     }
 }

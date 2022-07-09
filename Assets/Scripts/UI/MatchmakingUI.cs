@@ -5,8 +5,11 @@ using UnityEngine;
 public class MatchmakingUI : MonoBehaviour
 {
 
-    void Start() {
-
+    public void QuitMatchmake()
+    {
+        Debug.Log("Exit Matchmaking");
+        //MenuUI.Instance.OnJoinLobby();
+        GameLauncher.Instance.LeaveSession();
     }
 
 }

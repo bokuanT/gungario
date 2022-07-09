@@ -31,6 +31,10 @@ public class LobbyManager : MonoBehaviour
         if (result.Ok) {
             // all good
             lobby = true;
+
+            // move game scene to lobby 
+            MenuUI.Instance.OnJoinLobby();
+
             Debug.Log($"Joined Lobby: {lobbyMode}");
         } else {
             Debug.LogError($"Failed to Start: {result.ShutdownReason}");

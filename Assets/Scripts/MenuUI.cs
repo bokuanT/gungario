@@ -9,52 +9,62 @@ public class MenuUI : MonoBehaviour
     public MatchmakingUI matchmakingUI;
     public LobbyManager lobbyManager;
     public PlayFabAuthenticator authenticator;
-    private bool menuScene = false;
-    private bool APICall = false;
-    private bool matchmaking = false;
+    public GameObject canvas;
 
-    void Awake()
+    private static MenuUI _instance;
+    public static MenuUI Instance
     {
-        // this results in nullreference
-        //LoginUI loginUI = GetComponentInChildren<LoginUI>();
-        //LobbyUI lobbyUI = GetComponentInChildren<LobbyUI>();
-        //MatchmakingUI matchmakingUI = GetComponentInChildren<MatchmakingUI>();
+        get
+        {
+            if (_instance == null) _instance = FindObjectOfType<MenuUI>();
+            return _instance;
+        }
+    }
+    
+    private void Start()
+    {
+        loginUI.gameObject.SetActive(true);
+        matchmakingUI.gameObject.SetActive(false);
+        lobbyUI.gameObject.SetActive(false);
+        canvas.SetActive(false);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void FixedUpdate()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {   
-        if (matchmaking)
+        // if in lobby
+        if (lobbyUI.gameObject.activeInHierarchy)
         {
-            matchmakingUI.gameObject.SetActive(true);
-            loginUI.gameObject.SetActive(false);
-            lobbyUI.gameObject.SetActive(false);
-        } 
-        else if (authenticator.isAuthenticated() && lobbyManager.inLobby()) 
-        {
-            if (!APICall)
-            {
-                lobbyUI.GetPlayerName(authenticator.getPlayFabID());
-                lobbyUI.gameObject.SetActive(true);
-                APICall = true;
-                return;
-            }
-            if (!menuScene)
-            { 
-                loginUI.gameObject.SetActive(false);
-                menuScene = true;
-            }
+            // grab number of active players
+            int players = GameManager.Instance.GetActivePlayers();
+            int sessions = GameLauncher.Instance.sessionCount;
+            lobbyUI.UpdateSessionData(players, sessions);
         }
     }
 
-    public void IsMatchmaking(bool val)
+    public void OnMatchmake()
     {
-        matchmaking = val;
+        matchmakingUI.gameObject.SetActive(true);
+        loginUI.gameObject.SetActive(false);
+        lobbyUI.gameObject.SetActive(false);
+    }
+    
+    public void OnJoinLobby()
+    {
+        lobbyUI.GetPlayerName(authenticator.getPlayFabID());
+        matchmakingUI.gameObject.SetActive(false);
+        loginUI.gameObject.SetActive(false);
+        lobbyUI.gameObject.SetActive(true);
+    }
+
+    // Activates Shop canvas
+    public void OpenShop()
+    {
+        canvas.SetActive(true);
+    }
+
+    // Deactivates Shop canvas
+    public void CloseShop()
+    {
+        canvas.SetActive(false);
     }
 }
