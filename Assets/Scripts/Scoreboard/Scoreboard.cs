@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using UnityEngine.UIElements;
 using Fusion.Sockets;
 using System;
 
@@ -16,6 +17,7 @@ public class Scoreboard : NetworkBehaviour
 
    
     private HashSet<int> hashSet = new HashSet<int>();
+    public GameObject image;
 
     public override void FixedUpdateNetwork()
     {
@@ -49,6 +51,16 @@ public class Scoreboard : NetworkBehaviour
                 hashSet.Add(pr.PlayerId);
                 Scoreboard_item item = CreateScoreboardItem(pr);
                 hashtable.Add(pr, item);
+            }
+
+            // load cosmetics if received 
+            int id = GameLauncher.Instance.GetPlayerInfo(pr).CosmeticHatID;
+            if (id != 0)
+            {
+                Debug.Log("Loading hat");
+                NetworkObject obj = Runner.GetPlayerObject(pr);
+                Player player = obj.gameObject.GetComponent<Player>();
+                player.hatSprite.sprite = Shop.Instance.GetHat(id);
             }
             
         }

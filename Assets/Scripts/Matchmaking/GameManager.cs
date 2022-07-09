@@ -13,7 +13,7 @@ public class GameManager : NetworkBehaviour
     private GameLauncher _gameLauncher;
     private PlayerProfileModel playerProfile;
     private int activeScene;
-    public static GameManager _instance;
+    private static GameManager _instance;
     public static GameManager Instance
     {
         get

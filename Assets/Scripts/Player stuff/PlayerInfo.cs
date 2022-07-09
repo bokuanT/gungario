@@ -12,6 +12,7 @@ public class PlayerInfo : NetworkBehaviour
 {
 	//[SerializeField] public Character CharacterPrefab;
 	[Networked] public NetworkString<_32> Name { get; set; }
+	[Networked] public int CosmeticHatID { get; set; }
 	// [Networked] public NetworkBool InputEnabled { get; set; }
 
 	public override void Spawned()
@@ -24,6 +25,11 @@ public class PlayerInfo : NetworkBehaviour
 			PlayerProfileModel profile = GameManager.Instance.GetPlayerProfile();
 			Name = profile.DisplayName;
 			RPC_SetName(Name);
+
+			// grab the cosmetics selected from Shop, set locally and broadcast
+			int id = Shop.Instance.GetSelectedCosmetics();
+			CosmeticHatID = id;
+			RPC_SetCosmeticHat(id);
 		}
 	}
 
@@ -32,5 +38,12 @@ public class PlayerInfo : NetworkBehaviour
 	{
 		Name = name;
 	}
+
+	[Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+	public void RPC_SetCosmeticHat(int hatID)
+	{
+		CosmeticHatID = hatID;
+	}
+
 
 }
