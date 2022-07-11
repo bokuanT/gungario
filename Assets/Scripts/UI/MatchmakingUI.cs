@@ -1,14 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class MatchmakingUI : MonoBehaviour
 {
+    [SerializeField] private TMP_Text text;
+    [SerializeField] private GameObject cancelMatchmaking;
+    public void OnMatchmake()
+    {
+        cancelMatchmaking.SetActive(true);
+        // change UI to returning to lobby...
+        text.SetText("Matchmaking...");
+    }
 
     public void QuitMatchmake()
     {
         Debug.Log("Exit Matchmaking");
-        //MenuUI.Instance.OnJoinLobby();
+        cancelMatchmaking.SetActive(false);
+        text.SetText("Returning to Lobby...");
         GameLauncher.Instance.LeaveSession();
     }
 

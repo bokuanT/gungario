@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public enum ConnectionStatus
 {
 	Disconnected,
-	InLobby,
+	Lobby,
 	Connecting,
 	Failed,
 	Connected
@@ -313,7 +313,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
 	{
 		Debug.Log($"OnShutdown {shutdownReason}");
-		SetConnectionStatus(ConnectionStatus.Disconnected);
+		//SetConnectionStatus(ConnectionStatus.Disconnected);
 
 		(string status, string message) = ShutdownReasonToHuman(shutdownReason);
 		// _disconnectUI.ShowMessage( status, message);
@@ -330,7 +330,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		_runner = null;
 	}
 
-	private void SetConnectionStatus(ConnectionStatus status)
+	private  async void SetConnectionStatus(ConnectionStatus status)
 	{
 		Debug.Log($"Setting connection status to {status}");
 
@@ -343,25 +343,28 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		{
 			SceneManager.LoadScene(LevelManager.MENU_SCENE);
 		}
+
+		if (status == ConnectionStatus.Lobby)
+        {
+			// handle failed connection/cancel matchmake here
+			// spawn a new runner via GameManager
+			GameManager.Instance.SpawnRunner();
+
+			// re-enter lobby
+			await GameManager.Instance.JoinLobby();
+
+			// remove ui
+			MenuUI.Instance.OnJoinLobby();
+		}
 	}
 	public void LeaveSession()
 	{
 		if (_runner != null)
         {
-			//Debug.Log(_runner.LocalPlayer);
-			//PlayerRef player = _gameMode == GameMode.Host ? 0 : LocalPlayerRef;
-			//// if host is leaving session, his playerRef is always 0, but _runner.LocalPlayer will return MAX_PLAYERS - 1
-			//_runner.Disconnect(player);
-
-			//// Find and remove the players info gameobject
-			//if (_players.TryGetValue(player, out PlayerInfo playerInfo))
-			//{
-			//	_runner.Despawn(playerInfo.Object);
-			//	_players.Remove(player);
-			//	Debug.Log("PlayerInfo removed successfully");
-			//}
 			Debug.Log("Back to Lobby from exiting matchmaking is a work-in-progress. To be implemented.");
 			_runner.Shutdown();
+			// no need to delete players in _players, since GameLauncher will be deleted and spawned
+			SetConnectionStatus(ConnectionStatus.Lobby);
 		}
 	}
 
