@@ -14,8 +14,8 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     NetworkCharacterControllerPrototypeCustom controller;
     NetworkPlayer player;
     public Player playerObject;
-
     private bool _primaryFire;
+    private bool _scoreboard;
 
     /// <summary>
     /// Hook up to the Fusion callbacks so we can handle the input polling
@@ -42,44 +42,58 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     {
         //cam.enabled = true;
         //cam = GameObject.FindWithTag("PlayerCamera");
+        if (cam != null)
+        {
+            moveInputVector.x = Input.GetAxisRaw("Horizontal");
+            moveInputVector.y = Input.GetAxisRaw("Vertical");
 
-        moveInputVector.x = Input.GetAxisRaw("Horizontal");
-        moveInputVector.y = Input.GetAxisRaw("Vertical");
-
-        // Gets the mouse position
-        Vector3 mousePos =  cam.ScreenToWorldPoint(Input.mousePosition);
-		mouseInputVector = new Vector2(mousePos.x,mousePos.y );
-
+            // Gets the mouse position
+            Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+            mouseInputVector = new Vector2(mousePos.x, mousePos.y);
+        }
         if (Input.GetMouseButton(0) )
 			_primaryFire = true;
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            _scoreboard = !_scoreboard;
+        }
     }
 
+    void FixedUpdate()
+    {
+        if (_scoreboard)
+        {
+            playerObject.ToggleOnScoreboard();
+        }
+        else
+        {
+            playerObject.ToggleOffScoreboard();
+        }
+    }
     
     public override void FixedUpdateNetwork() 
     {
         if (GetInput(out NetworkInputData networkInputData))
         {
             //Move
-            Vector2 moveDirection = networkInputData.movementInput;
-            
-            moveDirection.Normalize();
-        
-            controller.Move(moveDirection);
-            
-            playerObject.setMouse(networkInputData.mouseInput);
-
-            if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))
+            if (playerObject.state == Player.State.Active) //only move if alive
             {
-                playerObject.Shoot(moveDirection);
-            }
+                Vector2 moveDirection = networkInputData.movementInput;
+                
+                moveDirection.Normalize();
+            
+                controller.Move(moveDirection);
+                
+                playerObject.setMouse(networkInputData.mouseInput);
 
+                if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))
+                {
+                    playerObject.Shoot(moveDirection);
+                }             
+
+            } 
         }
-
-            //Rotate character
-            // Vector2 mouseDirection = networkInputData.mouseInput;
-            // int direction = Utils.getDirection(controller.transform.position, mouseDirection);
-            // Debug.Log("Direction is " + direction);
-            // setDirections(direction);
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input) 
@@ -95,6 +109,7 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
 
         input.Set(networkInputData);
         networkInputData.Buttons = 0;
+        
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason reason) { }

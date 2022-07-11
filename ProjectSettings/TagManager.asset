@@ -7,14 +7,15 @@ TagManager:
   - FirePoint
   - PlayerCamera
   - Auth
+  - GameManager
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Gun
   - Water
   - UI
-  - 
+  - Pickup
   - 
   - 
   - 

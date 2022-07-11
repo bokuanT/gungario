@@ -9,8 +9,8 @@ public class Projectile : NetworkBehaviour
 	[SerializeField] private Transform _bulletVisualParent;
     [SerializeField] ExplosionFX _explosionFX;
 
-    [Header("Settings")] 
-    [SerializeField] private BulletSettings _bulletSettings = new BulletSettings();
+    [Header("Settings")]
+    [SerializeField] private BulletSettings _bulletSettings;
 
     [Serializable]
     public class BulletSettings 
@@ -19,12 +19,12 @@ public class Projectile : NetworkBehaviour
         public float areaRadius;
         public float areaImpulse;
         public byte areaDamage;
-        public float speed = 10f;
-        public float radius = 0.25f;
-        public float gravity = -10f;
-        public float timeToLive = 3f;
-        public float timeToFade = 0.5f;
-        public float ownerVelocityMultiplier = 1f;
+        public float speed;
+        public float radius;
+        public float gravity;
+        public float timeToLive;
+        public float timeToFade;
+        public float ownerVelocityMultiplier;
 	}
 
     [Networked]
@@ -73,7 +73,7 @@ public class Projectile : NetworkBehaviour
     {
         lifeTimer = TickTimer.CreateFromSeconds(Runner, _bulletSettings.timeToLive + _bulletSettings.timeToFade);
         fadeTimer = TickTimer.CreateFromSeconds(Runner, _bulletSettings.timeToFade);
-
+       
         destroyed = false;
         
         velocity = gun.right * _bulletSettings.speed + ownervelocity;
@@ -99,7 +99,8 @@ public class Projectile : NetworkBehaviour
         if (bulletDespawnTimer.Expired(Runner))
         {
             _bulletVisualParent.gameObject.SetActive(false);
-            Destroy(gameObject);
+            NetworkObject self = GetComponent<NetworkObject>();
+            Runner.Despawn(self, false);
         }
     }
 
@@ -113,7 +114,7 @@ public class Projectile : NetworkBehaviour
 
         if (!destroyed)
         {
-            if (fadeTimer.Expired(Runner))
+            if (lifeTimer.Expired(Runner))
             {
                 Detonate(transform.position);
             }
@@ -128,6 +129,7 @@ public class Projectile : NetworkBehaviour
                 
                 if (Runner.LagCompensation.Raycast(transform.position, dir, Mathf.Max(_bulletSettings.radius, speed * dt), Object.InputAuthority, out var hitinfo, _bulletSettings.hitMask.value, HitOptions.IncludePhysX))
                 {
+                    //Debug.Log("hit something");
                     vel = HandleImpact(hitinfo);
                     pos = hitinfo.Point;
                 }
@@ -183,20 +185,20 @@ public class Projectile : NetworkBehaviour
         var inputauth = Object.InputAuthority;
         var hbm = Runner.LagCompensation;
         int cnt = hbm.OverlapSphere(hitPoint, _bulletSettings.areaRadius, inputauth, _areaHits, _bulletSettings.hitMask, HitOptions.IncludePhysX);
-        Debug.Log("cnt: " + cnt);
+        
         if (cnt > 0)
         {
             for (int i = 0; i < cnt; i++)
             {
                 GameObject other = _areaHits[i].GameObject;
-                Debug.Log("who took hit: "+ other);
+               
                 if (other && other.tag == "Player")
                 {
-                    Debug.Log("something took dmg");
+                    
                     ICanTakeDamage target = other.GetComponent<ICanTakeDamage>();
                     if (target != null)
                     {
-                        Debug.Log("target: " + target);
+                        
                         Vector3 impulse = other.transform.position - hitPoint;
                         float l = Mathf.Clamp(_bulletSettings.areaRadius - impulse.magnitude, 0, _bulletSettings.areaRadius);
                         impulse = _bulletSettings.areaImpulse * l * impulse.normalized;
@@ -209,7 +211,7 @@ public class Projectile : NetworkBehaviour
 
     private Vector3 HandleImpact(LagCompensatedHit hit)
     {
-        Debug.Log("Impact at " + hit.Point);
+        
         if (hit.Hitbox != null)
         {
             NetworkObject netobj = hit.Hitbox.Root.Object;
