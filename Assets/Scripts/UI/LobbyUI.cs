@@ -45,10 +45,19 @@ public class LobbyUI : MonoBehaviour
             PlayFabClientAPI.UpdateUserTitleDisplayName( new UpdateUserTitleDisplayNameRequest {
                 DisplayName = ChangeName.GetParsedText()
             }, result => {
+                // inform the player that username change successful
+                SettingsUI.Instance.OnNameChange(true);
+
                 Debug.Log("The player's display name is now: " + result.DisplayName);
                 PlayerName.SetText("Welcome back, " + result.DisplayName + "!");
                 nameChanged = true;
-            }, error => Debug.LogError(error.GenerateErrorReport()));
+            }, error => {
+                // inform the player that username is taken
+                Debug.Log("Username taken");
+                SettingsUI.Instance.OnNameChange(false);
+
+                Debug.LogError(error.GenerateErrorReport());
+            });
         }
     }
 
@@ -71,8 +80,8 @@ public class LobbyUI : MonoBehaviour
 
     public void UpdateSessionData(int players, int sessions)
     {
-        if (players > 1) ActivePlayerCount.SetText($"{players}");
-        if (sessions > 0) AvailableSessions.SetText($"{sessions}");
+        // if (players > 1) ActivePlayerCount.SetText($"{players}");
+        AvailableSessions.SetText($"{sessions}");
         
         // In the future, a "active session count" can be implemented by updating when a game starts and ends.
         // To be implemented after game ending and transition is in place

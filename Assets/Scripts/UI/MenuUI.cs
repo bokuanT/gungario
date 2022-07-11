@@ -9,7 +9,8 @@ public class MenuUI : MonoBehaviour
     public MatchmakingUI matchmakingUI;
     public LobbyManager lobbyManager;
     public PlayFabAuthenticator authenticator;
-    public GameObject canvas;
+    public GameObject shopCanvas;
+    public GameObject settingsCanvas;
 
     private static MenuUI _instance;
     public static MenuUI Instance
@@ -26,7 +27,8 @@ public class MenuUI : MonoBehaviour
         loginUI.gameObject.SetActive(true);
         matchmakingUI.gameObject.SetActive(false);
         lobbyUI.gameObject.SetActive(false);
-        canvas.SetActive(false);
+        shopCanvas.SetActive(false);
+        settingsCanvas.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -44,6 +46,7 @@ public class MenuUI : MonoBehaviour
     public void OnMatchmake()
     {
         matchmakingUI.gameObject.SetActive(true);
+        matchmakingUI.OnMatchmake();
         loginUI.gameObject.SetActive(false);
         lobbyUI.gameObject.SetActive(false);
     }
@@ -59,12 +62,26 @@ public class MenuUI : MonoBehaviour
     // Activates Shop canvas
     public void OpenShop()
     {
-        canvas.SetActive(true);
+        shopCanvas.SetActive(true);
+        lobbyUI.gameObject.SetActive(false);
     }
 
     // Deactivates Shop canvas
     public void CloseShop()
     {
-        canvas.SetActive(false);
+        lobbyUI.gameObject.SetActive(true);
+        shopCanvas.SetActive(false);
+    }
+
+    // Activates Settings canvas
+    public void OpenSettings()
+    {
+        settingsCanvas.SetActive(true);
+    }
+
+    // Deactivates Settings canvas
+    public void CloseSettings()
+    {
+        settingsCanvas.SetActive(false);
     }
 }

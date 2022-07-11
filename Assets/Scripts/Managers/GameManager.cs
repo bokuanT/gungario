@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Fusion;
 using PlayFab.ClientModels;
-using Fusion.Photon.Realtime;
+using System.Threading.Tasks;
 
 public class GameManager : NetworkBehaviour
 {
@@ -31,20 +31,23 @@ public class GameManager : NetworkBehaviour
         if (_instance != this) Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
 
-        // if a seperate instance is spawned, runner will always be null
-        if (runner == null) {
-            GameObject go = Instantiate(networkRunnerPrefab);
-            DontDestroyOnLoad(go);
-            go.name = "Session";
-            runner = go.GetComponent<NetworkRunner>();
-            _gameLauncher = go.GetComponent<GameLauncher>();
-            runner.AddCallbacks(_gameLauncher);
-            _lobbyManager = GetComponent<LobbyManager>();
-        }
+        SpawnRunner();
+    }
+
+    // once runner is disconnected, it can be spawned using this method
+    public void SpawnRunner()
+    {
+        GameObject go = Instantiate(networkRunnerPrefab);
+        DontDestroyOnLoad(go);
+        go.name = "Session";
+        runner = go.GetComponent<NetworkRunner>();
+        _gameLauncher = go.GetComponent<GameLauncher>();
+        runner.AddCallbacks(_gameLauncher);
+        _lobbyManager = GetComponent<LobbyManager>();
     }
 
 
-    public async void joinLobby() 
+    public async Task JoinLobby() 
     {
         Debug.Log("Connecting");
         await _lobbyManager.JoinLobby(runner);
