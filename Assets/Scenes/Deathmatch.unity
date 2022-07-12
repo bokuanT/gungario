@@ -607,6 +607,26 @@ PrefabInstance:
       propertyPath: scoreboard_item_prefab
       value: 
       objectReference: {fileID: 6922072805987445365, guid: 572009f00e27a65458b7514909243030, type: 3}
+    - target: {fileID: 6739845515071865879, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+      propertyPath: Flags
+      value: 2561
+      objectReference: {fileID: 0}
+    - target: {fileID: 6739845515071865879, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+      propertyPath: NetworkedBehaviours.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6739845515071865879, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+      propertyPath: NetworkedBehaviours.Array.data[0]
+      value: 
+      objectReference: {fileID: 457495311}
+    - target: {fileID: 6739845515071865879, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+      propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
+      value: 5353466903623954836
+      objectReference: {fileID: 0}
+    - target: {fileID: 6739845515071865879, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+      propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
+      value: 6394520712617632897
+      objectReference: {fileID: 0}
     - target: {fileID: 7019307569224727485, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: m_text
       value: 
@@ -690,6 +710,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb5d30b1bcf7717429c0d0865e47be17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &457495311 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7879753941133398161, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+  m_PrefabInstance: {fileID: 457495309}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9225873e03f7ea64491f209c976854db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &519420028
@@ -1049,5 +1080,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

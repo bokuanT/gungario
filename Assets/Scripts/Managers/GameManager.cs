@@ -58,6 +58,16 @@ public class GameManager : NetworkBehaviour
         _gameLauncher.MatchmakeDeathMatch();
     }
 
+    public void MatchmakeControlPoint()
+    {
+        _gameLauncher.MatchmakeControlPoint();
+    }
+
+    public void MatchmakeFFA()
+    {
+        _gameLauncher.MatchmakeFFA();
+    }
+
     public void StartGame()
     {
         _gameLauncher.StartGame();

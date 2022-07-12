@@ -6,11 +6,13 @@ public class MenuUI : MonoBehaviour
 {
     public LoginUI loginUI;
     public LobbyUI lobbyUI;
+    public GamemodesUI gamemodeUI;
     public MatchmakingUI matchmakingUI;
     public LobbyManager lobbyManager;
     public PlayFabAuthenticator authenticator;
     public GameObject shopCanvas;
     public GameObject settingsCanvas;
+    public GameObject gameModesUI;
 
     private static MenuUI _instance;
     public static MenuUI Instance
@@ -40,6 +42,14 @@ public class MenuUI : MonoBehaviour
             int players = GameManager.Instance.GetActivePlayers();
             int sessions = GameLauncher.Instance.sessionCount;
             lobbyUI.UpdateSessionData(players, sessions);
+            gamemodeUI.UpdateSessionData(players, sessions);
+        }
+
+        if (gamemodeUI.gameObject.activeInHierarchy)
+        {
+            int players = GameManager.Instance.GetActivePlayers();
+            int sessions = GameLauncher.Instance.sessionCount;
+            gamemodeUI.UpdateSessionData(players, sessions);
         }
     }
 
@@ -49,6 +59,7 @@ public class MenuUI : MonoBehaviour
         matchmakingUI.OnMatchmake();
         loginUI.gameObject.SetActive(false);
         lobbyUI.gameObject.SetActive(false);
+        gameModesUI.SetActive(false);
     }
     
     public void OnJoinLobby()

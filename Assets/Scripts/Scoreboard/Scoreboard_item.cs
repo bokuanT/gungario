@@ -33,6 +33,9 @@ public class Scoreboard_item : MonoBehaviour
         {
             kills = player.kills;
             deaths = player.deaths;
+            Color colour = player.team == Player.Team.Red ? Color.red
+                : player.team == Player.Team.Blue ? Color.blue : Color.white;
+            usernameText.color = colour;
         }
     }
 
@@ -47,6 +50,16 @@ public class Scoreboard_item : MonoBehaviour
         this.player.kills = 0;
         this.player.deaths = 0;
         player.ForceMakeHealthySetSpawn(Utils.GetRandomSpawnPoint());
+    }
+
+    public bool IsRedTeam()
+    {
+        return player.team == Player.Team.Red;
+    }
+
+    public bool IsBlueTeam()
+    {
+        return player.team == Player.Team.Blue;
     }
 
 }

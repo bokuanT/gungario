@@ -104,6 +104,10 @@ public class LevelBehaviour : NetworkBehaviour
         KillLeaderEntryContainer entryContainer = resultsScreen
             .GetComponentInChildren<KillLeaderEntryContainer>();
 
+        //Display teams total kills
+        TeamWinnerUI t_w_UI = resultsScreen.GetComponentInChildren<TeamWinnerUI>();
+        t_w_UI.DisplayInfoTDM(results);
+
         int position = 1;
         foreach (Player winner in results)
         {
