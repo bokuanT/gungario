@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Fusion;
-
+using Random = UnityEngine.Random;
 /** 
 * Enemy AI Tiers (Defined by Ryan).
 * Level 1: Able to chase and shoot the Player
@@ -46,28 +45,36 @@ public class Enemy : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        // reset target if target exists, once target dies
-        // OR this enemy is dead, reset everything
-        if ((target != null && target.state == Player.State.Dead) || enemyInput.state == Player.State.Dead)
+        try
         {
-            targetLocation = null;
-            target = null;
-            isChasing = false;
-        }
-
-        if (targetLocation != null && enemyTransform != null) { // target exists
-            // sets Mouse location
-            SetDirection(targetLocation);
-            
-            // stops chasing the target if exits range 
-            if (Vector2.Distance(enemyTransform.position, targetLocation.position) > chasingRange) 
+            // reset target if target exists, once target dies
+            // OR this enemy is dead, reset everything
+            if ((target != null && target.state == Player.State.Dead) || enemyInput.state == Player.State.Dead)
             {
-                Debug.Log("Target Lost");
                 targetLocation = null;
-                // enemyRb.velocity = moveDirection * 0;
                 target = null;
                 isChasing = false;
-            }    
+            }
+
+            if (targetLocation != null && enemyTransform != null)
+            { // target exists
+              // sets Mouse location
+                SetDirection(targetLocation);
+
+                // stops chasing the target if exits range 
+                if (Vector2.Distance(enemyTransform.position, targetLocation.position) > chasingRange)
+                {
+                    Debug.Log("Target Lost");
+                    targetLocation = null;
+                    // enemyRb.velocity = moveDirection * 0;
+                    target = null;
+                    isChasing = false;
+                }
+            }
+        }
+        catch (InvalidOperationException e)
+        {
+            return;
         }
     }
 

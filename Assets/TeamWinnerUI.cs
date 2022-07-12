@@ -22,10 +22,49 @@ public class TeamWinnerUI : MonoBehaviour
             Winner.color = Color.red;
             Winner.text = "Red wins";
         }
-        else
+        else if (cp.RedPoints < cp.BluePoints)
         {
             Winner.color = Color.blue;
             Winner.text = "Blue wins";
         }
+        else
+        {
+            Winner.color = Color.white;
+            Winner.text = "Draw";
+        }
+    }
+
+    public void DisplayInfoTDM(Player[] players)
+    {
+        int redScore = 0;
+        int blueScore = 0;
+
+        foreach (Player player in players)
+        {
+            if (player.team == Player.Team.Red)
+                redScore += player.kills;
+
+            if (player.team == Player.Team.Blue)
+                blueScore += player.kills;
+        }
+        RedScoreFinal.text = redScore.ToString();
+        BlueScoreFinal.text = blueScore.ToString();
+
+        if (redScore > blueScore)
+        {
+            Winner.color = Color.red;
+            Winner.text = "Red wins";
+        }
+        else if (redScore < blueScore)
+        {
+            Winner.color = Color.blue;
+            Winner.text = "Blue wins";
+        }
+        else
+        {
+            Winner.color = Color.white;
+            Winner.text = "Draw";
+        }
+
     }
 }

@@ -224,7 +224,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     }
     private void SetTeamColour()
     {
-        SpriteRenderer sr = gameObject.GetComponentInChildren<SpriteRenderer>();
+        SpriteRenderer sr = sprite;
         switch (team)
         {
             case Team.None:
@@ -330,7 +330,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         Player attackingPlayer = PlayerInfoManager.Get(Runner,attacker);
         
 
-        if (attackingPlayer != null && attackingPlayer == this)
+        if (IsSameTeam(attackingPlayer) || (attackingPlayer != null && attackingPlayer == this)) 
         {    
             return;
         }
@@ -471,5 +471,10 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     {
         team = teamSet;
     }
-     
+
+    private bool IsSameTeam(Player other)
+    {
+        return this.team == Team.Red && other.team == Team.Red
+            || this.team == Team.Blue && other.team == Team.Blue;
+    }
 }

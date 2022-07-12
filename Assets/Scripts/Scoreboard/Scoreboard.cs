@@ -19,6 +19,12 @@ public class Scoreboard : NetworkBehaviour
     private HashSet<int> hashSet = new HashSet<int>();
     public GameObject image;
 
+    [Networked]
+    public int redScore { get; set; }
+
+    [Networked]
+    public int blueScore { get; set; }
+
     public override void FixedUpdateNetwork()
     {
         UpdateScoreboard();
@@ -69,10 +75,19 @@ public class Scoreboard : NetworkBehaviour
 
     private void UpdateAllKD()
     {
+        int red = 0;
+        int blue = 0;
+
         foreach (Scoreboard_item item in hashtable.Values)
         {
             item.UpdateKD();
+            if (item.IsRedTeam())
+                red += item.kills;
+            if (item.IsBlueTeam())
+                blue += item.kills;
         }
+        redScore = red;
+        blueScore = blue;
     }
 
     private Scoreboard_item CreateScoreboardItem(PlayerRef playerRef)

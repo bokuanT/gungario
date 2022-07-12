@@ -88,11 +88,21 @@ using UnityEngine.SceneManagement;
 				Debug.Log("Cannot find gamemode managers");
 				return;
 			}
+			if (gameLauncher.gamemode == 0)
+			{
+				GameObject otherMan = gameModes.transform.Find("Manager").gameObject;
+				otherMan.SetActive(false);
+				GameObject correctManager = gameModes.transform.Find("ManagerControlPoints").gameObject;
+				correctManager.SetActive(false);
+				GameObject.Find("ControlPoint").SetActive(false);
+			}
+
 			if (gameLauncher.gamemode == 1)
 			{
 				GameObject otherMan = gameModes.transform.Find("Manager").gameObject;
 				otherMan.SetActive(false);
-				
+				GameObject FFAMan = gameModes.transform.Find("ManagerFreeForAll").gameObject;
+				FFAMan.SetActive(false);
 
 			}
 			if (gameLauncher.gamemode == 2)
@@ -101,6 +111,8 @@ using UnityEngine.SceneManagement;
 				GameObject correctManager = gameModes.transform.Find("ManagerControlPoints").gameObject;
 				correctManager.SetActive(false);
 				GameObject.Find("ControlPoint").SetActive(false);
-		}
+				GameObject FFAMan = gameModes.transform.Find("ManagerFreeForAll").gameObject;
+				FFAMan.SetActive(false);
+			}
 		}
 	}

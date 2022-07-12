@@ -108,6 +108,59 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		_playerProfile = ppm;
     }
 
+	public async void MatchmakeFFA()
+	{
+		Debug.Log("Matchmaking");
+		gamemode = 0;
+		// check for any existing sessions
+		foreach (var session in _sessionList)
+		{
+			if (session.PlayerCount < session.MaxPlayers)
+			{
+				SetJoinLobby();
+				Debug.Log($"Joining {session.Name}");
+
+				// This call will make Fusion join the first session as a Client
+				var result = await _runner.StartGame(new StartGameArgs()
+				{
+					GameMode = _gameMode, // Client GameMode
+					SessionName = session.Name, // Session to Join
+					SceneObjectProvider = LevelManager.Instance, // Scene Provider
+					DisableClientSessionCreation = true, // Make sure the client will never create a Session
+					AuthValues = _runner.AuthenticationValues,
+				});
+
+				if (result.Ok)
+				{
+					// all good
+					Debug.Log("Session joined successfully");
+					Debug.Log($"Players: {session.PlayerCount}/{session.MaxPlayers}");
+				}
+				else
+				{
+					Debug.LogError($"Failed to Start: {result.ShutdownReason}");
+				}
+				return;
+			}
+		}
+		// no sessions exist, start own session as host
+
+		Debug.Log("No Session Found");
+		Debug.Log("Creating Session");
+		SetCreateLobby();
+		int sessionNumber = (int)(UnityEngine.Random.value * 100);
+
+		// This call will make Fusion create the first session as a host
+		await _runner.StartGame(new StartGameArgs()
+		{
+			GameMode = _gameMode, // Host GameMode
+			SessionName = "FFA" + sessionNumber, // Session to Join
+			SceneObjectProvider = LevelManager.Instance, // Scene Provider
+			PlayerCount = MAX_PLAYERS,
+			AuthValues = _runner.AuthenticationValues,
+		});
+	}
+
 	public async void MatchmakeControlPoint()
 	{
 		Debug.Log("Matchmaking");
@@ -143,6 +196,22 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 				return;
 			}
 		}
+		// no sessions exist, start own session as host
+
+		Debug.Log("No Session Found");
+		Debug.Log("Creating Session");
+		SetCreateLobby();
+		int sessionNumber = (int)(UnityEngine.Random.value * 100);
+
+		// This call will make Fusion create the first session as a host
+		await _runner.StartGame(new StartGameArgs()
+		{
+			GameMode = _gameMode, // Host GameMode
+			SessionName = "Controlpoint" + sessionNumber, // Session to Join
+			SceneObjectProvider = LevelManager.Instance, // Scene Provider
+			PlayerCount = MAX_PLAYERS,
+			AuthValues = _runner.AuthenticationValues,
+		});
 	}
 
 		public async void MatchmakeDeathMatch() 
@@ -230,7 +299,12 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	{
 		// _players is a local dictionary, and only added to when a player joins the session.
 		if (_players.Count == MAX_PLAYERS) {
-			Debug.Log("LOADING DEATHMATCH");
+			if (gamemode == 0)
+				Debug.Log("LOADING FFA");
+			if (gamemode == 1)
+				Debug.Log("LOADING CONTROLPOINT");
+			if (gamemode == 2)
+				Debug.Log("LOADING DEATHMATCH");
 			LevelManager.LoadMap(LevelManager.MAP1_SCENE);
 		} else if (_gameMode == GameMode.Single){
 			Debug.Log("LOADING PRACTICEMAP");
