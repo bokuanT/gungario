@@ -329,7 +329,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 	public void SpawnPlayer(NetworkRunner runner, PlayerRef playerRef, Player.Team tim)
 	{
-		NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, playerRef, InitNetworkState);
+		NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(tim), Quaternion.identity, playerRef, InitNetworkState);
 		void InitNetworkState(NetworkRunner runner, NetworkObject networkObject)
 		{
 			Player player = networkObject.gameObject.GetComponent<Player>();

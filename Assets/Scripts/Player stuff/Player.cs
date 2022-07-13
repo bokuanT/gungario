@@ -147,7 +147,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
                     ChangeColliderState(true);
                     _hitBoxRoot.SetHitboxActive(_hitbox, true);
                     Transform thisTransform = GetComponent<Transform>();
-                    thisTransform.position = Utils.GetRandomSpawnPoint(); //can make this follow Tell dont ask principle better
+                    thisTransform.position = Utils.GetRandomSpawnPoint(team); //can make this follow Tell dont ask principle better
                     life = MAX_HEALTH;
                     state = State.Active;
                     setVisuals(true);
