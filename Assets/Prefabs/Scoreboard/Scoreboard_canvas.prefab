@@ -3240,7 +3240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  _levelTime: 30
+  _levelTime: 60
   _startTime: 7
   _startTimerText: {fileID: 7019307569224727485}
   _levelTimerText: {fileID: 972531693657878665}

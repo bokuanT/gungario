@@ -157,7 +157,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
         //}
 
-        CheckForWeaponPickup();
+        CheckForPickup();
 
     }
 
@@ -420,11 +420,10 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         life = MAX_HEALTH;
     }
 
-    public void Pickup(WeaponSpawnScript wepSpawner)
+    private void Pickup(WeaponSpawnScript wepSpawner)
     {
         if (!wepSpawner)
             return;
-        NetworkRunner runner = Runner;
         NetworkWeapon pickedUp = wepSpawner.Pickup();
 
         if (pickedUp == null)
@@ -434,13 +433,22 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
     }
 
-    private void CheckForWeaponPickup()
+    private void Pickup(HealthSpawnScript healthPack)
+    {
+        if (healthPack == null)
+            return;
+
+        healthPack.OnPickUp(this);
+    }
+
+    private void CheckForPickup()
     {
         PhysicsScene scene = Runner.GetPhysicsScene();
         int overlaps = scene.OverlapSphere(transform.position, _pickupRadius, _overlaps, _pickupMask, QueryTriggerInteraction.Collide);
         if (state == State.Active && overlaps > 0)
         {
             Pickup(_overlaps[0].GetComponentInChildren<WeaponSpawnScript>());
+            Pickup(_overlaps[0].GetComponentInChildren<HealthSpawnScript>());
         }
     }
 
