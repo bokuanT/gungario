@@ -51,17 +51,6 @@ public class LevelBehaviourCP : NetworkBehaviour
         }
     }
 
-    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    public void ManualStart()
-    {
-        Debug.Log("manual start");
-        controlPoint.SetActive(true);
-        StartLevel();
-        GameObject tmp = GameObject.Find("Scoreboard_canvas/Scoreboard");
-        if (tmp != null)
-            scoreboard = tmp.GetComponent<Scoreboard>();
-    }
-
     public override void FixedUpdateNetwork()
     {
 

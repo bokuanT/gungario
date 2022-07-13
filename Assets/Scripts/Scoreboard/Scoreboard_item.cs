@@ -49,7 +49,7 @@ public class Scoreboard_item : MonoBehaviour
     {
         this.player.kills = 0;
         this.player.deaths = 0;
-        player.ForceMakeHealthySetSpawn(Utils.GetRandomSpawnPoint());
+        player.ForceMakeHealthySetSpawn(Utils.GetRandomSpawnPoint(player.team));
     }
 
     public bool IsRedTeam()
