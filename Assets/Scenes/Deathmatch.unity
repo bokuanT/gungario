@@ -321,7 +321,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 333482332486482631, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: Flags
-      value: 2561
+      value: 133633
       objectReference: {fileID: 0}
     - target: {fileID: 333482332486482631, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: NetworkedBehaviours.Array.size
@@ -441,7 +441,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3782438402798670508, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: Flags
-      value: 2561
+      value: 133633
       objectReference: {fileID: 0}
     - target: {fileID: 3782438402798670508, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: NetworkedBehaviours.Array.size
@@ -481,7 +481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4061891048923383649, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: _levelTime
-      value: 20
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 4061891048923383649, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: controlPoint
@@ -499,6 +499,10 @@ PrefabInstance:
       propertyPath: controlPoint
       value: 
       objectReference: {fileID: 320549741}
+    - target: {fileID: 4609955365697994384, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5812718242499482880, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 2.0907898
@@ -617,7 +621,7 @@ PrefabInstance:
       objectReference: {fileID: 6922072805987445365, guid: 572009f00e27a65458b7514909243030, type: 3}
     - target: {fileID: 6739845515071865879, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: Flags
-      value: 2561
+      value: 133633
       objectReference: {fileID: 0}
     - target: {fileID: 6739845515071865879, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: NetworkedBehaviours.Array.size
@@ -659,6 +663,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7879753941133398161, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+      propertyPath: _levelTime
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 7883242722945583415, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -685,6 +693,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8346087384410363555, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8412525171984547012, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+      propertyPath: m_Name
+      value: ManagerTDM
+      objectReference: {fileID: 0}
+    - target: {fileID: 8412525171984547012, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8524797100773288018, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8572041966007357870, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}

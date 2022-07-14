@@ -15,6 +15,13 @@ public enum ConnectionStatus
 	Connected
 }
 
+public enum Gamemode
+{
+	FFA,
+	CP,
+	TDM
+}
+
 [RequireComponent(typeof(LevelManager))]
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 {
@@ -35,7 +42,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	private static GameLauncher _instance;
 
 	//For control point/dm
-	public int gamemode;
+	public Gamemode gamemode;
 
 	public static GameLauncher Instance
     {
@@ -111,7 +118,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	public async void MatchmakeFFA()
 	{
 		Debug.Log("Matchmaking");
-		gamemode = 0;
+		gamemode = Gamemode.FFA;
 		// check for any existing sessions
 		foreach (var session in _sessionList)
 		{
@@ -164,7 +171,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	public async void MatchmakeControlPoint()
 	{
 		Debug.Log("Matchmaking");
-		gamemode = 1;
+		gamemode = Gamemode.CP;
 		// check for any existing sessions
 		foreach (var session in _sessionList)
 		{
@@ -217,7 +224,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		public async void MatchmakeDeathMatch() 
 	{
 		Debug.Log("Matchmaking");
-		gamemode = 2;
+		gamemode = Gamemode.TDM;
 		// check for any existing sessions
 		foreach (var session in _sessionList) 
 		{
@@ -299,11 +306,11 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	{
 		// _players is a local dictionary, and only added to when a player joins the session.
 		if (_players.Count == MAX_PLAYERS) {
-			if (gamemode == 0)
+			if (gamemode == Gamemode.FFA)
 				Debug.Log("LOADING FFA");
-			if (gamemode == 1)
+			if (gamemode == Gamemode.CP)
 				Debug.Log("LOADING CONTROLPOINT");
-			if (gamemode == 2)
+			if (gamemode == Gamemode.TDM)
 				Debug.Log("LOADING DEATHMATCH");
 			LevelManager.LoadMap(LevelManager.MAP1_SCENE);
 		} else if (_gameMode == GameMode.Single){

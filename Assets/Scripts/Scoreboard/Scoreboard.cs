@@ -15,9 +15,8 @@ public class Scoreboard : NetworkBehaviour
     private Dictionary<PlayerRef, Scoreboard_item> hashtable = 
         new Dictionary<PlayerRef, Scoreboard_item>();
 
-   
     private HashSet<int> hashSet = new HashSet<int>();
-    public GameObject image;
+    private HashSet<int> cosmeticsLoaded = new HashSet<int>();
 
     [Networked]
     public int redScore { get; set; }
@@ -61,12 +60,13 @@ public class Scoreboard : NetworkBehaviour
 
             // load cosmetics if received 
             int id = GameLauncher.Instance.GetPlayerInfo(pr).CosmeticHatID;
-            if (id != 0)
+            if (!cosmeticsLoaded.Contains(pr.PlayerId) && id != 0)
             {
                 Debug.Log("Loading hat");
                 NetworkObject obj = Runner.GetPlayerObject(pr);
                 Player player = obj.gameObject.GetComponent<Player>();
                 player.hatSprite.sprite = Shop.Instance.GetHat(id);
+                cosmeticsLoaded.Add(pr.PlayerId);
             }
             
         }

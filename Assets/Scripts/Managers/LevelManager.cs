@@ -5,7 +5,7 @@ using Gungario.Utility;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-	public class LevelManager : NetworkSceneManagerBase
+public class LevelManager : NetworkSceneManagerBase
 	{
         /*
         ============================= SOFTWARE DESIGN =============================
@@ -88,31 +88,36 @@ using UnityEngine.SceneManagement;
 				Debug.Log("Cannot find gamemode managers");
 				return;
 			}
-			if (gameLauncher.gamemode == 0)
+			if (gameLauncher.gamemode == Gamemode.FFA)
 			{
-				GameObject otherMan = gameModes.transform.Find("Manager").gameObject;
-				otherMan.SetActive(false);
-				GameObject correctManager = gameModes.transform.Find("ManagerControlPoints").gameObject;
-				correctManager.SetActive(false);
-				GameObject.Find("ControlPoint").SetActive(false);
+				GameObject ManagerFFA = gameModes.transform.Find("ManagerFreeForAll").gameObject;
+				ManagerFFA.SetActive(true);
+				//GameObject ManagerTDM = gameModes.transform.Find("ManagerTDM").gameObject;
+				//ManagerTDM.SetActive(false);
+				//GameObject CPManager = gameModes.transform.Find("ManagerControlPoints").gameObject;
+				//CPManager.SetActive(false);
+				//GameObject.Find("ControlPoint").SetActive(false);	
 			}
 
-			if (gameLauncher.gamemode == 1)
+			if (gameLauncher.gamemode == Gamemode.CP)
 			{
-				GameObject otherMan = gameModes.transform.Find("Manager").gameObject;
-				otherMan.SetActive(false);
-				GameObject FFAMan = gameModes.transform.Find("ManagerFreeForAll").gameObject;
-				FFAMan.SetActive(false);
-
+				GameObject ManagerCP = gameModes.transform.Find("ManagerControlPoints").gameObject;
+				ManagerCP.SetActive(true);
+				//GameObject man = gameModes.transform.Find("ManagerTDM").gameObject;
+				//man.SetActive(false);
+				//GameObject FFAManager = gameModes.transform.Find("ManagerFreeForAll").gameObject;
+				//FFAManager.SetActive(false);
 			}
-			if (gameLauncher.gamemode == 2)
+			if (gameLauncher.gamemode == Gamemode.TDM)
 			{
+				GameObject ManagerTDM = gameModes.transform.Find("ManagerTDM").gameObject;
+				ManagerTDM.SetActive(true);
 				//gameModes.transform.Find("Manager").gameObject.SetActive(true);
-				GameObject correctManager = gameModes.transform.Find("ManagerControlPoints").gameObject;
-				correctManager.SetActive(false);
-				GameObject.Find("ControlPoint").SetActive(false);
-				GameObject FFAMan = gameModes.transform.Find("ManagerFreeForAll").gameObject;
-				FFAMan.SetActive(false);
+				//GameObject CPManager = gameModes.transform.Find("ManagerControlPoints").gameObject;
+				//CPManager.SetActive(false);
+				//GameObject FFAMan = gameModes.transform.Find("ManagerFreeForAll").gameObject;
+				//FFAMan.SetActive(false);
+				//GameObject.Find("ControlPoint").SetActive(false);
 			}
 		}
 	}
