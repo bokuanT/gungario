@@ -147,7 +147,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
                     ChangeColliderState(true);
                     _hitBoxRoot.SetHitboxActive(_hitbox, true);
                     Transform thisTransform = GetComponent<Transform>();
-                    thisTransform.position = Utils.GetRandomSpawnPoint(); //can make this follow Tell dont ask principle better
+                    thisTransform.position = Utils.GetRandomSpawnPoint(team); //can make this follow Tell dont ask principle better
                     life = MAX_HEALTH;
                     state = State.Active;
                     setVisuals(true);
@@ -157,7 +157,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
         //}
 
-        CheckForWeaponPickup();
+        CheckForPickup();
 
     }
 
@@ -224,7 +224,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     }
     private void SetTeamColour()
     {
-        SpriteRenderer sr = gameObject.GetComponentInChildren<SpriteRenderer>();
+        SpriteRenderer sr = sprite;
         switch (team)
         {
             case Team.None:
@@ -330,7 +330,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         Player attackingPlayer = PlayerInfoManager.Get(Runner,attacker);
         
 
-        if (attackingPlayer != null && attackingPlayer == this)
+        if (IsSameTeam(attackingPlayer) || (attackingPlayer != null && attackingPlayer == this)) 
         {    
             return;
         }
@@ -420,11 +420,10 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         life = MAX_HEALTH;
     }
 
-    public void Pickup(WeaponSpawnScript wepSpawner)
+    private void Pickup(WeaponSpawnScript wepSpawner)
     {
         if (!wepSpawner)
             return;
-        NetworkRunner runner = Runner;
         NetworkWeapon pickedUp = wepSpawner.Pickup();
 
         if (pickedUp == null)
@@ -434,13 +433,22 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
     }
 
-    private void CheckForWeaponPickup()
+    private void Pickup(HealthSpawnScript healthPack)
+    {
+        if (healthPack == null)
+            return;
+
+        healthPack.OnPickUp(this);
+    }
+
+    private void CheckForPickup()
     {
         PhysicsScene scene = Runner.GetPhysicsScene();
         int overlaps = scene.OverlapSphere(transform.position, _pickupRadius, _overlaps, _pickupMask, QueryTriggerInteraction.Collide);
         if (state == State.Active && overlaps > 0)
         {
             Pickup(_overlaps[0].GetComponentInChildren<WeaponSpawnScript>());
+            Pickup(_overlaps[0].GetComponentInChildren<HealthSpawnScript>());
         }
     }
 
@@ -471,5 +479,10 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     {
         team = teamSet;
     }
-     
+
+    private bool IsSameTeam(Player other)
+    {
+        return this.team == Team.Red && other.team == Team.Red
+            || this.team == Team.Blue && other.team == Team.Blue;
+    }
 }

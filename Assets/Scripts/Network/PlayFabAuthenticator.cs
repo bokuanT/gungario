@@ -72,7 +72,7 @@ public class PlayFabAuthenticator : MonoBehaviour {
      * This is the final and the simplest step. We create new AuthenticationValues instance.
      * This class describes how to authenticate a players inside Photon environment.
      */
-    private void AuthenticateWithPhoton(GetPhotonAuthenticationTokenResult obj) {
+    private async void AuthenticateWithPhoton(GetPhotonAuthenticationTokenResult obj) {
         LogMessage("Photon token acquired: " + obj.PhotonCustomAuthenticationToken + "  Authentication complete.");
 
         //We set AuthType to custom, meaning we bring our own, PlayFab authentication procedure.
@@ -91,7 +91,7 @@ public class PlayFabAuthenticator : MonoBehaviour {
         authenticate = true;
 
         // enters lobby
-        gameManager.joinLobby();
+        await gameManager.JoinLobby();
     }
 
     public bool isAuthenticated() {

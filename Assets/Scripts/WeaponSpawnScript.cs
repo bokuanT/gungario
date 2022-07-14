@@ -24,15 +24,14 @@ public class WeaponSpawnScript : NetworkBehaviour
     }
     public override void FixedUpdateNetwork()
     {
-        base.FixedUpdateNetwork();
         if (respawnDelay.ExpiredOrNotRunning(Runner))
         {
-            if (AvailableIcon.active == false)
+            if (AvailableIcon.activeInHierarchy == false)
                 AvailableIcon.SetActive(true);
         }
         else
         {
-            if (AvailableIcon.active == true)
+            if (AvailableIcon.activeInHierarchy == true)
                 AvailableIcon.SetActive(false);
         }
     }

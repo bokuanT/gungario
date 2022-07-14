@@ -197,7 +197,7 @@ Transform:
   - {fileID: 6048902854270550721}
   - {fileID: 6069591925033917872}
   - {fileID: 1986815246509440650}
-  - {fileID: 5883196799441369388}
+  - {fileID: 8759465867787536050}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -313,6 +313,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   sprite: {fileID: 7189498385965768741}
   weaponSprite: {fileID: 5324708199101303180}
+  hatSprite: {fileID: 0}
   _pickupRadius: 0
   _pickupMask:
     serializedVersion: 2
@@ -323,7 +324,6 @@ MonoBehaviour:
   player: {fileID: 6069591925033917872}
   scoreboard_item: {fileID: 0}
   cursor: {fileID: 0}
-  collider: {fileID: 1765118985526830580}
   moveSpeed: 5
   _gunDirection: 0
   _life: 0
@@ -429,6 +429,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   enemyTransform: {fileID: 1342500715627698684}
   controller: {fileID: 6689877637114569938}
+  wallDetection: {fileID: 0}
 --- !u!1 &1342500715654901783
 GameObject:
   m_ObjectHideFlags: 0
@@ -1145,6 +1146,14 @@ PrefabInstance:
       propertyPath: enemy
       value: 
       objectReference: {fileID: 503817256652951964}
+    - target: {fileID: 4242177893719253501, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 503817256652951964}
+    - target: {fileID: 5313582847306514165, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7032138752257966443, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1199,9 +1208,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
---- !u!4 &5883196799441369388 stripped
+--- !u!4 &8759465867787536050 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 7032138752257966443, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5313582847306514165, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
   m_PrefabInstance: {fileID: 3472975420254763079}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7754545578030760668
