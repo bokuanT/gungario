@@ -10,6 +10,8 @@ public class ProgressBar : NetworkBehaviour
 
     public const float BASE_CREMENT = 0.2F;
 
+    public SpriteRenderer controlPoint;
+
     [Networked]
     public float sliderValue { get; set; }
 
@@ -44,16 +46,20 @@ public class ProgressBar : NetworkBehaviour
     private void SetColour()
     {
         Image img = transform.Find("Fill").GetComponent<Image>();
+
         switch (team)
         {
             case Team.None:
                 img.color = Color.white;
+                controlPoint.color = Color.white;
                 break;
             case Team.Red:
                 img.color = Color.red;
+                controlPoint.color = Color.red;
                 break;
             case Team.Blue:
                 img.color = Color.blue;
+                controlPoint.color = Color.blue;
                 break;
         }
     }
