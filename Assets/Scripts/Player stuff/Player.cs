@@ -27,7 +27,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     private Hitbox _hitbox;
     public Animator animator;
     public Transform player;
-    private Transform gun;
+    public Transform gun;
     private Transform firePoint;
     private Vector2 mouseDirection;
     private Vector2 lookDir;

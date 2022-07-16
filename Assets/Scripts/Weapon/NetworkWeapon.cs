@@ -7,7 +7,7 @@ public class NetworkWeapon : NetworkRigidbody2D
 
     [Networked]
 	public TickTimer primaryFireDelay { get; set; }
-    [SerializeField] private float DELAY = 0.8f;
+    [SerializeField] public float DELAY = 0.8f;
 
     [SerializeField] public int index;
     public void Fire(NetworkRunner runner, PlayerRef owner, Vector3 ownerVelocity)

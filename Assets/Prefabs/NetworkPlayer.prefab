@@ -159,6 +159,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   sprite: {fileID: 8068551591555685834}
   weaponSprite: {fileID: 5033427591569486947}
+  hatSprite: {fileID: 0}
   _pickupRadius: 0.2
   _pickupMask:
     serializedVersion: 2
