@@ -97,14 +97,16 @@ using UnityEngine;
 			Transform playerTransform = _player.transform;
 			
 			_laserSight.SetPosition(0, playerTransform.position);
-			Ray ray = new Ray(playerTransform.position, _player.lookDir);
+			Vector2 gunDir = Vector2.Lerp(_player.gun.right, new Vector2(Mathf.Sin(_player.gunDirection), 
+				Mathf.Cos(_player.gunDirection)), _player.Runner.DeltaTime * 5f);
+		Ray ray = new Ray(playerTransform.position, gunDir);
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit, Mathf.Infinity, _collisionMask))
 			{
-				Vector3 direction = _player.lookDir * hit.distance;
+				Vector3 direction = gunDir * hit.distance;
 				_laserSight.SetPosition(1, hit.point);
 				//_sightImpact.transform.position = hit.point;
-				Debug.DrawRay(playerTransform.position, _player.lookDir * Mathf.Infinity, Color.yellow);
+				Debug.DrawRay(playerTransform.position, gunDir * Mathf.Infinity, Color.yellow);
 				Debug.DrawLine(playerTransform.position, hit.point, Color.red);
 			}
 		}
