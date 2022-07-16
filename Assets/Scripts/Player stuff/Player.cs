@@ -30,7 +30,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     private Transform gun;
     private Transform firePoint;
     private Vector2 mouseDirection;
-    private Vector2 lookDir;
+    public Vector2 lookDir;
     private DeathManager _deathManager;
     private PlayerRef thisPlayerRef;
     public Scoreboard_item scoreboard_item;
