@@ -12,8 +12,8 @@ public class WeaponManager : NetworkBehaviour
     public void InitNetworkState()
     {
         
-        SetActiveWeapon(_weapons[2], true);
-        activeWeapon = _weapons[2];
+        SetActiveWeapon(_weapons[0], true);
+        activeWeapon = _weapons[0];
         
     }
 

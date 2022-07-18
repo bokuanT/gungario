@@ -306,5 +306,7 @@ MonoBehaviour:
   _networkWeapons:
   - {fileID: 4463367684650353909, guid: 4409c8865824d0f45b55ac315ce4f2af, type: 3}
   - {fileID: 7822455647880600558, guid: 938bbc8e80ac80244ae99443e41c09f8, type: 3}
+  - {fileID: 786273406007419442, guid: 0e57e4c05e3b8454d8d8f013da912ed4, type: 3}
+  - {fileID: 4255913053789374318, guid: 302cc7a4a5aae5b458013136c335ef6b, type: 3}
   _activePowerupIndex: 0
   AvailableIcon: {fileID: 177380517804173395}

@@ -87,7 +87,9 @@ public class Projectile : NetworkBehaviour
             _explosionFX.ResetExplosion();
         }
         _bulletVisualParent.gameObject.SetActive(true);
-        transform.Find("Explosion").gameObject.SetActive(true);
+
+        if (transform.Find("Explosion") != null)
+            transform.Find("Explosion").gameObject.SetActive(true);
 
         GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.Predicted;
 

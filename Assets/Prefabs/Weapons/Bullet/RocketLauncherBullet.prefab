@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8562633396057550996
 Transform:
   m_ObjectHideFlags: 0
@@ -5015,7 +5015,7 @@ MonoBehaviour:
     areaRadius: 0.2
     areaImpulse: 0
     areaDamage: 30
-    speed: 5
+    speed: 13
     radius: 0
     gravity: 0
     timeToLive: 8
