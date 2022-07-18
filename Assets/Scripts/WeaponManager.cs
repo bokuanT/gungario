@@ -17,12 +17,6 @@ public class WeaponManager : NetworkBehaviour
         
     }
 
-    //public void Awake()
-    //{
-    //    SetActiveWeapon(_weapons[0], true);
-    //    activeWeapon = _weapons[0];
-    //}
-
     public void ShowCorrectWeapon()
     {
         if (activeWeapon != null)

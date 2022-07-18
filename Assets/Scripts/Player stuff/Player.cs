@@ -27,7 +27,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     private Hitbox _hitbox;
     public Animator animator;
     public Transform player;
-    private Transform gun;
+    public Transform gun;
     private Transform firePoint;
     private Vector2 mouseDirection;
     private Vector2 lookDir;
@@ -351,8 +351,11 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         
         else 
         {
-        life -= damage;
-		//Debug.Log($"Player {this} took {damage} damage, life = {life}");
+            life -= damage;
+            if (attackingPlayer.weaponManager.activeWeapon.index == 3)
+                if (attackingPlayer.life + 3 <= 100)
+                    attackingPlayer.life += 3;
+		
         }
     }
 
