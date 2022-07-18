@@ -11,6 +11,7 @@ public class LobbyUI : MonoBehaviour
     public TMP_Text ActivePlayerCount;
     public TMP_Text AvailableSessions;
     public PlayFabAuthenticator authenticator;
+    [SerializeField] private GameObject loadingCanvas;
     private bool nameChanged = false;
 
     public void StartGame() {
@@ -23,8 +24,12 @@ public class LobbyUI : MonoBehaviour
         GameManager.Instance.SetScene(LevelManager.TESTGAME_SCENE);
         GameManager.Instance.StartGame();
     }
-    public void OpenGamemodes()
+    public async void OpenGamemodes()
     {
+        // create loading screen for lobby joining
+        loadingCanvas.SetActive(true);
+        await GameManager.Instance.JoinLobby();
+        loadingCanvas.SetActive(false);
         GameObject mainMenuContainer = GameObject.Find("Menu/MainMenuContainer");
         GameObject gameModes = mainMenuContainer.transform.Find("Gamemodes").gameObject;
         gameModes.SetActive(true);
@@ -72,6 +77,9 @@ public class LobbyUI : MonoBehaviour
                 PlayerName.SetText("Welcome back, " + result.DisplayName + "!");
                 nameChanged = true;
             }, error => {
+                // inform player of reason
+                // TO BE IMPLEMENTED
+
                 // inform the player that username is taken
                 Debug.Log("Username taken");
                 SettingsUI.Instance.OnNameChange(false);

@@ -8,6 +8,7 @@ public class Shop : MonoBehaviour
     private int[] shopItems = new int[4];
     private int selectedHat = 0;
     private static Shop _instance;
+    [SerializeField] GameObject canvas;
     public static Shop Instance
     {
         get
@@ -21,7 +22,12 @@ public class Shop : MonoBehaviour
 
     public void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        if (_instance != this) Destroy(gameObject);
     }
 
     // Called when player clicks the button in shop, setting the hat
@@ -39,6 +45,16 @@ public class Shop : MonoBehaviour
 
         // Grabs hat from resources folder, and typecasts as Sprite
         return Resources.Load($"Skins/hat{id}", typeof(Sprite)) as Sprite;
+    }
+
+    public void OpenShop()
+    {
+        canvas.SetActive(true);
+    }
+
+    public void CloseShop()
+    {
+        canvas.SetActive(false);
     }
 
     public int GetSelectedCosmetics()

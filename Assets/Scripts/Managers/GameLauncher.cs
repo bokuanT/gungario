@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Fusion;
 using Fusion.Sockets;
@@ -12,7 +13,8 @@ public enum ConnectionStatus
 	Lobby,
 	Connecting,
 	Failed,
-	Connected
+	Connected,
+	Returning
 }
 
 public enum Gamemode
@@ -60,7 +62,10 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
 	void Awake() 
-	{ 
+	{
+		// original will be set to this, but will be destroyed when runner is shutdown
+		if (_instance == null) _instance = this;
+
 		_runner = GetComponent<NetworkRunner>();
 	}
 
@@ -168,7 +173,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		});
 	}
 
-	public async void MatchmakeControlPoint()
+    public async void MatchmakeControlPoint()
 	{
 		Debug.Log("Matchmaking");
 		gamemode = Gamemode.CP;
@@ -356,6 +361,28 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         }
 	}
 
+	public void DestroyAllPlayers()
+	{
+		foreach (var player in _players)
+		{
+			// Find and remove the players avatar
+			if (_spawnedCharacters.TryGetValue(player.Key, out NetworkObject networkObject))
+			{
+				Player playerGameObject = networkObject.gameObject.GetComponent<Player>();
+				//Debug.Log("playerg.o. " + playerGameObject);
+				if (playerGameObject.scoreboard_item != null)
+				{
+					//Debug.Log("Destroying: " + playerGameObject.scoreboard_item);
+					Destroy(playerGameObject.scoreboard_item.gameObject);
+				}
+				// takes in a NetworkObject
+				_runner.Despawn(networkObject);
+				_spawnedCharacters.Remove(player.Key);
+				Debug.Log("Player removed successfully");
+			}
+		}
+	}
+
 	public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
 	{
 		Debug.Log($"{player.PlayerId} disconnected.");
@@ -411,7 +438,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		_runner = null;
 	}
 
-	private  async void SetConnectionStatus(ConnectionStatus status)
+	private async void SetConnectionStatus(ConnectionStatus status)
 	{
 		Debug.Log($"Setting connection status to {status}");
 
@@ -427,29 +454,22 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 		if (status == ConnectionStatus.Lobby)
         {
-			// handle failed connection/cancel matchmake here
-			// spawn a new runner via GameManager
-			GameManager.Instance.SpawnRunner();
-
-			// re-enter lobby
-			await GameManager.Instance.JoinLobby();
-
-			// remove ui
-			MenuUI.Instance.OnJoinLobby();
+			// has to call in another object, since this gamelauncher will be destroyed
+			GameManager.Instance.ReturnToLobby();			
 		}
 	}
-	public void LeaveSession()
+	public async void LeaveSession()
 	{
 		if (_runner != null)
         {
-			Debug.Log("Back to Lobby from exiting matchmaking is a work-in-progress. To be implemented.");
-			_runner.Shutdown();
 			// no need to delete players in _players, since GameLauncher will be deleted and spawned
+			// we need to remove the _instance before allowing new instances to be spawned
+			_runner.Shutdown();
 			SetConnectionStatus(ConnectionStatus.Lobby);
 		}
 	}
 
-	// Quits game
+	// exits game
 	public void LeaveGame()
 	{
 		if (_runner != null)

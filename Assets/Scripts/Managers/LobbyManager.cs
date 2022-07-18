@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviour
 {
@@ -10,18 +11,6 @@ public class LobbyManager : MonoBehaviour
     private NetworkRunner _runner;
     // Joins the Shared mode lobby 
     private SessionLobby lobbyMode = SessionLobby.Shared;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     // Utility method to Join the ClientServer Lobby
     public async Task JoinLobby(NetworkRunner runner) {
@@ -32,8 +21,7 @@ public class LobbyManager : MonoBehaviour
             // all good
             lobby = true;
 
-            // move game scene to lobby 
-            MenuUI.Instance.OnJoinLobby();
+            //MenuUI.Instance.OnJoinLobby();
 
             Debug.Log($"Joined Lobby: {lobbyMode}");
         } else {

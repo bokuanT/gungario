@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using Fusion;
 using PlayFab.ClientModels;
 using System.Threading.Tasks;
+using System.Collections;
 
 public class GameManager : NetworkBehaviour
 {
@@ -25,18 +26,21 @@ public class GameManager : NetworkBehaviour
 
     void Awake() 
     {
-        // may return itself or the current instance
-        _instance = GameManager.Instance;
-        if (_instance == null) _instance = this;
+        if (_instance == null)
+        {
+            _instance = this;
+            SpawnRunner();
+        } 
         if (_instance != this) Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
 
-        SpawnRunner();
+        Debug.Log("GAMEMANAGER ONSTART");
     }
 
     // once runner is disconnected, it can be spawned using this method
     public void SpawnRunner()
     {
+        Debug.Log("SPAWNING RUNNER");
         GameObject go = Instantiate(networkRunnerPrefab);
         DontDestroyOnLoad(go);
         go.name = "Session";
@@ -55,22 +59,22 @@ public class GameManager : NetworkBehaviour
 
     public void MatchmakeDeathMatch()
     {
-        _gameLauncher.MatchmakeDeathMatch();
+        GameLauncher.Instance.MatchmakeDeathMatch();
     }
 
     public void MatchmakeControlPoint()
     {
-        _gameLauncher.MatchmakeControlPoint();
+        GameLauncher.Instance.MatchmakeControlPoint();
     }
 
     public void MatchmakeFFA()
     {
-        _gameLauncher.MatchmakeFFA();
+        GameLauncher.Instance.MatchmakeFFA();
     }
 
     public void StartGame()
     {
-        _gameLauncher.StartGame();
+        GameLauncher.Instance.StartGame();
     }
 
     public void SetScene(int scene) 
@@ -86,7 +90,7 @@ public class GameManager : NetworkBehaviour
     public void SetPlayerProfile(PlayerProfileModel ppm)
     {
         playerProfile = ppm;
-        _gameLauncher.SetPlayerProfile(ppm);
+        GameLauncher.Instance.SetPlayerProfile(ppm);
     }
 
     public PlayerProfileModel GetPlayerProfile()
@@ -106,5 +110,42 @@ public class GameManager : NetworkBehaviour
             count++;
         }
         return count;
+    }
+
+    // handle failed connection/cancel matchmake/quitting game here
+    // coroutine here is done so this is done in tandem with NetworkRunner being actively shutdown . 
+    public void ReturnToLobby()
+    {
+        StartCoroutine(EnterLobby());
+    }
+    IEnumerator EnterLobby()
+    {
+        // changes scene if necessary
+        // case 1: cancelling matchmaking, no need to change scene
+        // case 2: exiting game, need to change scene 
+        if (SceneManager.GetActiveScene().buildIndex != LevelManager.MENU_SCENE) SceneManager.LoadScene(LevelManager.MENU_SCENE);
+
+        // waits til scene has changed 
+        while (SceneManager.GetActiveScene().buildIndex != LevelManager.MENU_SCENE)
+        {
+            Debug.Log("scene not changed");
+            yield return null;
+        }
+
+        runner = null;
+
+        // spawn a new runner via GameManager
+        SpawnRunner();
+
+        // waits til runner is instantiated
+        while (_gameLauncher != GameLauncher.Instance)
+        {
+            Debug.Log("runner is null");
+            yield return null;
+        }
+
+        // re-enter lobby
+        // JoinLobby();
+        MenuUI.Instance.OnJoinLobby();
     }
 }

@@ -10,7 +10,7 @@ using TMPro;
 
 //using FusionUtilsEvents;
 
-public class LevelBehaviour : NetworkBehaviour
+public class LevelBehaviourTDM : NetworkBehaviour
 {
     [SerializeField] private float _levelTime = 300f;
     [SerializeField] private float _startTime = 7f;
@@ -123,7 +123,8 @@ public class LevelBehaviour : NetworkBehaviour
             }
         }
 
-        Invoke("NewGame", 5f);
+        // Invoke("NewGame", 5f);
+        Invoke("ReturnToLobby", 5f);
     }
 
     private void NewGame()
@@ -139,6 +140,12 @@ public class LevelBehaviour : NetworkBehaviour
         StartLevel();
 
     }
+    private void ReturnToLobby()
+    {
+        Debug.Log("returning to lobby");
+        GameLauncher.Instance.LeaveSession();
+    }
+
 }
 
 public class IPlayerComparer : IComparer<Player>

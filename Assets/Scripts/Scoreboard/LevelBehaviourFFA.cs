@@ -120,7 +120,8 @@ public class LevelBehaviourFFA : NetworkBehaviour
             }
         }
 
-        Invoke("NewGame", 5f);
+        // Invoke("NewGame", 5f);
+        Invoke("ReturnToLobby", 5f);
     }
 
     private void NewGame()
@@ -135,6 +136,12 @@ public class LevelBehaviourFFA : NetworkBehaviour
         entryContainer.ResetEntries();
         StartLevel();
 
+    }
+
+    private void ReturnToLobby()
+    {
+        Debug.Log("returning to lobby");
+        GameLauncher.Instance.LeaveSession();
     }
 }
 
