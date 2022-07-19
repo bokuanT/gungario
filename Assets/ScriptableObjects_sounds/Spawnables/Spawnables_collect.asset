@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf4f9ae8cf56a545ad73d5132dd1090, type: 3}
   m_Name: Spawnables_collect
   m_EditorClassIdentifier: 
-  _audioClips: []
+  _audioClips:
+  - {fileID: 8300000, guid: 63fad3fc8ebb09649b1252482804ba55, type: 3}
   _pitchBase: 1
   _pitchVariation: 0
