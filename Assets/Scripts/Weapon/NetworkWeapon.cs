@@ -7,7 +7,17 @@ public class NetworkWeapon : NetworkRigidbody2D
 
     [Networked]
 	public TickTimer primaryFireDelay { get; set; }
+
+    [Networked]
+    public TickTimer cannotShootDelay { get; set; }
+
     [SerializeField] public float DELAY = 0.8f;
+
+    [SerializeField] private float CANNOTSHOOTDELAY = 0.6f;
+
+    [SerializeField] private AudioEmitter _audioEmitter;
+
+    [SerializeField] private AudioEmitter _audioEmitterCannotShoot;
 
     [SerializeField] public int index;
     public void Fire(NetworkRunner runner, PlayerRef owner, Vector3 ownerVelocity)
@@ -17,7 +27,21 @@ public class NetworkWeapon : NetworkRigidbody2D
             Transform exit = GetExitPoint();
             SpawnNetworkShot(runner, owner, exit, ownerVelocity);
             primaryFireDelay = TickTimer.CreateFromSeconds(Runner, DELAY);
-
+            if (_audioEmitter != null)
+                _audioEmitter.PlayOneShot();
+        }
+        else //cannot shoot sound plays if weapon is sniper and its more than 50% through the shoot delay
+        {
+            if (cannotShootDelay.ExpiredOrNotRunning(Runner) && index == 2)
+            {
+                float numerator = (float)primaryFireDelay.RemainingTime(Runner);
+                float denominator = DELAY;
+                if (numerator / denominator < 0.5)
+                {
+                    _audioEmitterCannotShoot.PlayOneShot();
+                    cannotShootDelay = TickTimer.CreateFromSeconds(Runner, CANNOTSHOOTDELAY);
+                }
+            }
         }
     }
 

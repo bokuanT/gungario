@@ -6,6 +6,10 @@ public class WeaponSpawnScript : NetworkBehaviour
 {
     [SerializeField] private GameObject[] _networkWeapons;
 
+    [SerializeField] private AudioEmitter _collectSound;
+
+    [SerializeField] private AudioEmitter _refreshSound;
+
     [Networked]
     public int activePowerupIndex { get; set; }
 
@@ -27,7 +31,10 @@ public class WeaponSpawnScript : NetworkBehaviour
         if (respawnDelay.ExpiredOrNotRunning(Runner))
         {
             if (AvailableIcon.activeInHierarchy == false)
+            {
                 AvailableIcon.SetActive(true);
+                _refreshSound.PlayOneShot();
+            }
         }
         else
         {
@@ -42,6 +49,7 @@ public class WeaponSpawnScript : NetworkBehaviour
         {
             NetworkWeapon ret = _networkWeapons[activePowerupIndex].GetComponentInChildren<NetworkWeapon>();
             SetNextWeaponIndex();
+            _collectSound.PlayOneShot();
             return ret;
         }
         return null;

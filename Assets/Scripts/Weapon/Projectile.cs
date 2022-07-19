@@ -27,6 +27,8 @@ public class Projectile : NetworkBehaviour
         public float ownerVelocityMultiplier;
 	}
 
+    [SerializeField] private AudioEmitter __audioEmitter;
+
     [Networked]
     public TickTimer networkedLifeTimer { get; set; }
     private TickTimer _predictedLifeTimer;
@@ -91,7 +93,7 @@ public class Projectile : NetworkBehaviour
         if (transform.Find("Explosion") != null)
             transform.Find("Explosion").gameObject.SetActive(true);
 
-        GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.Predicted;
+        GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.NoInterpolation;
 
     }
 
@@ -159,7 +161,9 @@ public class Projectile : NetworkBehaviour
 
         if (_bulletSettings.areaRadius > 0)
         {
-            ApplyAreaDamage(hitPoint); 
+            ApplyAreaDamage(hitPoint);
+            __audioEmitter.Play();
+            Debug.Log("Playing audio");
         }
     }
 
