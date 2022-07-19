@@ -35,7 +35,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	private PlayerInfoManager _playerInfoManager;
 	public NetworkObject playerPrefab;
 	private PlayerProfileModel _playerProfile { get; set; }
-	private GameMode _gameMode;
+
 	private NetworkRunner _runner;
 	private List<SessionInfo> _sessionList;
 	public int sessionCount; 
@@ -43,7 +43,9 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	//private int LocalPlayerRef;
 	private static GameLauncher _instance;
 
-	//For control point/dm
+	// Note: class GameMode != enum Gamemode
+	public GameMode gameMode;
+	// For control point/dm
 	public Gamemode gamemode;
 
 	public static GameLauncher Instance
@@ -135,7 +137,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 				// This call will make Fusion join the first session as a Client
 				var result = await _runner.StartGame(new StartGameArgs()
 				{
-					GameMode = _gameMode, // Client GameMode
+					GameMode = gameMode, // Client GameMode
 					SessionName = session.Name, // Session to Join
 					SceneObjectProvider = LevelManager.Instance, // Scene Provider
 					DisableClientSessionCreation = true, // Make sure the client will never create a Session
@@ -165,7 +167,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		// This call will make Fusion create the first session as a host
 		await _runner.StartGame(new StartGameArgs()
 		{
-			GameMode = _gameMode, // Host GameMode
+			GameMode = gameMode, // Host GameMode
 			SessionName = "FFA" + sessionNumber, // Session to Join
 			SceneObjectProvider = LevelManager.Instance, // Scene Provider
 			PlayerCount = MAX_PLAYERS,
@@ -188,7 +190,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 				// This call will make Fusion join the first session as a Client
 				var result = await _runner.StartGame(new StartGameArgs()
 				{
-					GameMode = _gameMode, // Client GameMode
+					GameMode = gameMode, // Client GameMode
 					SessionName = session.Name, // Session to Join
 					SceneObjectProvider = LevelManager.Instance, // Scene Provider
 					DisableClientSessionCreation = true, // Make sure the client will never create a Session
@@ -218,7 +220,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		// This call will make Fusion create the first session as a host
 		await _runner.StartGame(new StartGameArgs()
 		{
-			GameMode = _gameMode, // Host GameMode
+			GameMode = gameMode, // Host GameMode
 			SessionName = "Controlpoint" + sessionNumber, // Session to Join
 			SceneObjectProvider = LevelManager.Instance, // Scene Provider
 			PlayerCount = MAX_PLAYERS,
@@ -240,7 +242,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 				// This call will make Fusion join the first session as a Client
 				var result = await _runner.StartGame(new StartGameArgs() {
-					GameMode = _gameMode, // Client GameMode
+					GameMode = gameMode, // Client GameMode
 					SessionName = session.Name, // Session to Join
 					SceneObjectProvider = LevelManager.Instance, // Scene Provider
 					DisableClientSessionCreation = true, // Make sure the client will never create a Session
@@ -267,7 +269,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 		// This call will make Fusion create the first session as a host
 		await _runner.StartGame(new StartGameArgs() {
-			GameMode = _gameMode, // Host GameMode
+			GameMode = gameMode, // Host GameMode
 			SessionName = "Deathmatch" + sessionNumber, // Session to Join
 			SceneObjectProvider = LevelManager.Instance, // Scene Provider
 			PlayerCount = MAX_PLAYERS,
@@ -284,15 +286,15 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 		await _runner.StartGame(new StartGameArgs 
         {
-            GameMode = _gameMode, 
+            GameMode = gameMode, 
             SessionName = "TestRoom",
             SceneObjectProvider = LevelManager.Instance, 
         });
     }
 
-	public void SetSingleLobby() => _gameMode = GameMode.Single; 
-	public void SetCreateLobby() => _gameMode = GameMode.Host;
-	public void SetJoinLobby() => _gameMode = GameMode.Client;
+	public void SetSingleLobby() => gameMode = GameMode.Single; 
+	public void SetCreateLobby() => gameMode = GameMode.Host;
+	public void SetJoinLobby() => gameMode = GameMode.Client;
 	public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
 	{
 		Debug.Log($"Player {player} Joined!");
@@ -318,7 +320,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 			if (gamemode == Gamemode.TDM)
 				Debug.Log("LOADING DEATHMATCH");
 			LevelManager.LoadMap(LevelManager.MAP1_SCENE);
-		} else if (_gameMode == GameMode.Single){
+		} else if (gameMode == GameMode.Single){
 			Debug.Log("LOADING PRACTICEMAP");
 			LevelManager.LoadMap(LevelManager.TESTGAME_SCENE);
 		}
@@ -458,7 +460,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 			GameManager.Instance.ReturnToLobby();			
 		}
 	}
-	public async void LeaveSession()
+	public void LeaveSession()
 	{
 		if (_runner != null)
         {

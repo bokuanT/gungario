@@ -727,7 +727,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &5095698038539110517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -932,7 +932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 2.0907898}
+  m_AnchoredPosition: {x: 0, y: 4.18161}
   m_SizeDelta: {x: 1720, y: 87.455}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6102123674352851103
@@ -1615,7 +1615,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6593839874738649735
 Transform:
   m_ObjectHideFlags: 0
@@ -1645,8 +1645,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  _levelTime: 30
-  _startTime: 7
+  _levelTime: 300
+  _startTime: 10
   _startTimerText: {fileID: 7019307569224727485}
   _levelTimerText: {fileID: 972531693657878665}
   controlPoint: {fileID: 0}
@@ -1670,11 +1670,12 @@ MonoBehaviour:
   DestroyWhenStateAuthorityLeaves: 0
   AllowStateAuthorityOverride: 0
   AoiPositionSource: {fileID: 0}
-  Flags: 0
+  Flags: 133633
   NetworkGuid:
-    RawGuidValue: 00000000000000000000000000000000
+    RawGuidValue: 73cf9733bf8348c98312890fbbf5d2a7
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: 4061891048923383649}
   SimulationBehaviours: []
 --- !u!1 &5229098663826994082
 GameObject:
@@ -2304,7 +2305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.36218262, y: 0}
   m_SizeDelta: {x: -200, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &6170771114376558038
@@ -2348,7 +2349,6 @@ MonoBehaviour:
   _interpolationDataSource: 0
   container: {fileID: 6170771114376558033}
   scoreboard_item_prefab: {fileID: 6922072805987445365, guid: 572009f00e27a65458b7514909243030, type: 3}
-  image: {fileID: 0}
   _redScore: 0
   _blueScore: 0
 --- !u!114 &6170771114376558036
@@ -2371,8 +2371,7 @@ MonoBehaviour:
   Flags: 2561
   NetworkGuid:
     RawGuidValue: a390b642718e4f7b913c2f061201a4a4
-  NestedObjects:
-  - {fileID: 0}
+  NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 6170771114376558039}
   SimulationBehaviours: []
@@ -3167,7 +3166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6760798705500738471
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3205,12 +3204,12 @@ GameObject:
   - component: {fileID: 4063216930303313673}
   - component: {fileID: 3782438402798670508}
   m_Layer: 5
-  m_Name: Manager
+  m_Name: ManagerTDM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2673233089143996633
 Transform:
   m_ObjectHideFlags: 0
@@ -3240,8 +3239,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  _levelTime: 60
-  _startTime: 7
+  _levelTime: 150
+  _startTime: 10
   _startTimerText: {fileID: 7019307569224727485}
   _levelTimerText: {fileID: 972531693657878665}
   activated: 1
@@ -3262,11 +3261,12 @@ MonoBehaviour:
   DestroyWhenStateAuthorityLeaves: 0
   AllowStateAuthorityOverride: 0
   AoiPositionSource: {fileID: 0}
-  Flags: 0
+  Flags: 133633
   NetworkGuid:
-    RawGuidValue: 00000000000000000000000000000000
+    RawGuidValue: 844c5d7c720b4c92a294983232258b93
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: 4063216930303313673}
   SimulationBehaviours: []
 --- !u!1 &8524797100773288018
 GameObject:
@@ -3285,7 +3285,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9178690197872844784
 Transform:
   m_ObjectHideFlags: 0
@@ -3319,11 +3319,12 @@ MonoBehaviour:
   DestroyWhenStateAuthorityLeaves: 0
   AllowStateAuthorityOverride: 0
   AoiPositionSource: {fileID: 0}
-  Flags: 0
+  Flags: 133633
   NetworkGuid:
-    RawGuidValue: 00000000000000000000000000000000
+    RawGuidValue: 94f150f3c8554b4a81a47360b5e6bd58
   NestedObjects: []
-  NetworkedBehaviours: []
+  NetworkedBehaviours:
+  - {fileID: 7879753941133398161}
   SimulationBehaviours: []
 --- !u!114 &7879753941133398161
 MonoBehaviour:
@@ -3338,7 +3339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  _levelTime: 30
+  _levelTime: 150
   _startTime: 10
   _startTimerText: {fileID: 7019307569224727485}
   _levelTimerText: {fileID: 972531693657878665}
@@ -3448,7 +3449,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650580536701936781, guid: 1b5e67404f99cbf4f9e9bfe7e36913f5, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4650580536701936781, guid: 1b5e67404f99cbf4f9e9bfe7e36913f5, type: 3}
       propertyPath: m_AnchorMin.x
@@ -3456,11 +3457,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650580536701936781, guid: 1b5e67404f99cbf4f9e9bfe7e36913f5, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4650580536701936781, guid: 1b5e67404f99cbf4f9e9bfe7e36913f5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 936.1891
       objectReference: {fileID: 0}
     - target: {fileID: 4650580536701936781, guid: 1b5e67404f99cbf4f9e9bfe7e36913f5, type: 3}
       propertyPath: m_SizeDelta.y
@@ -3496,11 +3497,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650580536701936781, guid: 1b5e67404f99cbf4f9e9bfe7e36913f5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 468.09454
       objectReference: {fileID: 0}
     - target: {fileID: 4650580536701936781, guid: 1b5e67404f99cbf4f9e9bfe7e36913f5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -43.03855
       objectReference: {fileID: 0}
     - target: {fileID: 4650580536701936781, guid: 1b5e67404f99cbf4f9e9bfe7e36913f5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7970933119681957876}
   - component: {fileID: 7970933119681957877}
   - component: {fileID: 7970933119681957878}
+  - component: {fileID: 5438969279092622847}
   m_Layer: 5
   m_Name: UI - cursor
   m_TagString: Untagged
@@ -101,6 +102,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5438969279092622847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7970933119681957879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8cfef4ab5ef68b4a9c9e17e98c83e74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 7970933119681957876}
+  image: {fileID: 7970933119826239928}
 --- !u!1 &7970933119826239928
 GameObject:
   m_ObjectHideFlags: 0
