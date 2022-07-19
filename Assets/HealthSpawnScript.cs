@@ -8,6 +8,9 @@ public class HealthSpawnScript : NetworkBehaviour
 
     private const float RESPAWN = 7f;
 
+    [SerializeField] private AudioEmitter _collectSound;
+
+    [SerializeField] private AudioEmitter _refreshSound;
 
     public GameObject AvailableIcon;
 
@@ -21,7 +24,10 @@ public class HealthSpawnScript : NetworkBehaviour
         if (respawnDelayHealth.ExpiredOrNotRunning(Runner))
         {
             if (AvailableIcon.activeInHierarchy == false)
+            {
                 AvailableIcon.SetActive(true);
+                _refreshSound.PlayOneShot();
+            }
         }
         else
         {
@@ -39,7 +45,7 @@ public class HealthSpawnScript : NetworkBehaviour
                 player.life += 30;
                 if (player.life > 100)
                     player.life = 100;
-
+                _collectSound.PlayOneShot();
                 respawnDelayHealth = TickTimer.CreateFromSeconds(Runner, RESPAWN);
             }
         }
