@@ -6,9 +6,14 @@ using UnityEngine.EventSystems;
 public class Shop : MonoBehaviour
 {
     private int[] shopItems = new int[4];
-    private int selectedHat = 0;
+    private ShopItem selectedHat;
     private static Shop _instance;
     [SerializeField] GameObject canvas;
+
+    [Header("Hats")]
+    [SerializeField] private ShopItem hat1;
+    [SerializeField] private ShopItem hat2;
+    [SerializeField] private ShopItem hat3;
     public static Shop Instance
     {
         get
@@ -17,8 +22,6 @@ public class Shop : MonoBehaviour
             return _instance;
         }
     }
-    // need a better way of storing and accessing cosmetics
-    public GameObject hat1;
 
     public void Start()
     {
@@ -27,7 +30,7 @@ public class Shop : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        if (_instance != this) Destroy(gameObject);
+        if (_instance != this) Destroy(gameObject); 
     }
 
     // Called when player clicks the button in shop, setting the hat
@@ -35,9 +38,17 @@ public class Shop : MonoBehaviour
     {
         Debug.Log("Setting Hat");
         GameObject button = GameObject.FindObjectOfType<EventSystem>().currentSelectedGameObject;
-        Debug.Log(button.name);
-        selectedHat = button.GetComponent<ShopItem>().ItemID; 
+
+        // if any previous hats were selected, set those to unselected
+        if (selectedHat != null)
+        {
+            selectedHat.Deselect();
+        }
+
+        selectedHat = button.GetComponent<ShopItem>();
+        selectedHat.Select();
     }
+
     // Called after playerInfo is loaded, to get the corresponding sprite.
     public Sprite GetHat(int id)
     {
@@ -59,6 +70,6 @@ public class Shop : MonoBehaviour
 
     public int GetSelectedCosmetics()
     {
-        return selectedHat;
+        return selectedHat.ItemID;
     }
 }
