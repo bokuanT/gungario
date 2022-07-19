@@ -13,7 +13,6 @@ public class LevelManager : NetworkSceneManagerBase
         ===========================================================================
         */        
 		public static LevelManager Instance => Singleton<LevelManager>.Instance;
-		public GameLauncher gameLauncher;
         public static int MENU_SCENE = 0;
 		public static int TESTGAME_SCENE = 1;
 		public static int MAP1_SCENE = 2;
@@ -23,15 +22,22 @@ public class LevelManager : NetworkSceneManagerBase
             // TO BE IMPLEMENTED?  
 			// Instance.Runner.SetActiveScene(LOBBY_SCENE);
 		}
-
+		
 		public static void LoadMap(int sceneIndex)
 		{
+			// upon creating new networkRunner, sets the new one as Instance.Runner.
+			if (Instance.Runner == null) Instance.Initialize(Instance.GetActiveRunner());
 			Instance.Runner.SetActiveScene(sceneIndex);
 		}
 		
 		public static void LoadDeathmatch()
 		{
 			Instance.Runner.SetActiveScene(MAP1_SCENE);
+		}
+
+		public NetworkRunner GetActiveRunner()
+		{
+			return gameObject.GetComponent<NetworkRunner>();
 		}
 
 		protected override IEnumerator SwitchScene(SceneRef prevScene, SceneRef newScene, FinishedLoadingDelegate finished)
@@ -42,7 +48,7 @@ public class LevelManager : NetworkSceneManagerBase
 
 			List<NetworkObject> sceneObjects = new List<NetworkObject>();
 
-			if (newScene > MENU_SCENE)
+			if (newScene >= MENU_SCENE)
 			{
 				yield return SceneManager.LoadSceneAsync(newScene, LoadSceneMode.Single);
 				Scene loadedScene = SceneManager.GetSceneByBuildIndex(newScene);
@@ -75,7 +81,7 @@ public class LevelManager : NetworkSceneManagerBase
 	
 		private void PostLoadScene()
 		{
-			SetManagers();
+			if (SceneManager.GetActiveScene().buildIndex != MENU_SCENE) SetManagers();
 		}
 
 		[Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
@@ -88,7 +94,7 @@ public class LevelManager : NetworkSceneManagerBase
 				Debug.Log("Cannot find gamemode managers");
 				return;
 			}
-			if (gameLauncher.gamemode == Gamemode.FFA)
+			if (GameLauncher.Instance.gamemode == Gamemode.FFA)
 			{
 				GameObject ManagerFFA = gameModes.transform.Find("ManagerFreeForAll").gameObject;
 				ManagerFFA.SetActive(true);
@@ -99,16 +105,17 @@ public class LevelManager : NetworkSceneManagerBase
 				//GameObject.Find("ControlPoint").SetActive(false);	
 			}
 
-			if (gameLauncher.gamemode == Gamemode.CP)
+			if (GameLauncher.Instance.gamemode == Gamemode.CP)
 			{
 				GameObject ManagerCP = gameModes.transform.Find("ManagerControlPoints").gameObject;
 				ManagerCP.SetActive(true);
+				GameObject.Find("ControlPoint").SetActive(true);
 				//GameObject man = gameModes.transform.Find("ManagerTDM").gameObject;
 				//man.SetActive(false);
 				//GameObject FFAManager = gameModes.transform.Find("ManagerFreeForAll").gameObject;
 				//FFAManager.SetActive(false);
 			}
-			if (gameLauncher.gamemode == Gamemode.TDM)
+			if (GameLauncher.Instance.gamemode == Gamemode.TDM)
 			{
 				GameObject ManagerTDM = gameModes.transform.Find("ManagerTDM").gameObject;
 				ManagerTDM.SetActive(true);

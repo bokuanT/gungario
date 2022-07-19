@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Fusion;
 using Fusion.Sockets;
@@ -12,7 +13,8 @@ public enum ConnectionStatus
 	Lobby,
 	Connecting,
 	Failed,
-	Connected
+	Connected,
+	Returning
 }
 
 public enum Gamemode
@@ -33,7 +35,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	private PlayerInfoManager _playerInfoManager;
 	public NetworkObject playerPrefab;
 	private PlayerProfileModel _playerProfile { get; set; }
-	private GameMode _gameMode;
+
 	private NetworkRunner _runner;
 	private List<SessionInfo> _sessionList;
 	public int sessionCount; 
@@ -41,7 +43,9 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	//private int LocalPlayerRef;
 	private static GameLauncher _instance;
 
-	//For control point/dm
+	// Note: class GameMode != enum Gamemode
+	public GameMode gameMode;
+	// For control point/dm
 	public Gamemode gamemode;
 
 	public static GameLauncher Instance
@@ -60,7 +64,10 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
 	void Awake() 
-	{ 
+	{
+		// original will be set to this, but will be destroyed when runner is shutdown
+		if (_instance == null) _instance = this;
+
 		_runner = GetComponent<NetworkRunner>();
 	}
 
@@ -130,7 +137,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 				// This call will make Fusion join the first session as a Client
 				var result = await _runner.StartGame(new StartGameArgs()
 				{
-					GameMode = _gameMode, // Client GameMode
+					GameMode = gameMode, // Client GameMode
 					SessionName = session.Name, // Session to Join
 					SceneObjectProvider = LevelManager.Instance, // Scene Provider
 					DisableClientSessionCreation = true, // Make sure the client will never create a Session
@@ -160,7 +167,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		// This call will make Fusion create the first session as a host
 		await _runner.StartGame(new StartGameArgs()
 		{
-			GameMode = _gameMode, // Host GameMode
+			GameMode = gameMode, // Host GameMode
 			SessionName = "FFA" + sessionNumber, // Session to Join
 			SceneObjectProvider = LevelManager.Instance, // Scene Provider
 			PlayerCount = MAX_PLAYERS,
@@ -168,7 +175,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		});
 	}
 
-	public async void MatchmakeControlPoint()
+    public async void MatchmakeControlPoint()
 	{
 		Debug.Log("Matchmaking");
 		gamemode = Gamemode.CP;
@@ -183,7 +190,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 				// This call will make Fusion join the first session as a Client
 				var result = await _runner.StartGame(new StartGameArgs()
 				{
-					GameMode = _gameMode, // Client GameMode
+					GameMode = gameMode, // Client GameMode
 					SessionName = session.Name, // Session to Join
 					SceneObjectProvider = LevelManager.Instance, // Scene Provider
 					DisableClientSessionCreation = true, // Make sure the client will never create a Session
@@ -213,7 +220,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		// This call will make Fusion create the first session as a host
 		await _runner.StartGame(new StartGameArgs()
 		{
-			GameMode = _gameMode, // Host GameMode
+			GameMode = gameMode, // Host GameMode
 			SessionName = "Controlpoint" + sessionNumber, // Session to Join
 			SceneObjectProvider = LevelManager.Instance, // Scene Provider
 			PlayerCount = MAX_PLAYERS,
@@ -235,7 +242,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 				// This call will make Fusion join the first session as a Client
 				var result = await _runner.StartGame(new StartGameArgs() {
-					GameMode = _gameMode, // Client GameMode
+					GameMode = gameMode, // Client GameMode
 					SessionName = session.Name, // Session to Join
 					SceneObjectProvider = LevelManager.Instance, // Scene Provider
 					DisableClientSessionCreation = true, // Make sure the client will never create a Session
@@ -262,7 +269,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 		// This call will make Fusion create the first session as a host
 		await _runner.StartGame(new StartGameArgs() {
-			GameMode = _gameMode, // Host GameMode
+			GameMode = gameMode, // Host GameMode
 			SessionName = "Deathmatch" + sessionNumber, // Session to Join
 			SceneObjectProvider = LevelManager.Instance, // Scene Provider
 			PlayerCount = MAX_PLAYERS,
@@ -279,15 +286,15 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 		await _runner.StartGame(new StartGameArgs 
         {
-            GameMode = _gameMode, 
+            GameMode = gameMode, 
             SessionName = "TestRoom",
             SceneObjectProvider = LevelManager.Instance, 
         });
     }
 
-	public void SetSingleLobby() => _gameMode = GameMode.Single; 
-	public void SetCreateLobby() => _gameMode = GameMode.Host;
-	public void SetJoinLobby() => _gameMode = GameMode.Client;
+	public void SetSingleLobby() => gameMode = GameMode.Single; 
+	public void SetCreateLobby() => gameMode = GameMode.Host;
+	public void SetJoinLobby() => gameMode = GameMode.Client;
 	public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
 	{
 		Debug.Log($"Player {player} Joined!");
@@ -313,7 +320,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 			if (gamemode == Gamemode.TDM)
 				Debug.Log("LOADING DEATHMATCH");
 			LevelManager.LoadMap(LevelManager.MAP1_SCENE);
-		} else if (_gameMode == GameMode.Single){
+		} else if (gameMode == GameMode.Single){
 			Debug.Log("LOADING PRACTICEMAP");
 			LevelManager.LoadMap(LevelManager.TESTGAME_SCENE);
 		}
@@ -354,6 +361,28 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             if (!_spawnedCharacters.ContainsKey(pr))
                 _spawnedCharacters.Add(pr, player);
         }
+	}
+
+	public void DestroyAllPlayers()
+	{
+		foreach (var player in _players)
+		{
+			// Find and remove the players avatar
+			if (_spawnedCharacters.TryGetValue(player.Key, out NetworkObject networkObject))
+			{
+				Player playerGameObject = networkObject.gameObject.GetComponent<Player>();
+				//Debug.Log("playerg.o. " + playerGameObject);
+				if (playerGameObject.scoreboard_item != null)
+				{
+					//Debug.Log("Destroying: " + playerGameObject.scoreboard_item);
+					Destroy(playerGameObject.scoreboard_item.gameObject);
+				}
+				// takes in a NetworkObject
+				_runner.Despawn(networkObject);
+				_spawnedCharacters.Remove(player.Key);
+				Debug.Log("Player removed successfully");
+			}
+		}
 	}
 
 	public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -411,7 +440,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		_runner = null;
 	}
 
-	private  async void SetConnectionStatus(ConnectionStatus status)
+	private async void SetConnectionStatus(ConnectionStatus status)
 	{
 		Debug.Log($"Setting connection status to {status}");
 
@@ -427,29 +456,22 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 		if (status == ConnectionStatus.Lobby)
         {
-			// handle failed connection/cancel matchmake here
-			// spawn a new runner via GameManager
-			GameManager.Instance.SpawnRunner();
-
-			// re-enter lobby
-			await GameManager.Instance.JoinLobby();
-
-			// remove ui
-			MenuUI.Instance.OnJoinLobby();
+			// has to call in another object, since this gamelauncher will be destroyed
+			GameManager.Instance.ReturnToLobby();			
 		}
 	}
 	public void LeaveSession()
 	{
 		if (_runner != null)
         {
-			Debug.Log("Back to Lobby from exiting matchmaking is a work-in-progress. To be implemented.");
-			_runner.Shutdown();
 			// no need to delete players in _players, since GameLauncher will be deleted and spawned
+			// we need to remove the _instance before allowing new instances to be spawned
+			_runner.Shutdown();
 			SetConnectionStatus(ConnectionStatus.Lobby);
 		}
 	}
 
-	// Quits game
+	// exits game
 	public void LeaveGame()
 	{
 		if (_runner != null)

@@ -26,11 +26,13 @@ public class MenuUI : MonoBehaviour
     
     private void Start()
     {
+        Cursor.visible = true;
         loginUI.gameObject.SetActive(true);
         matchmakingUI.gameObject.SetActive(false);
         lobbyUI.gameObject.SetActive(false);
-        shopCanvas.SetActive(false);
         settingsCanvas.SetActive(false);
+        shopCanvas.SetActive(false);
+        gameModesUI.SetActive(false);
     }
 
     private void FixedUpdate()
@@ -73,15 +75,7 @@ public class MenuUI : MonoBehaviour
     // Activates Shop canvas
     public void OpenShop()
     {
-        shopCanvas.SetActive(true);
-        lobbyUI.gameObject.SetActive(false);
-    }
-
-    // Deactivates Shop canvas
-    public void CloseShop()
-    {
-        lobbyUI.gameObject.SetActive(true);
-        shopCanvas.SetActive(false);
+        Shop.Instance.OpenShop();
     }
 
     // Activates Settings canvas

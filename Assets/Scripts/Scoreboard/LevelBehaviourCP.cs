@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 //using FusionUtilsEvents;
 
@@ -128,11 +129,13 @@ public class LevelBehaviourCP : NetworkBehaviour
             }
         }
 
-        Invoke("NewGame", 5f);
+        // Invoke("NewGame", 5f);
+        Invoke("ReturnToLobby", 5f);
     }
 
     private void NewGame()
     {
+        Debug.Log("invoked newGame");
         GameObject resultsScreen = GameObject.Find("Scoreboard_canvas")
             .transform.Find("GameOverScreen").gameObject;
         resultsScreen.SetActive(false);
@@ -147,6 +150,12 @@ public class LevelBehaviourCP : NetworkBehaviour
 
         StartLevel();
 
+    }
+
+    private void ReturnToLobby()
+    {
+        Debug.Log("returning to lobby");
+        GameLauncher.Instance.LeaveSession();
     }
 
     public void TurnOff()

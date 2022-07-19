@@ -91,7 +91,8 @@ public class PlayFabAuthenticator : MonoBehaviour {
         authenticate = true;
 
         // enters lobby
-        await gameManager.JoinLobby();
+        // await gameManager.JoinLobby();
+        MenuUI.Instance.OnJoinLobby();
     }
 
     public bool isAuthenticated() {
