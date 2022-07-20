@@ -48,13 +48,14 @@ public class NetworkDebugStart : Fusion.Behaviour {
   /// as well as any runner dependent components which implement <see cref="INetworkRunnerCallbacks"/>, 
   /// such as <see cref="NetworkEvents"/> or your own custom INetworkInput implementations.
   /// </summary>
-  [WarnIf(nameof(RunnerPrefab), 0, "No " + nameof(RunnerPrefab) + " supplied. Will search for a " + nameof(NetworkRunner) + " in the scene at startup.")]
   [InlineHelp]
+  [WarnIf(nameof(RunnerPrefab), 0, "No " + nameof(RunnerPrefab) + " supplied. Will search for a " + nameof(NetworkRunner) + " in the scene at startup.")]
   public NetworkRunner RunnerPrefab;
 
   /// <summary>
   /// Select how network startup will be triggered. Automatically, by in-game menu selection, or exclusively by script.
   /// </summary>
+  [InlineHelp]
   [WarnIf(nameof(StartMode), (long)StartModes.Manual, "Start network by calling the methods " +
                                                          nameof(StartHost) + "(), " +
                                                          nameof(StartServer) + "(), " +
@@ -62,31 +63,30 @@ public class NetworkDebugStart : Fusion.Behaviour {
                                                          nameof(StartHostPlusClients) + "(), or " +
                                                          nameof(StartServerPlusClients) + "()"
   )]
-  [InlineHelp]
   public StartModes StartMode = StartModes.UserInterface;
 
   /// <summary>
   /// When <see cref="StartMode"/> is set to <see cref="StartModes.Automatic"/>, this option selects if the <see cref="NetworkRunner"/> 
   /// will be started as a dedicated server, or as a host (which is a server with a local player).
   /// </summary>
+  [InlineHelp]
   [UnityEngine.Serialization.FormerlySerializedAs("Server")]
   [DrawIf(nameof(StartMode), (long)StartModes.Automatic, DrawIfHideType.Hide)]
-  [InlineHelp]
   public GameMode AutoStartAs = GameMode.Shared;
 
   /// <summary>
   /// <see cref="NetworkDebugStartGUI"/> will not render GUI elements while <see cref="CurrentStage"/> == <see cref="Stage.AllConnected"/>.
   /// </summary>
-  [DrawIf(nameof(StartMode), (long)StartModes.UserInterface, DrawIfHideType.Hide)]
   [InlineHelp]
+  [DrawIf(nameof(StartMode), (long)StartModes.UserInterface, DrawIfHideType.Hide)]
   public bool AutoHideGUI = true;
 
   /// <summary>
   /// The number of client <see cref="NetworkRunner"/> instances that will be created if running in Mulit-Peer Mode. 
   /// When using the Select start mode, this number will be the default value for the additional clients option box.
   /// </summary>
-  [DrawIf(nameof(ShowAutoClients), true, DrawIfHideType.Hide)]
   [InlineHelp]
+  [DrawIf(nameof(ShowAutoClients), true, DrawIfHideType.Hide)]
   public int AutoClients = 1;
 
 
@@ -115,13 +115,21 @@ public class NetworkDebugStart : Fusion.Behaviour {
   /// The Scene that will be loaded after network shutdown completes (all peers have disconnected). 
   /// If this field is null or invalid, will be set to the current scene when <see cref="NetworkDebugStart"/> runs Awake().
   /// </summary>
-  [ScenePath]
   [InlineHelp]
+  [ScenePath]
+  [MultiPropertyDrawersFix]
   public string InitialScenePath;
   static string _initialScenePath;
 
+  /// <summary>
+  /// Indicates which step of the startup process <see cref="NetworkDebugStart"/> is currently in.
+  /// </summary>
+  [InlineHelp]
+  [SerializeField]
   [EditorDisabled]
+  [MultiPropertyDrawersFix]
   protected Stage _currentStage;
+
   /// <summary>
   /// Indicates which step of the startup process <see cref="NetworkDebugStart"/> is currently in.
   /// </summary>
@@ -218,7 +226,7 @@ public class NetworkDebugStart : Fusion.Behaviour {
 
     if (StartMode == StartModes.Automatic) {
       if (TryGetSceneRef(out var sceneRef)) {
-        StartCoroutine(StartWithClients(AutoStartAs, sceneRef, isMultiPeer ? AutoClients : (AutoStartAs == GameMode.Client ? 1 : 0)));
+        StartCoroutine(StartWithClients(AutoStartAs, sceneRef, isMultiPeer ? AutoClients : (AutoStartAs == GameMode.Client || AutoStartAs == GameMode.AutoHostOrClient ? 1 : 0)));
       }
     } else {
       if (TryGetComponent<NetworkDebugStartGUI>(out var _) == false) {
@@ -381,10 +389,7 @@ public class NetworkDebugStart : Fusion.Behaviour {
   }
 
   public void ShutdownAll() {
-
-    var runners = NetworkRunner.GetInstancesEnumerator();
-    while (runners.MoveNext()) {
-      var runner = runners.Current;
+    foreach (var runner in NetworkRunner.Instances.ToList()) {
       if (runner != null && runner.IsRunning) {
         runner.Shutdown();
       }
@@ -569,10 +574,10 @@ public class NetworkDebugStart : Fusion.Behaviour {
 
   protected virtual Task InitializeNetworkRunner(NetworkRunner runner, GameMode gameMode, NetAddress address, SceneRef scene, Action<NetworkRunner> initialized) {
     
-    var sceneObjectProvider = runner.GetComponents(typeof(MonoBehaviour)).OfType<INetworkSceneObjectProvider>().FirstOrDefault();
-    if (sceneObjectProvider == null) {
-      Debug.Log($"NetworkRunner does not have any component implementing {nameof(INetworkSceneObjectProvider)} interface, adding {nameof(NetworkSceneManagerDefault)}.", runner);
-      sceneObjectProvider = runner.gameObject.AddComponent<NetworkSceneManagerDefault>();
+    var sceneManager = runner.GetComponents(typeof(MonoBehaviour)).OfType<INetworkSceneManager>().FirstOrDefault();
+    if (sceneManager == null) {
+      Debug.Log($"NetworkRunner does not have any component implementing {nameof(INetworkSceneManager)} interface, adding {nameof(NetworkSceneManagerDefault)}.", runner);
+      sceneManager = runner.gameObject.AddComponent<NetworkSceneManagerDefault>();
     }
 
     return runner.StartGame(new StartGameArgs {
@@ -581,7 +586,7 @@ public class NetworkDebugStart : Fusion.Behaviour {
       Scene = scene,
       SessionName = DefaultRoomName,
       Initialized = initialized,
-      SceneObjectProvider = sceneObjectProvider
+      SceneManager = sceneManager
     });
   }
 
@@ -606,11 +611,6 @@ public class NetworkDebugStart : Fusion.Behaviour {
       }
     }
   }
-  [BehaviourAction()]
-  void ShowDetails() {
-    using (new EditorGUI.DisabledScope(true)) {
-      EditorGUILayout.LabelField(nameof(CurrentStage), CurrentStage.ToString());
-    }
-  }
+
 #endif
 }
