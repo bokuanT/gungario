@@ -300,6 +300,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   cam: {fileID: 0}
   playerObject: {fileID: 3062497025097380588}
+  _playerMovementSound: {fileID: 0}
 --- !u!114 &3062497025097380588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,7 +328,12 @@ MonoBehaviour:
   gun: {fileID: 0}
   scoreboard_item: {fileID: 0}
   cursor: {fileID: 0}
+  cam: {fileID: 0}
   moveSpeed: 5
+  _playerTakeDmgSound: {fileID: 0}
+  _playerRespawnSound: {fileID: 0}
+  _playeronGetKillSound: {fileID: 0}
+  _playerDeathSound: {fileID: 0}
   _gunDirection: 0
   _life: 0
   _kills: 0
@@ -348,6 +354,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   BroadRadius: 0.5
   Offset: {x: 0, y: 0, z: 0}
+  GizmosColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Hitboxes:
   - {fileID: 3450123149847359585}
 --- !u!114 &3450123149847359585
@@ -367,6 +374,7 @@ MonoBehaviour:
   BoxExtents: {x: 0, y: 0, z: 0}
   Offset: {x: 0, y: 0, z: 0}
   Root: {fileID: 6100210969273078357}
+  GizmosColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &2775848238620467720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -963,6 +971,7 @@ GameObject:
   - component: {fileID: 578337010283479158}
   - component: {fileID: 1278972922227430979}
   - component: {fileID: 6275719329680081648}
+  - component: {fileID: 5597964270005869786}
   m_Layer: 0
   m_Name: Camera
   m_TagString: PlayerCamera
@@ -1036,6 +1045,39 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8821756072317360792}
   m_Enabled: 0
+--- !u!114 &5597964270005869786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8821756072317360792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1001 &2078393486764593351
 PrefabInstance:
   m_ObjectHideFlags: 0

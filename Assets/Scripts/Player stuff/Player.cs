@@ -43,6 +43,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public float moveSpeed = 5f;
     public const byte MAX_HEALTH = 100;
 
+    [Header("Audio")]
     [SerializeField] private AudioEmitter _playerTakeDmgSound;
 
     [SerializeField] private AudioEmitter _playerRespawnSound;
@@ -126,7 +127,6 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         kills = 0;
         deaths = 0;
         team = tim;
-        
     }
 
     // =========================== BUG ============================ 
@@ -365,6 +365,9 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         {
             _playerTakeDmgSound.PlayOneShot();
             life -= damage;
+
+            // enemies will throw this error
+            if (attackingPlayer == null) return;
             if (attackingPlayer.weaponManager.activeWeapon.index == 3)
                 if (attackingPlayer.life + 3 <= 100)
                     attackingPlayer.life += 3;
