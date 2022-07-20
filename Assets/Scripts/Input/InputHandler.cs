@@ -17,6 +17,13 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
     private bool _primaryFire;
     private bool _scoreboard;
 
+    [SerializeField] private AudioEmitter _playerMovementSound;
+
+    [Networked]
+    private TickTimer SoundCoolDownTimer { get; set; }
+
+    private float DELAY = 1.5f;
+
     /// <summary>
     /// Hook up to the Fusion callbacks so we can handle the input polling
     /// </summary>
@@ -84,7 +91,20 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
                 moveDirection.Normalize();
             
                 controller.Move(moveDirection);
-                
+
+                if (SoundCoolDownTimer.ExpiredOrNotRunning(Runner))
+                {
+                    if (moveDirection != Vector2.zero)
+                    {
+                        _playerMovementSound.PlayOneShot();
+                        SoundCoolDownTimer = TickTimer.CreateFromSeconds(Runner, DELAY);
+                    }  
+                    else
+                    {
+                        _playerMovementSound.Stop();
+                    }
+                }
+
                 playerObject.setMouse(networkInputData.mouseInput);
 
                 if (networkInputData.IsDown(NetworkInputData.MOUSEBUTTON1))

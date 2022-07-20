@@ -37,10 +37,19 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     private GameObject scoreboardItemManager;
     public GameObject cursor;
     private Collider[] _overlaps = new Collider[1];
+    public Camera cam;
 
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
     public const byte MAX_HEALTH = 100;
+
+    [SerializeField] private AudioEmitter _playerTakeDmgSound;
+
+    [SerializeField] private AudioEmitter _playerRespawnSound;
+
+    [SerializeField] private AudioEmitter _playeronGetKillSound;
+
+    [SerializeField] private AudioEmitter _playerDeathSound;
 
     [Networked(OnChanged = nameof(OnStateChanged))]
     private Direction direction { get; set; }
@@ -144,6 +153,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
                 */
                 if (respawnTimer.Expired(Runner))
                 {
+                    _playerRespawnSound.PlayOneShot();
                     ChangeColliderState(true);
                     _hitBoxRoot.SetHitboxActive(_hitbox, true);
                     Transform thisTransform = GetComponent<Transform>();
@@ -296,6 +306,8 @@ public class Player : NetworkBehaviour, ICanTakeDamage
                 // _deathExplosionInstance.transform.position = transform.position;
                 // _deathExplosionInstance.SetActive(false); // dirty fix to reactivate the death explosion if the particlesystem is still active
                 // _deathExplosionInstance.SetActive(true);
+                cam.orthographicSize = 5.0f;
+                weaponManager.SetDefaultWeapon();
                 _deathManager.OnDeath(Runner, Object.InputAuthority);
                 setVisuals(false);
                 ChangeColliderState(false);
@@ -351,6 +363,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
         
         else 
         {
+            _playerTakeDmgSound.PlayOneShot();
             life -= damage;
             if (attackingPlayer.weaponManager.activeWeapon.index == 3)
                 if (attackingPlayer.life + 3 <= 100)
@@ -380,10 +393,12 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     public void GetKill()
     {
         this.kills += 1;
+        _playeronGetKillSound.PlayOneShot();
     }
 
     public void GetKilled()
     {
+        _playerDeathSound.PlayOneShot();
         this.deaths += 1;
     }
 

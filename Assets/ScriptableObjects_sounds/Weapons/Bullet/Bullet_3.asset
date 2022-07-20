@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf4f9ae8cf56a545ad73d5132dd1090, type: 3}
+  m_Name: Bullet_3
+  m_EditorClassIdentifier: 
+  _audioClips:
+  - {fileID: 8300000, guid: f80a2ef430c1a6e44971ef9c5adfa82c, type: 3}
+  _pitchBase: 1
+  _pitchVariation: 0

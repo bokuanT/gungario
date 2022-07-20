@@ -4,6 +4,8 @@ public class GamemodesUI : MonoBehaviour
 {
     public GameObject lobbyUI;
     public TMP_Text AvailableSessions;
+    [SerializeField] private AudioEmitter StandardSound;
+    [SerializeField] private AudioEmitter CancelSound;
 
     public void Back()
     {
@@ -18,5 +20,15 @@ public class GamemodesUI : MonoBehaviour
 
         // In the future, a "active session count" can be implemented by updating when a game starts and ends.
         // To be implemented after game ending and transition is in place
+    }
+
+    public void PlayStandardSound()
+    {
+        StandardSound.PlayOneShot();
+    }
+
+    public void PlayCancelSound()
+    {
+        CancelSound.PlayOneShot();
     }
 }

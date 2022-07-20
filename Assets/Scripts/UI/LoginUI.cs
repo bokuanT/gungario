@@ -8,6 +8,8 @@ public class LoginUI : MonoBehaviour
     public GameObject AuthUI;
     public PlayFabAuthenticator authenticator;
 
+    [SerializeField] private AudioEmitter loginButtonSound;
+
     public void OnJoinLobby()
     {
         gameObject.SetActive(false);
@@ -18,6 +20,12 @@ public class LoginUI : MonoBehaviour
         authenticator.guestAuthentication();
         AuthUI.SetActive(false);
         loginText.SetActive(true);
+    }
+
+    public void LoginPlaySound()
+    {
+        Debug.Log("playing sound");
+        loginButtonSound.PlayOneShot();
     }
 
 }

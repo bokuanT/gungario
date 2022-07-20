@@ -409,6 +409,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1471017685905771901, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
+      propertyPath: musicManager
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1718481017094988807, guid: 48f44c56173ff6440b80a3bcd73bdf06, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

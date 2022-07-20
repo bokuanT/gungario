@@ -120,7 +120,8 @@ public class LevelBehaviourFFA : NetworkBehaviour
             }
         }
 
-        // Invoke("NewGame", 5f);
+        entryContainer.StartVictorySound();
+        entryContainer.StopVictorySoundInFiveSeconds();
         Invoke("ReturnToLobby", 5f);
     }
 
