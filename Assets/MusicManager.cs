@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class MusicManager : MonoBehaviour
 
     private AudioSource audioSource;
 
-    private bool isStopped = false;
+    private bool isMenuMusic = true;
 
     private void Awake()
     {
@@ -24,22 +25,65 @@ public class MusicManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!audioSource.isPlaying && !isStopped)
+        audioSource.volume = PlayerPrefs.GetFloat("musicVolume");
+        AudioListener.volume = PlayerPrefs.GetFloat("generalVolume");
+
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name == "Menu")
         {
-            MusicPlayer.PlayOneShot();
+            if (!audioSource.isPlaying)
+            {
+                MusicPlayer.PlayOneShot(1);
+                isMenuMusic = true;
+                return;
+            }
+            else
+            {
+                if (!isMenuMusic)
+                {
+                    MusicPlayer.Stop();
+                    MusicPlayer.PlayOneShot(1);
+                    isMenuMusic = true;
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
         }
+
+        
+        bool sceneIspresent = scene.name == "Game" || scene.name == "Deathmatch";
+        if (sceneIspresent)
+        {
+            if (!audioSource.isPlaying)
+            {
+                MusicPlayer.PlayOneShot(0);
+                isMenuMusic = false;
+                return;
+            }
+            else
+            {
+                if (isMenuMusic)
+                {
+                    MusicPlayer.PlayOneShot(0);
+                    isMenuMusic = false;
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+        Debug.Log("point 7");
     }
 
     public void StopSound()
     {
         MusicPlayer.Stop();
-        isStopped = true;
     }
 
-    public void StartSound()
-    {
-        MusicPlayer.PlayOneShot();
-        isStopped = false;
-    }
 
 }

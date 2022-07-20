@@ -72,7 +72,7 @@ public class Enemy : NetworkBehaviour
                 }
             }
         }
-        catch (InvalidOperationException e)
+        catch (InvalidOperationException)
         {
             return;
         }
