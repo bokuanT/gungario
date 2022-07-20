@@ -24,16 +24,19 @@ public abstract class SpawnPointManagerPrototype<T> : Fusion.Behaviour, ISpawnPo
   /// <summary>
   /// How spawn points will be selected from the <see cref="_spawnPoints"/> collection.
   /// </summary>
+  [InlineHelp]
   public SpawnSequence Sequence;
 
   /// <summary>
   /// LayerMask for which physics layers should be used for blocked spawn point checks.
   /// </summary>
+  [InlineHelp]
   public LayerMask BlockingLayers;
 
   /// <summary>
   /// The search radius used for detecting if a spawn point is blocked by an object.
   /// </summary>
+  [InlineHelp]
   public float BlockedCheckRadius = 2f;
 
   /// <summary>

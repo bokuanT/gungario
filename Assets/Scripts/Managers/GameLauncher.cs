@@ -139,7 +139,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 				{
 					GameMode = gameMode, // Client GameMode
 					SessionName = session.Name, // Session to Join
-					SceneObjectProvider = LevelManager.Instance, // Scene Provider
+					SceneManager = LevelManager.Instance, // Scene Provider
 					DisableClientSessionCreation = true, // Make sure the client will never create a Session
 					AuthValues = _runner.AuthenticationValues,
 				});
@@ -169,7 +169,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		{
 			GameMode = gameMode, // Host GameMode
 			SessionName = "FFA" + sessionNumber, // Session to Join
-			SceneObjectProvider = LevelManager.Instance, // Scene Provider
+			SceneManager = LevelManager.Instance, // Scene Provider
 			PlayerCount = MAX_PLAYERS,
 			AuthValues = _runner.AuthenticationValues,
 		});
@@ -192,7 +192,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 				{
 					GameMode = gameMode, // Client GameMode
 					SessionName = session.Name, // Session to Join
-					SceneObjectProvider = LevelManager.Instance, // Scene Provider
+					SceneManager = LevelManager.Instance, // Scene Provider
 					DisableClientSessionCreation = true, // Make sure the client will never create a Session
 					AuthValues = _runner.AuthenticationValues,
 				});
@@ -222,7 +222,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		{
 			GameMode = gameMode, // Host GameMode
 			SessionName = "Controlpoint" + sessionNumber, // Session to Join
-			SceneObjectProvider = LevelManager.Instance, // Scene Provider
+			SceneManager = LevelManager.Instance, // Scene Provider
 			PlayerCount = MAX_PLAYERS,
 			AuthValues = _runner.AuthenticationValues,
 		});
@@ -244,7 +244,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 				var result = await _runner.StartGame(new StartGameArgs() {
 					GameMode = gameMode, // Client GameMode
 					SessionName = session.Name, // Session to Join
-					SceneObjectProvider = LevelManager.Instance, // Scene Provider
+					SceneManager = LevelManager.Instance, // Scene Provider
 					DisableClientSessionCreation = true, // Make sure the client will never create a Session
 					AuthValues = _runner.AuthenticationValues,
 				});
@@ -271,7 +271,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		await _runner.StartGame(new StartGameArgs() {
 			GameMode = gameMode, // Host GameMode
 			SessionName = "Deathmatch" + sessionNumber, // Session to Join
-			SceneObjectProvider = LevelManager.Instance, // Scene Provider
+			SceneManager = LevelManager.Instance, // Scene Provider
 			PlayerCount = MAX_PLAYERS,
 			AuthValues = _runner.AuthenticationValues,
 		});
@@ -288,7 +288,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         {
             GameMode = gameMode, 
             SessionName = "TestRoom",
-            SceneObjectProvider = LevelManager.Instance, 
+			SceneManager = LevelManager.Instance, 
         });
     }
 

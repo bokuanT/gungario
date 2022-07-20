@@ -7,6 +7,7 @@
     "UseLagCompensation": true,
     "LagCompensation": {
         "HitboxBufferSize": 60,
+        "HitboxCapacity": 512,
         "ExpansionFactor": 0.20000000298023225,
         "Optimize": false,
         "DebugBroadphase": false,
@@ -35,11 +36,13 @@
     "InvokeRenderInBatchMode": true,
     "MaxNetworkedObjectCount": 8192,
     "NetworkIdIsObjectName": false,
+    "HideNetworkObjectInactivityGuard": false,
     "EnableHostMigration": false,
     "HostMigrationSnapshotInterval": 60,
     "Simulation": {
         "InputDataWordCount": 0,
         "TickRate": 60,
+        "MaxPrediction": 60,
         "DefaultPlayers": 10,
         "ReplicationMode": 0,
         "ObjectInterest": false,
@@ -156,5 +159,6 @@
         "Assembly-CSharp-firstpass"
     ],
     "UseSerializableDictionary": true,
-    "NullChecksForNetworkedProperties": true
+    "NullChecksForNetworkedProperties": true,
+    "CheckRpcAttributeUsage": false
 }

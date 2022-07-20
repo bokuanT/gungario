@@ -1,3 +1,469 @@
+# 1.1.1
+
+## F
+
+### Build 512 (Jun 14, 2022)
+
+- Releasing 1.1.1 Stable
+
+## RC Nightly
+
+### Build 511 (Jun 13, 2022)
+
+**What's New**
+
+- NetworkRunner.GetPlayerConnectionType(PlayerRef)
+- NetworkRunner.LobbyInfo
+
+**Bug Fixes**
+
+- Fixed: `InvalidOperationException` thrown when calling `NetworkDebugStart.ShutdownAll()`
+- Fixed: Crash when the animator used by `NetworkMecanimAnimator` has 0 layers
+- Fixed: Compile warning "While looking for class Fusion.Editor a namespace modification was detected. Namespace modification with preprocessor directives is not supported. Please ensure that all directives do not change the namespaces of types."
+
+### Build 509 (Jun 09, 2022)
+
+**Bug Fixes**
+
+- Fixed: `INetworkStruct`, `SimulationBehaviour` and `NetworkBehaviour` not being weaved/weaved incorrectly if they are generic types. Note that it is still impossible to use generic parameters in `[Networked]` properties 
+- Fixed: Accessing `[Networked]` `string` properties in `NetworkBehaviours` throwing `InvalidProgramException`
+- Fixed: "'' does not exist"  warning when reimporting prefabs using `NetworkObjectEditor` inspector
+
+# 1.1.0
+
+## F
+
+### Build 506 (Jun 08, 2022)
+
+**Bug Fixes**
+
+- Fixed: UTF-8 BOM in source files causing merged files to have invalid characters
+- Fixed: Issue with spawning a lot of big objects in shared mode
+
+## RC Nightly
+
+### Build 503 (Jun 07, 2022)
+
+**Bug Fixes**
+
+- Fixed: Rare shared mode plugin startup crash
+
+### Build 502 (Jun 06, 2022)
+
+**What's New**
+
+- WebGL Support
+
+### Build 499 (Jun 02, 2022)
+
+**Breaking Changes**
+
+- `INetworkSceneObjectProvider` has been made obsolete. Use `INetworkSceneManager` instead and if you need custom scene object resolving - `INetworkSceneManagerObjectResolver`
+- `NetworkRunner.RegisterUniqueObjects` has been made obsolete. Use `NetworkRunner.RegisterSceneObjects`
+
+**What's New**
+
+- `NetworkRunner.ObjectPool` property
+
+**Changes**
+
+- Fusion handles scene object resolving by default, provided `INetworkSceneManager` implementation calls `NetworkRunner.RegisterSceneObjects`. If `INetworkSceneManager` implementation also implements `INetworkSceneManagerObjectResolver`, it will be used to resolve scene objects instead
+- `NetworkObject.Runner` field gets set in each scene objects that gets passed to `NetworkRunner.RegisterSceneObjects`
+- Assertion is raised if attaching to an object that already has been attached to
+
+**Removed**
+
+- `NetworkSceneManagerBase.TryResolveSceneObject`
+
+**Bug Fixes**
+
+- Fixed: Inactive scene objects not being unregistered in case they never get attached to
+- Fixed: Self-activating unattached scene objects attaching twice  
+Tests: Task-based tests seem to have to do their own timeout, otherwise the editor hangs  
+Tests: Added more RPC tests
+- Fixed: Occasional editor crash when client switches a scene
+
+### Build 497 (May 31, 2022)
+
+**What's New**
+
+- ILWeaver: support for Wrapping/Unwrapping without a `NetworkRunner`. There are three constructs Fusion supports:  
+```  
+    public struct Wrapper : INetworkStruct {  
+       ...  
+    }  
+    public class WrappedByValue {  
+      [NetworkSerializeMethod]   public static Wrapper Wrap(WrappedByValue obj) { ... };  
+      [NetworkDeserializeMethod] public static WrappedByValue Unwrap(Wrapper wrapper) { ... }  
+    }  
+    public class WrappedByRef {  
+      [NetworkSerializeMethod]   public static Wrapper Wrap(WrappedByRef obj) { ... }  
+      [NetworkDeserializeMethod] public static void Unwrap(Wrapper wrapper, ref WrappedByRef result) { ... }  
+    }  
+    // both methods return number of bytes read/written  
+    public class WrappedRaw {  
+      [NetworkSerializeMethod(MaxSize = ...)] public static int Wrap(WrappedRaw obj, byte* data) { ... }  
+      [NetworkDeserializeMethod] public static int Unwrap(byte* data, ref WrappedRaw result) { ... }  
+    }  
+```  
+Such wrapped types (`WrappedByValue`, `WrappedByRef` and `WrappedRaw`) can be used in any `[Networked]` property (both in structs and `NetworkBehaviours`) and RPC
+
+**Improvements**
+
+- ILWeaver: multiple invalid constructs are now detected during weaving time and reported as errors
+
+**Bug Fixes**
+
+- Fixed: ILWeaver: inconsistent support for `string` and `bool`. Both types can be used in collections from now on
+
+### Build 496 (May 30, 2022)
+
+**Changes**
+
+- Network Transforms that do not have an Interpolation Target now will no longer use the object's own transform as target on clients that have state authority
+
+### Build 491 (May 27, 2022)
+
+**What's New**
+
+- ConnectionTimeout Shutdown Reason
+- ConnectionRefused Shutdown Reason
+
+**Removed**
+
+- FailedToConnect Shutdown Reason, replaced by GameIsFull, ConnectionTimeout, ConnectionRefused
+
+**Bug Fixes**
+
+- Fixed: Refused Connections remaining registered
+
+### Build 488 (May 26, 2022)
+
+**What's New**
+
+- `NetworkProjectConfig.HideNetworkObjectInactivityGuard` toggle
+- Type thumbnails next to prefab list in `NetworkProjectConfig`
+
+**Changes**
+
+- Prefabs in `NetworkProjectConfig` are now sorted by path (were: sorted by guid)
+- Prefabs in `NetworkProjectConfig` are now drawn as object fields pointing to the target prefab
+- Massive improvements in packet write performance in EC mode when a lot of clients are connected to a server
+
+**Removed**
+
+- NetworkRunner.NotifyEditorPlayModeExit (no longer needed)
+
+### Build 484 (May 25, 2022)
+
+**Changes**
+
+- `NetworkRunner.RegisterUniqueObjects` throws `InvalidOperationException` if an object has already been attached to
+- Logging an error due to scene object being missed moved to `NetworkSceneManagerBase`
+- If a remote object fails to be attached (missing prefab, missing scene object), another attempt will be made next frame, until it is either successful or the object got removed from the simulation. No errors are emit. This allows for a more flexible scene loading scenarios
+- If making a Standalone build, a warning is emit if `PlayerSettings.runInBackground` is not enabled
+
+**Bug Fixes**
+
+- Fixed: Inactive Prefabs/scene objects not having their state objects released on being destroyed
+- Fixed: Not being able to load and unload a scene repeatedly on a client
+- Fixed: `NullReferenceException` occasionally thrown when a runner was shutdown shortly after it has been started  
+Tests: More additive scene loading tests
+
+### Build 483 (May 24, 2022)
+
+**Changes**
+
+- FusionInstaller - sets PlayerSettings.runInBackground to true
+
+### Build 482 (May 23, 2022)
+
+**Changes**
+
+- NanoSockets for macOS Import Settings
+
+### Build 480 (May 20, 2022)
+
+**Bug Fixes**
+
+- Fixed: Lag-compensated `OverlapBox` missing hitboxes with box shape that are not in the position they are initialized
+- Fixed: Shutting down a runner in `FixedUpdateNetwork` throwing an exception
+- Fixed: NetworkRunner.Spawn() overload that takes a GameObject was returning the NetworkObject of the prefab, rather than the instantiated object
+
+### Build 479 (May 19, 2022)
+
+**Changes**
+
+- Shared/Client StartGame only returns after connection or error
+- Host/Server always create new Sessions  
+It will not try to join a Random Session if no Session Name is passed, but always create a new one with a Random name
+
+**Bug Fixes**
+
+- Fixed: PlayerCount on Clients if not Default Value
+
+### Build 478 (May 18, 2022)
+
+**Bug Fixes**
+
+- Fixed: Join Session from Lobby
+- Fixed: Update SessionInfo after MasterClient leave
+
+### Build 477 (May 17, 2022)
+
+**Changes**
+
+- Rework Shutdown Procedure
+
+**Bug Fixes**
+
+- Fixed: NullRef on Ping Procedure
+
+### Build 476 (May 16, 2022)
+
+**Bug Fixes**
+
+- Fixed: BVH Nodes are now recycled in the Lag-compensation structure after network objects with hitboxes are destroyed
+
+### Build 474 (May 13, 2022)
+
+**What's New**
+
+- `SortDistance` and `SortReference` extension methods to sort a list of lag-compensated hits according to the hit `Distance` or the distance from the hit `Point` to a reference point, respectively
+- `NetworkProjectConfig.CheckRpcAttributeUsage` - if set, the weaver will check if `RpcAttribute` is used in types that do not support it. This requires all types to be scanned and can increase the weaving duration
+
+**Bug Fixes**
+
+- Fixed: DontDestroyOnLoad objects not occasionally despawning correctly
+
+### Build 473 (May 12, 2022)
+
+**Changes**
+
+- Postpone Spawn if Shared Client is not fully connected
+- Spawning network objects with position and/or rotation will now call physics `SyncTransform` by default (optional parameter), avoiding issues with collider and/or rigidbody data not being synchronized
+
+**Bug Fixes**
+
+- Fixed: Handle Cloud Timeout while in Lobby
+- Fixed: Initialized execution order
+- Fixed: Despawning objects in OnChanged handlers causing `NullReferenceExceptions` being thrown in some cases
+- Fixed: A typo in `NetworkBehaviour.OnChangeAdd` parameter
+- Fixed: Invalid alignment of help button for some properties on Unity 2021.1+
+
+### Build 472 (May 11, 2022)
+
+**Changes**
+
+- Renamed DeltaCompressor options. Debug option renamed to DebugUncompressed, Default renamed to Managed
+
+### Build 471 (May 09, 2022)
+
+**Changes**
+
+- Big performance optimization for EC packet writes
+
+**Bug Fixes**
+
+- Fixed: Prefabs not being baked on component removal
+
+### Build 468 (May 05, 2022)
+
+**Bug Fixes**
+
+- Fixed: `PhotonAppSetting` inspector throwing `ArgumentNullException` on Unity 2021.x  
+Turns out ScriptAttributeUtility.GetFieldAttributes returns nulls if there are no attributes
+
+### Build 467 (May 04, 2022)
+
+**Changes**
+
+- Shared Mode: All RPCs are handled as if they were defined with `TickAligned = false`
+
+**Bug Fixes**
+
+- Fixed: Runner Shutdown Procedure  
+Most of the process is sync now, only the MultiScene unload and the Photon Cloud disconnect are async
+- Fixed: Order of Fusion property drawers is now consistent across Unity versions
+
+### Build 466 (May 03, 2022)
+
+**What's New**
+
+- Runner.Spawn() method added which accepts a GameObject as the prefab type
+
+**Bug Fixes**
+
+- Fixed: DisableClientSessionCreation
+- Fixed: Issue with incorrect overflow assert triggering in debugmode sometimes
+
+### Build 465 (May 02, 2022)
+
+**Bug Fixes**
+
+- Fixed: Issue in the broad-phase resolution of lag-compensated `OverlapBox` queries when using rotated boxes
+
+### Build 464 (Apr 30, 2022)
+
+**Bug Fixes**
+
+- Fixed: Hitbox Colliders are now recycled in the Lag-compensation structure after network objects are destroyed
+
+### Build 463 (Apr 29, 2022)
+
+**Bug Fixes**
+
+- Fixed: FusionStats no longer creates an EventSystem or StandaloneInputModule in scene if the new Unity Input System is present. (Considered present if the UnityEngine.InputSystem namespace is present in any assemblies)
+
+### Build 462 (Apr 26, 2022)
+
+**Bug Fixes**
+
+- Fixed: Issue with prediction sometimes going to high, especially on Android
+
+### Build 461 (Apr 25, 2022)
+
+**Bug Fixes**
+
+- Fixed: Corrected issue with large number of SimulationBehaviour/NetworkBehaviours exceeding the re-sorting safety limit when applying SortBefore and SortAfter attributes. Was quietly producing an invalid execution order on error
+
+### Build 460 (Apr 22, 2022)
+
+**Bug Fixes**
+
+- Fixed: Join Session right after Join a Lobby
+- Fixed: NanoSockets Import Settings for GDK
+- Fixed: FUSION_WEAVER on Dedicated Server TargetBuild
+- Fixed: NDS to AutoStart with AutoHostOrClient
+
+### Build 459 (Apr 21, 2022)
+
+**Bug Fixes**
+
+- Fixed: AccuracyDrawer gui handling when nested corrected
+- Fixed: Accuracy types as fields can be initialized using named AccuracyDefaults
+
+### Build 458 (Apr 20, 2022)
+
+**What's New**
+
+- Lag-compensantion hitbox buffer capacity can now be configured in the Lag-compensation settings
+
+**Changes**
+
+- Default lag-compensation hitbox snapshot history is now 12 ticks instead of 60
+
+**Bug Fixes**
+
+- Fixed: "UnloadAsset may only be used on individual assets and can not be used on GameObject's / Components / AssetBundles or GameManagers" error message when exiting play mode
+
+### Build 457 (Apr 19, 2022)
+
+**Changes**
+
+- `NetworkTransform.IPredictedSpawnBehaviour.PredictedSpawnFailed` no longer destroys the GameObject by default
+
+**Bug Fixes**
+
+- Fixed: Ignore zero Delta Time
+- Fixed: Warnings when forcing a client NRB to be kinematic and its collision mode was set to Continuous or Continuous Dynamic.  
+This only affects clients in Server-only physics mode or clients without state authority in Shared Mode
+- Fixed: `NullReferenceException` when trying to spawn a `NetworkObject` with an inactive child that has a `NetworkTransform` component
+
+### Build 454 (Apr 13, 2022)
+
+**Bug Fixes**
+
+- Fixed: Mono-cecil package not installing with "Access Denied" error. `FusionInstaller` defaults to `com.unity.nuget.mono-cecil@1.10.2` now
+
+### Build 452 (Apr 11, 2022)
+
+**Changes**
+
+- Object.AllowStateAuthorityOverride default value is now true. For most use cases, devs will want this enabled
+
+**Bug Fixes**
+
+- Fixed: Shutting down `NetworkRunner` in multiple peer mode resulting in temp scene not being unloaded
+
+### Build 451 (Apr 09, 2022)
+
+**What's New**
+
+- NetworkMecanAnimator SetTrigger() methods given an additional optional passThroughOnInputAuthority option
+
+### Build 450 (Apr 08, 2022)
+
+**What's New**
+
+- NetworkRunner.GetPlayerConnectionToken
+
+### Build 449 (Apr 05, 2022)
+
+**Bug Fixes**
+
+- Fixed: Issue with shared mode input erroneously becoming full, causing skipped input ticks
+
+### Build 448 (Mar 31, 2022)
+
+**Bug Fixes**
+
+- Fixed: An issue in the Lag-Compensation `BoxOverlap` query resolution when the box was rotated
+
+### Build 447 (Mar 30, 2022)
+
+**Bug Fixes**
+
+- Fixed: String RPC parameters causing `ArgumentException` being thrown on Android
+
+### Build 446 (Mar 28, 2022)
+
+**What's New**
+
+- `NetworkProjectConfig.GlobalAssetLoading` and `NetworkProjectConfig.GlobalAssetUnloading` static events - a way to load the config from a custom source and unload it, if necessary
+- `NetworkProjectConfig.UnloadGlobal()`
+
+**Changes**
+
+- Tutorials and Samples in Fusion Hub updated
+- `NetworkProjectConfigAsset` is now a public type
+
+### Build 445 (Mar 25, 2022)
+
+**Changes**
+
+- FusionStats SimulationCount renamed to ForwardSimCount (to make it distinct from ResimCount)
+
+**Bug Fixes**
+
+- Fixed: Fusion Editor debug logs using correct colors
+- Fixed: Native memory leaks on the Simulation
+- Fixed: `NetworkRunnerExtensions.SetActiveScene` setting invalid scene as active when given a scene path and scene names are not unique
+
+### Build 443 (Mar 23, 2022)
+
+**Breaking Changes**
+
+- `bool` can't be used in pointer/ref properties
+
+**What's New**
+
+- `NetworkRunner.Instances` - a read only list of all the active runners
+- Arrays of `NetworkString` support for RPC  
+Test: Basic RPC codegen tests. Turns out bools are a bit problematic
+
+### Build 442 (Mar 22, 2022)
+
+**Bug Fixes**
+
+- Fixed: Inspector: errors logged in the console when inspecting some `INetworkStructs` types and exiting play mode
+
+### Build 440 (Mar 17, 2022)
+
+**Improvements**
+
+- `Hitbox` and `HitboxRoot` `DrawGizmos` methods are now virtual and use a color configurable in the Inspector
+
 # 1.0.0
 
 ## F

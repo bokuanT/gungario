@@ -70,6 +70,12 @@ public class Shop : MonoBehaviour
 
     public int GetSelectedCosmetics()
     {
-        return selectedHat.ItemID;
+        if (selectedHat == null)
+        {
+            return 0;
+        } else
+        {
+            return selectedHat.ItemID;
+        }
     }
 }

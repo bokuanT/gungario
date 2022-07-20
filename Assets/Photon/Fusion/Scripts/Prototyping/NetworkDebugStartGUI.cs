@@ -14,11 +14,13 @@ public class NetworkDebugStartGUI : Fusion.Behaviour {
   /// <summary>
   /// When enabled, the in-game user interface buttons can be activated with the keys H (Host), S (Server) and C (Client).
   /// </summary>
+  [InlineHelp]
   public bool EnableHotkeys;
 
   /// <summary>
   /// The GUISkin to use as the base for the scalable in-game UI.
   /// </summary>
+  [InlineHelp]
   public GUISkin BaseSkin;
 
   NetworkDebugStart _networkDebugStart;
