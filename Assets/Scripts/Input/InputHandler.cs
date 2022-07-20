@@ -98,7 +98,11 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
                     {
                         _playerMovementSound.PlayOneShot();
                         SoundCoolDownTimer = TickTimer.CreateFromSeconds(Runner, DELAY);
-                    }   
+                    }  
+                    else
+                    {
+                        _playerMovementSound.Stop();
+                    }
                 }
 
                 playerObject.setMouse(networkInputData.mouseInput);

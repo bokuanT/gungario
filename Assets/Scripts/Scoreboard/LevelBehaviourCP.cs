@@ -128,8 +128,8 @@ public class LevelBehaviourCP : NetworkBehaviour
                 break;
             }
         }
-
-        // Invoke("NewGame", 5f);
+        entryContainer.StartVictorySound();
+        entryContainer.StopVictorySoundInFiveSeconds();
         Invoke("ReturnToLobby", 5f);
     }
 

@@ -6,6 +6,8 @@ public class MatchmakingUI : MonoBehaviour
 {
     [SerializeField] private TMP_Text text;
     [SerializeField] private GameObject cancelMatchmaking;
+    [SerializeField] private AudioEmitter StandardSound;
+    [SerializeField] private AudioEmitter CancelSound;
     public void OnMatchmake()
     {
         cancelMatchmaking.SetActive(true);
@@ -20,5 +22,13 @@ public class MatchmakingUI : MonoBehaviour
         text.SetText("Returning to Lobby...");
         GameLauncher.Instance.LeaveSession();
     }
+    public void PlayStandardSound()
+    {
+        StandardSound.PlayOneShot();
+    }
 
+    public void PlayCancelSound()
+    {
+        CancelSound.PlayOneShot();
+    }
 }

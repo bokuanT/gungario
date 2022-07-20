@@ -37,6 +37,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     private GameObject scoreboardItemManager;
     public GameObject cursor;
     private Collider[] _overlaps = new Collider[1];
+    public Camera cam;
 
     // Temporary variable to move shooting here
     public float moveSpeed = 5f;
@@ -305,6 +306,8 @@ public class Player : NetworkBehaviour, ICanTakeDamage
                 // _deathExplosionInstance.transform.position = transform.position;
                 // _deathExplosionInstance.SetActive(false); // dirty fix to reactivate the death explosion if the particlesystem is still active
                 // _deathExplosionInstance.SetActive(true);
+                cam.orthographicSize = 5.0f;
+                weaponManager.SetDefaultWeapon();
                 _deathManager.OnDeath(Runner, Object.InputAuthority);
                 setVisuals(false);
                 ChangeColliderState(false);

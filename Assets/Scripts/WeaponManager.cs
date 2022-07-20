@@ -92,4 +92,9 @@ public class WeaponManager : NetworkBehaviour
         return activeWeapon;
     }
 
+    public void SetDefaultWeapon()
+    {
+        SetActiveWeapon(_weapons[0], false);
+    }
+
 }

@@ -12,6 +12,9 @@ public class LobbyUI : MonoBehaviour
     public TMP_Text AvailableSessions;
     public PlayFabAuthenticator authenticator;
     [SerializeField] private GameObject loadingCanvas;
+    [SerializeField] private AudioEmitter StandardSound;
+    [SerializeField] private AudioEmitter CancelSound;
+
     private bool nameChanged = false;
 
     public void StartGame() {
@@ -115,4 +118,13 @@ public class LobbyUI : MonoBehaviour
         // To be implemented after game ending and transition is in place
     }
 
+    public void PlayStandardSound()
+    {
+        StandardSound.PlayOneShot();
+    }
+
+    public void PlayCancelSound()
+    {
+        CancelSound.PlayOneShot();
+    }
 }

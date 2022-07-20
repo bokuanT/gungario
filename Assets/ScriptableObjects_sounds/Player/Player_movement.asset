@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Player_movement
   m_EditorClassIdentifier: 
   _audioClips:
-  - {fileID: 8300000, guid: ee92facad29bf0a4785479aa59bac740, type: 3}
+  - {fileID: 8300000, guid: 60413219406995f419f3e76a3038833a, type: 3}
   _pitchBase: 1
   _pitchVariation: 0.2

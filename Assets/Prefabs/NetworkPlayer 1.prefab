@@ -569,7 +569,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2206481333446730981}
-  m_Enabled: 0
+  m_Enabled: 1
 --- !u!114 &1174997952378022643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,6 +613,7 @@ MonoBehaviour:
   gun: {fileID: 0}
   scoreboard_item: {fileID: 0}
   cursor: {fileID: 7970933119681957879, guid: 5f07a21a9bcf8584bbd5c6911fde2298, type: 3}
+  cam: {fileID: 2125885134054402988}
   moveSpeed: 5
   _playerTakeDmgSound: {fileID: 6474883935818623133}
   _playerRespawnSound: {fileID: 7830797597984534898}

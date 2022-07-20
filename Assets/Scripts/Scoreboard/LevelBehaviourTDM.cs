@@ -123,7 +123,8 @@ public class LevelBehaviourTDM : NetworkBehaviour
             }
         }
 
-        // Invoke("NewGame", 5f);
+        entryContainer.StartVictorySound();
+        entryContainer.StopVictorySoundInFiveSeconds();
         Invoke("ReturnToLobby", 5f);
     }
 
