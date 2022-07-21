@@ -84,7 +84,7 @@ public class InputHandler : NetworkBehaviour, INetworkRunnerCallbacks
         if (GetInput(out NetworkInputData networkInputData))
         {
             //Move
-            if (playerObject.state == Player.State.Active && !PauseMenuUI.GameIsPaused) //only move if alive and game not paused
+            if (playerObject.state == Player.State.Active && !PauseMenuUI.GameIsPaused) //only move if alive && game is not paused
             {
                 Vector2 moveDirection = networkInputData.movementInput;
                 

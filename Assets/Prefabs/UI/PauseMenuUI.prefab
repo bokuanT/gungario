@@ -1753,7 +1753,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuCanvas: {fileID: 5315275632245794148}
-  settingsCanvas: {fileID: 5826267208139249646}
+  settingsImage: {fileID: 5826267208139249646}
 --- !u!1 &5580946938099148452
 GameObject:
   m_ObjectHideFlags: 0
