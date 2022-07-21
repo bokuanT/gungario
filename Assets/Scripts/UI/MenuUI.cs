@@ -13,6 +13,7 @@ public class MenuUI : MonoBehaviour
     public GameObject shopCanvas;
     public GameObject settingsCanvas;
     public GameObject gameModesUI;
+    public GameObject weaponsHelp;
 
     private static MenuUI _instance;
     public static MenuUI Instance
@@ -88,5 +89,15 @@ public class MenuUI : MonoBehaviour
     public void CloseSettings()
     {
         settingsCanvas.SetActive(false);
+    }
+
+    public void OpenWeaponsHelp()
+    {
+        weaponsHelp.SetActive(true);
+    }
+
+    public void CloseWeaponsHelp()
+    {
+        weaponsHelp.SetActive(false);
     }
 }
