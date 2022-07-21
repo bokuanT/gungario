@@ -8,6 +8,7 @@ public class PauseMenuUI : MonoBehaviour
     public static bool GameIsPaused = false;
 
     public GameObject pauseMenuCanvas;
+    public GameObject settingsCanvas;
 
     // Start is called before the first frame update
     void Start()
@@ -53,5 +54,15 @@ public class PauseMenuUI : MonoBehaviour
     {
         Debug.Log("Returning to Menu");
         GameLauncher.Instance.LeaveSession();
+    }
+
+    public void OpenSettings()
+    {
+        settingsCanvas.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        settingsCanvas.SetActive(false);
     }
 }
