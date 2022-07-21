@@ -25,6 +25,11 @@ public class SoundManager : MonoBehaviour
         {
             Load();
         }
+
+        if (music == null)
+        {
+            music = FindObjectOfType<AudioSource>();
+        }
     }
 
     public void ChangeGeneralVolume()
@@ -41,6 +46,11 @@ public class SoundManager : MonoBehaviour
 
     private void Load()
     {
+        if (music == null)
+        {
+            music = FindObjectOfType<AudioSource>();
+        }
+
         musicSlider.value = PlayerPrefs.GetFloat("musicVolume");
         volumeSlider.value = PlayerPrefs.GetFloat("generalVolume");
     }
