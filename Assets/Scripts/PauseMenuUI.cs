@@ -37,6 +37,7 @@ public class PauseMenuUI : MonoBehaviour
     {
         pauseMenuCanvas.SetActive(false);
         GameIsPaused = false;
+        Cursor.visible = false;
         CloseSettings();
     }
 
@@ -46,6 +47,7 @@ public class PauseMenuUI : MonoBehaviour
         // Since enemy scripts are networked, they will not be paused.
         // freeze time if singleplayer
         GameIsPaused = true;
+        Cursor.visible = true;
     }
 
     public void ResumeGame()

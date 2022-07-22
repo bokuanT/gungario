@@ -523,6 +523,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		Debug.Log($"Session List Updated with {sessionList.Count} session(s)");
 		_sessionList = sessionList;
 		sessionCount = sessionList.Count;
+		MenuUI.Instance.UpdateSessions(sessionList);
         foreach (var session in sessionList) 
         {
             Debug.Log($"{session.Name} Players: {session.PlayerCount}/{session.MaxPlayers}");
