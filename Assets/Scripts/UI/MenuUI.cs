@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
 public class MenuUI : MonoBehaviour
 {
@@ -99,5 +100,10 @@ public class MenuUI : MonoBehaviour
     public void CloseWeaponsHelp()
     {
         weaponsHelp.SetActive(false);
+    }
+
+    public void UpdateSessions(List<SessionInfo> sessionList)
+    {
+        gamemodeUI.UpdateSessions(sessionList);
     }
 }
