@@ -477,6 +477,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     {
         gun = wep.transform.parent;
         firePoint = wep.transform;
+        weaponSprite = wep.gameObject.GetComponentInParent<SpriteRenderer>();
     }
 
     private void ChangeColliderState(bool value)
