@@ -38,7 +38,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
 	private NetworkRunner _runner;
 	private List<SessionInfo> _sessionList;
-	public int sessionCount; 
+	public int sessionCount;
+	private int MAX_PLAYERS_FFA = 2;
 	private int MAX_PLAYERS = 4;
 	//private int LocalPlayerRef;
 	private static GameLauncher _instance;
@@ -171,7 +172,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 			GameMode = gameMode, // Host GameMode
 			SessionName = "FFA" + sessionNumber, // Session to Join
 			SceneManager = LevelManager.Instance, // Scene Provider
-			PlayerCount = MAX_PLAYERS,
+			PlayerCount = MAX_PLAYERS_FFA,
 			AuthValues = _runner.AuthenticationValues,
 		});
 	}
@@ -316,9 +317,15 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	public void CheckSessions()
 	{
 		// _players is a local dictionary, and only added to when a player joins the session.
+		if (_players.Count == MAX_PLAYERS_FFA && gamemode == Gamemode.FFA)
+        {
+			Debug.Log("LOADING FFA");
+			LevelManager.LoadMap(LevelManager.MAP1_SCENE);
+		}
+		
 		if (_players.Count == MAX_PLAYERS) {
 			if (gamemode == Gamemode.FFA)
-				Debug.Log("LOADING FFA");
+
 			if (gamemode == Gamemode.CP)
 				Debug.Log("LOADING CONTROLPOINT");
 			if (gamemode == Gamemode.TDM)
