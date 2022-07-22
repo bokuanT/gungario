@@ -39,7 +39,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 	private NetworkRunner _runner;
 	private List<SessionInfo> _sessionList;
 	public int sessionCount; 
-	private int MAX_PLAYERS = 2;
+	private int MAX_PLAYERS = 4;
 	//private int LocalPlayerRef;
 	private static GameLauncher _instance;
 
@@ -129,7 +129,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		// check for any existing sessions
 		foreach (var session in _sessionList)
 		{
-			if (session.PlayerCount < session.MaxPlayers)
+			// Searchs for sessions starting with 'F' (FFA)
+			if (session.PlayerCount < session.MaxPlayers && session.Name.StartsWith('F'))
 			{
 				SetJoinLobby();
 				Debug.Log($"Joining {session.Name}");
@@ -182,7 +183,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		// check for any existing sessions
 		foreach (var session in _sessionList)
 		{
-			if (session.PlayerCount < session.MaxPlayers)
+			// Searchs for sessions starting with 'C' (ControlPoint)
+			if (session.PlayerCount < session.MaxPlayers && session.Name.StartsWith('C'))
 			{
 				SetJoinLobby();
 				Debug.Log($"Joining {session.Name}");
@@ -235,7 +237,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		// check for any existing sessions
 		foreach (var session in _sessionList) 
 		{
-			if (session.PlayerCount < session.MaxPlayers) 
+			// Searchs for sessions starting with 'D' (Deathmatch)
+			if (session.PlayerCount < session.MaxPlayers && session.Name.StartsWith('D')) 
 			{
 				SetJoinLobby();
 				Debug.Log($"Joining {session.Name}");
@@ -302,6 +305,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 		{
 			Debug.Log("Spawning player");
 			//LocalPlayerRef = player;
+			// only spawn on respective clients if 
 			runner.Spawn(_playerInfoPrefab, Vector3.zero, Quaternion.identity, player);
 		}
 
