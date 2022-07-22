@@ -10,15 +10,21 @@ using UnityEngine.SceneManagement;
 namespace Fusion {
  
 
-  public abstract class NetworkSceneManagerBase : Fusion.Behaviour, INetworkSceneObjectProvider {
+  public abstract class NetworkSceneManagerBase : Fusion.Behaviour, INetworkSceneManager {
 
     private static WeakReference<NetworkSceneManagerBase> s_currentlyLoading = new WeakReference<NetworkSceneManagerBase>(null);
 
+    /// <summary>
+    /// When enabled, a small info button overlays will be added to the Hierarchy Window 
+    /// for each active <see cref="NetworkRunner"/> and for its associated scene.
+    /// </summary>
+    [InlineHelp]
+    [ToggleLeft]
+    [MultiPropertyDrawersFix]
     public bool ShowHierarchyWindowOverlay = true;
 
     private IEnumerator _runningCoroutine;
     private bool _currentSceneOutdated = false;
-    private Dictionary<Guid, NetworkObject> _sceneObjects = new Dictionary<Guid, NetworkObject>();
     private SceneRef _currentScene;
 
     public NetworkRunner Runner { get; private set; }
@@ -133,17 +139,17 @@ namespace Fusion {
     }
 
 
-    #region INetworkSceneObjectProvider
+    #region INetworkSceneManager
 
-    void INetworkSceneObjectProvider.Initialize(NetworkRunner runner) {
+    void INetworkSceneManager.Initialize(NetworkRunner runner) {
       Initialize(runner);
     }
 
-    void INetworkSceneObjectProvider.Shutdown(NetworkRunner runner) {
+    void INetworkSceneManager.Shutdown(NetworkRunner runner) {
       Shutdown(runner);
     }
 
-    bool INetworkSceneObjectProvider.IsReady(NetworkRunner runner) {
+    bool INetworkSceneManager.IsReady(NetworkRunner runner) {
       Assert.Check(Runner == runner);
       if (_runningCoroutine != null) {
         return false;
@@ -155,11 +161,6 @@ namespace Fusion {
         return false;
       }
       return true;
-    }
-
-    bool INetworkSceneObjectProvider.TryResolveSceneObject(NetworkRunner runner, Guid sceneObjectGuid, out NetworkObject instance) {
-      Assert.Check(Runner == runner);
-      return _sceneObjects.TryGetValue(sceneObjectGuid, out instance);
     }
 
     #endregion
@@ -184,7 +185,6 @@ namespace Fusion {
         _runningCoroutine = null;
         _currentScene = SceneRef.None;
         _currentSceneOutdated = false;
-        _sceneObjects.Clear();
       }
     }
 
@@ -248,8 +248,7 @@ namespace Fusion {
       } else if (!finishCalled) {
         LogError($"Failed to switch scenes: SwitchScene implementation did not invoke finished delegate");
       } else {
-        _sceneObjects = sceneObjects;
-        Runner.RegisterUniqueObjects(_sceneObjects.Values);
+        Runner.RegisterSceneObjects(sceneObjects.Values);
         Runner.InvokeSceneLoadDone();
       }
     }

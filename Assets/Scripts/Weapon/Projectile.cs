@@ -9,8 +9,8 @@ public class Projectile : NetworkBehaviour
 	[SerializeField] private Transform _bulletVisualParent;
     [SerializeField] ExplosionFX _explosionFX;
 
-    [Header("Settings")] 
-    [SerializeField] private BulletSettings _bulletSettings = new BulletSettings();
+    [Header("Settings")]
+    [SerializeField] private BulletSettings _bulletSettings;
 
     [Serializable]
     public class BulletSettings 
@@ -19,13 +19,15 @@ public class Projectile : NetworkBehaviour
         public float areaRadius;
         public float areaImpulse;
         public byte areaDamage;
-        public float speed = 10f;
-        public float radius = 0.25f;
-        public float gravity = -10f;
-        public float timeToLive = 3f;
-        public float timeToFade = 0.5f;
-        public float ownerVelocityMultiplier = 1f;
+        public float speed;
+        public float radius;
+        public float gravity;
+        public float timeToLive;
+        public float timeToFade;
+        public float ownerVelocityMultiplier;
 	}
+
+    [SerializeField] private AudioEmitter __audioEmitter;
 
     [Networked]
     public TickTimer networkedLifeTimer { get; set; }
@@ -73,7 +75,7 @@ public class Projectile : NetworkBehaviour
     {
         lifeTimer = TickTimer.CreateFromSeconds(Runner, _bulletSettings.timeToLive + _bulletSettings.timeToFade);
         fadeTimer = TickTimer.CreateFromSeconds(Runner, _bulletSettings.timeToFade);
-
+       
         destroyed = false;
         
         velocity = gun.right * _bulletSettings.speed + ownervelocity;
@@ -87,9 +89,11 @@ public class Projectile : NetworkBehaviour
             _explosionFX.ResetExplosion();
         }
         _bulletVisualParent.gameObject.SetActive(true);
-        transform.Find("Explosion").gameObject.SetActive(true);
 
-        GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.Predicted;
+        if (transform.Find("Explosion") != null)
+            transform.Find("Explosion").gameObject.SetActive(true);
+
+        GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.NoInterpolation;
 
     }
 
@@ -114,7 +118,7 @@ public class Projectile : NetworkBehaviour
 
         if (!destroyed)
         {
-            if (fadeTimer.Expired(Runner))
+            if (lifeTimer.Expired(Runner))
             {
                 Detonate(transform.position);
             }
@@ -157,7 +161,9 @@ public class Projectile : NetworkBehaviour
 
         if (_bulletSettings.areaRadius > 0)
         {
-            ApplyAreaDamage(hitPoint); 
+            ApplyAreaDamage(hitPoint);
+            __audioEmitter.Play();
+            Debug.Log("Playing audio");
         }
     }
 

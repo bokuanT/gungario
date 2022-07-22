@@ -45,12 +45,13 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
         }
 
         // function to spawn a player, with random position 
-        NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, playerRef, InitNetworkState);
+        
+        NetworkObject networkPlayerObject = runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(Player.Team.None), Quaternion.identity, playerRef, InitNetworkState);
         void InitNetworkState(NetworkRunner runner, NetworkObject networkObject)
         {
             Player player = networkObject.gameObject.GetComponent<Player>();
             Debug.Log($"Initializing player {player}");
-            player.InitNetworkState(playerRef);
+            player.InitNetworkState(playerRef, Player.Team.None);
         }
         //_spawnedCharacters.Add(playerRef, networkPlayerObject);
         runner.SetPlayerObject(playerRef, networkPlayerObject);

@@ -47,8 +47,7 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
     base.Spawned();
     CacheEverything();
 
-    // Caveat: this is needed to initialize the Controller's state and avoid unwanted spikes in its perceived velocity
-    Controller.Move(transform.position);
+    
   }
 
   private void CacheEverything() {
@@ -60,14 +59,14 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform {
   }
 
   protected override void CopyFromBufferToEngine() {
-    // Trick: CC must be disabled before resetting the transform state
-    Controller.enabled = false;
+        // Trick: CC must be disabled before resetting the transform state
+        Controller.enabled = false;
 
     // Pull base (NetworkTransform) state from networked data buffer
     base.CopyFromBufferToEngine();
 
-    // Re-enable CC
-    Controller.enabled = true;
+        // Re-enable CC
+        Controller.enabled = true;
   }
 
   /// <summary>

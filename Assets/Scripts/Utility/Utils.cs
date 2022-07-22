@@ -5,9 +5,27 @@ using UnityEngine;
 public static class Utils
 {   
     // function to return a random Vector3 within the spawnable area
-    public static Vector3 GetRandomSpawnPoint()
+    public static Vector3 GetRandomSpawnPoint(Player.Team team)
     {
-        return new Vector3(Random.Range(-8,8), Random.Range(-8,8), 0);
+        // temporary spawning within the centre box of map
+        float[,] blueSpawns = new float[,] { { -40, 6 }, { -45, 15 }, { -15, 15 } };
+        float[,] redSpawns = new float[,] { { 30, -9 }, { 36, 10 }, { 35, -29.5F } };
+
+        int blueIndex = Random.Range(0, 3);
+        int redIndex = Random.Range(0, 3);
+
+        Vector3 blueSpawn = new Vector3(blueSpawns[blueIndex, 0], blueSpawns[blueIndex, 1]);
+        Vector3 redSpawn = new Vector3(redSpawns[redIndex, 0], redSpawns[redIndex, 1]);
+        Vector3 neutralSpawn = new Vector3(Random.Range(-11,6), Random.Range(-4,5), 0);
+
+        if (team == Player.Team.Red)
+            return redSpawn;
+        else if (team == Player.Team.Blue)
+            return blueSpawn;
+        else
+            return blueIndex == 0 ? redSpawn
+                : blueIndex == 1 ? blueSpawn : neutralSpawn;
+                    
     }
 
     /// <summary>

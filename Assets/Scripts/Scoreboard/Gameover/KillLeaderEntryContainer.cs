@@ -10,6 +10,17 @@ public class KillLeaderEntryContainer : MonoBehaviour
     public GameObject _entryPrefab;
 
     public Transform container;
+
+    private MusicManager musicManager;
+
+    [SerializeField] private AudioEmitter VictorySound;
+
+    private void Awake()
+    {
+        musicManager = GameObject.Find("MusicManager")
+            .GetComponent<MusicManager>();
+    }
+
     public void SpawnEntry(Player player, int position)
     {
         GameObject item = Instantiate(_entryPrefab, container);
@@ -26,4 +37,23 @@ public class KillLeaderEntryContainer : MonoBehaviour
                 Destroy(child.gameObject);
         }
     }
+
+    public void StartVictorySound()
+    {
+        musicManager.StopSound();
+        VictorySound.PlayOneShot();
+    }
+
+    public void StopVictorySoundInFiveSeconds()
+    {
+        Invoke("StopSound", 5f);
+        
+    }
+
+    private void StopSound()
+    {
+        VictorySound.Stop();
+    }
+
+    
 }

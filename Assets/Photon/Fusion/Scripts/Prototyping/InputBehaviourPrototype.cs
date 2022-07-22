@@ -14,71 +14,62 @@ public class InputBehaviourPrototype : Fusion.Behaviour, INetworkRunnerCallbacks
     var frameworkInput = new NetworkInputPrototype();
 
     if (Input.GetKey(KeyCode.W)) {
-      frameworkInput.Buttons |= NetworkInputPrototype.BUTTON_FORWARD;
+      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_FORWARD, true);
     }
 
     if (Input.GetKey(KeyCode.S)) {
-      frameworkInput.Buttons |= NetworkInputPrototype.BUTTON_BACKWARD;
+      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_BACKWARD, true);
     }
 
     if (Input.GetKey(KeyCode.A)) {
-      frameworkInput.Buttons |= NetworkInputPrototype.BUTTON_LEFT;
+      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_LEFT, true);
     }
 
     if (Input.GetKey(KeyCode.D)) {
-      frameworkInput.Buttons |= NetworkInputPrototype.BUTTON_RIGHT;
+      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_RIGHT, true);
     }
 
     if (Input.GetKey(KeyCode.Space)) {
-      frameworkInput.Buttons |= NetworkInputPrototype.BUTTON_JUMP;
+      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_JUMP, true);
     }
 
     if (Input.GetKey(KeyCode.C)) {
-      frameworkInput.Buttons |= NetworkInputPrototype.BUTTON_CROUCH;
+      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_CROUCH, true);
     }
 
     if (Input.GetKey(KeyCode.E)) {
-      frameworkInput.Buttons |= NetworkInputPrototype.BUTTON_ACTION1;
+      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_ACTION1, true);
     }
 
     if (Input.GetKey(KeyCode.Q)) {
-      frameworkInput.Buttons |= NetworkInputPrototype.BUTTON_ACTION2;
+      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_ACTION2, true);
     }
 
     if (Input.GetKey(KeyCode.F)) {
-      frameworkInput.Buttons |= NetworkInputPrototype.BUTTON_ACTION3;
+      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_ACTION3, true);
     }
 
     if (Input.GetKey(KeyCode.G)) {
-      frameworkInput.Buttons |= NetworkInputPrototype.BUTTON_ACTION4;
+      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_ACTION4, true);
     }
 
     if (Input.GetKey(KeyCode.R)) {
-      frameworkInput.Buttons |= NetworkInputPrototype.BUTTON_RELOAD;
+      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_RELOAD, true);
     }
 
     if (Input.GetMouseButton(0)) {
-      frameworkInput.Buttons |= NetworkInputPrototype.BUTTON_FIRE;
+      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_FIRE, true);
     }
 
     input.Set(frameworkInput);
   }
 
-  public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) {
-  }
+  public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
 
   public void OnConnectedToServer(NetworkRunner runner) { }
-  
-  public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) {
-    // shutdown any client that has failed to connect
-    //runner.Shutdown();
-  }
+  public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason) { }
   public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token) { }
-  
-  public void OnDisconnectedFromServer(NetworkRunner runner) {
-    // shutdown any client that has disconnected from server
-    //runner.Shutdown();
-  }
+  public void OnDisconnectedFromServer(NetworkRunner runner) { }
   public void OnPlayerJoined(NetworkRunner          runner, PlayerRef            player)                                                           { }
   public void OnPlayerLeft(NetworkRunner            runner, PlayerRef            player)                                                           { }
   public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)                                                          { }
@@ -106,36 +97,37 @@ public class InputBehaviourPrototype : Fusion.Behaviour, INetworkRunnerCallbacks
 /// Example definition of an INetworkStruct.
 /// </summary>
 public struct NetworkInputPrototype : INetworkInput {
-  public const uint BUTTON_USE = 1 << 0;
-  public const uint BUTTON_FIRE = 1 << 1;
-  public const uint BUTTON_FIRE_ALT = 1 << 2;
 
-  public const uint BUTTON_FORWARD = 1 << 3;
-  public const uint BUTTON_BACKWARD = 1 << 4;
-  public const uint BUTTON_LEFT = 1 << 5;
-  public const uint BUTTON_RIGHT = 1 << 6;
+  public const int BUTTON_USE      = 0;
+  public const int BUTTON_FIRE     = 1;
+  public const int BUTTON_FIRE_ALT = 2;
 
-  public const uint BUTTON_JUMP = 1 << 7;
-  public const uint BUTTON_CROUCH = 1 << 8;
-  public const uint BUTTON_WALK = 1 << 9;
+  public const int BUTTON_FORWARD  = 3;
+  public const int BUTTON_BACKWARD = 4;
+  public const int BUTTON_LEFT     = 5;
+  public const int BUTTON_RIGHT    = 6;
 
-  public const uint BUTTON_ACTION1 = 1 << 10;
-  public const uint BUTTON_ACTION2 = 1 << 11;
-  public const uint BUTTON_ACTION3 = 1 << 12;
-  public const uint BUTTON_ACTION4 = 1 << 14;
+  public const int BUTTON_JUMP     = 7;
+  public const int BUTTON_CROUCH   = 8;
+  public const int BUTTON_WALK     = 9;
 
-  public const uint BUTTON_RELOAD = 1 << 15;
+  public const int BUTTON_ACTION1  = 10;
+  public const int BUTTON_ACTION2  = 11;
+  public const int BUTTON_ACTION3  = 12;
+  public const int BUTTON_ACTION4  = 14;
 
-  public uint Buttons;
+  public const int BUTTON_RELOAD   = 15;
+
+  public NetworkButtons Buttons;
   public byte Weapon;
   public Angle Yaw;
   public Angle Pitch;
 
-  public bool IsUp(uint button) {
-    return IsDown(button) == false;
+  public bool IsUp(int button) {
+    return Buttons.IsSet(button) == false;
   }
 
-  public bool IsDown(uint button) {
-    return (Buttons & button) == button;
+  public bool IsDown(int button) {
+    return Buttons.IsSet(button);
   }
 }

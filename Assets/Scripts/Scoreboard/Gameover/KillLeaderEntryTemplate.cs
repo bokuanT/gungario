@@ -16,6 +16,10 @@ public class KillLeaderEntryTemplate : MonoBehaviour
         username.text = player.playerName;
         kills.text = player.kills.ToString();
         this.position.text = position.ToString();
+        Color colour = player.team == Player.Team.Red ? Color.red
+                : player.team == Player.Team.Blue ? Color.blue : Color.white;
+        username.color = colour;
+
     }
     
 }

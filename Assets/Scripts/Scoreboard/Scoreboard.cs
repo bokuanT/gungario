@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
+using UnityEngine.UIElements;
 using Fusion.Sockets;
 using System;
 
@@ -14,8 +15,14 @@ public class Scoreboard : NetworkBehaviour
     private Dictionary<PlayerRef, Scoreboard_item> hashtable = 
         new Dictionary<PlayerRef, Scoreboard_item>();
 
-   
     private HashSet<int> hashSet = new HashSet<int>();
+    private HashSet<int> cosmeticsLoaded = new HashSet<int>();
+
+    [Networked]
+    public int redScore { get; set; }
+
+    [Networked]
+    public int blueScore { get; set; }
 
     public override void FixedUpdateNetwork()
     {
@@ -36,12 +43,30 @@ public class Scoreboard : NetworkBehaviour
         
         foreach (PlayerRef pr in playerList)
         {
-            if (!hashSet.Contains(pr.PlayerId)) 
+            // dont load until name is set
+            string name = GameLauncher.Instance.GetPlayerInfo(pr).Name.Value;
+            if (!hashSet.Contains(pr.PlayerId) && name != "") 
             {
+                // set name in Player script
+                NetworkObject obj = Runner.GetPlayerObject(pr);
+                Player player = obj.gameObject.GetComponent<Player>();
+                player.playerName = name;
+
                 Debug.Log("creating item for " + pr);
                 hashSet.Add(pr.PlayerId);
                 Scoreboard_item item = CreateScoreboardItem(pr);
                 hashtable.Add(pr, item);
+            }
+
+            // load cosmetics if received 
+            int id = GameLauncher.Instance.GetPlayerInfo(pr).CosmeticHatID;
+            if (!cosmeticsLoaded.Contains(pr.PlayerId) && id != 0)
+            {
+                Debug.Log("Loading hat");
+                NetworkObject obj = Runner.GetPlayerObject(pr);
+                Player player = obj.gameObject.GetComponent<Player>();
+                player.hatSprite.sprite = Shop.Instance.GetHat(id);
+                cosmeticsLoaded.Add(pr.PlayerId);
             }
             
         }
@@ -50,10 +75,19 @@ public class Scoreboard : NetworkBehaviour
 
     private void UpdateAllKD()
     {
+        int red = 0;
+        int blue = 0;
+
         foreach (Scoreboard_item item in hashtable.Values)
         {
             item.UpdateKD();
+            if (item.IsRedTeam())
+                red += item.kills;
+            if (item.IsBlueTeam())
+                blue += item.kills;
         }
+        redScore = red;
+        blueScore = blue;
     }
 
     private Scoreboard_item CreateScoreboardItem(PlayerRef playerRef)
