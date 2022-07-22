@@ -67,6 +67,7 @@ public class MusicManager : MonoBehaviour
             {
                 if (isMenuMusic)
                 {
+                    MusicPlayer.Stop();
                     MusicPlayer.PlayOneShot(0);
                     isMenuMusic = false;
                     return;
