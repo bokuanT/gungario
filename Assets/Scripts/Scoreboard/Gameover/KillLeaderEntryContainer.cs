@@ -47,7 +47,7 @@ public class KillLeaderEntryContainer : MonoBehaviour
     public void StopVictorySoundInFiveSeconds()
     {
         Invoke("StopSound", 5f);
-        Invoke("StartMusicManager", 5f);
+        
     }
 
     private void StopSound()
@@ -55,8 +55,5 @@ public class KillLeaderEntryContainer : MonoBehaviour
         VictorySound.Stop();
     }
 
-    private void StartMusicManager()
-    {
-        musicManager.StartSound();
-    }
+    
 }

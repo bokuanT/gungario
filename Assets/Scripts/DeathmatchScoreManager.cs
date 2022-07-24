@@ -24,7 +24,7 @@ public class DeathmatchScoreManager : MonoBehaviour
             BluePoints.text = bp;
             scoreboardBlue.text = bp;
         }
-        catch (InvalidOperationException e)
+        catch (InvalidOperationException)
         {
             string rp = "0";
             string bp = "0";

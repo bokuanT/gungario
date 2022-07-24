@@ -72,7 +72,7 @@ public class Enemy : NetworkBehaviour
                 }
             }
         }
-        catch (InvalidOperationException e)
+        catch (InvalidOperationException)
         {
             return;
         }
@@ -88,7 +88,7 @@ public class Enemy : NetworkBehaviour
         // shoot if player within range
         if (isChasing == true)
         {
-            // if distance to target is less than desired distance, retreat
+            // if distance to target is less than desired distance, retreat & shoot
             if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= retreatDistance) 
             {
                 //// check for obstacles in the retreat direction 
@@ -105,10 +105,11 @@ public class Enemy : NetworkBehaviour
                 //else
                 //{
                     controller.Move(moveDirection * -1, moveSpeed);
+                    enemyInput.Shoot(moveDirection);
                 //}
 
 
-            // if distance is suitable for shooting, shoot
+                // if distance is suitable for shooting, shoot
             } else if (Vector2.Distance(enemyTransform.position, targetLocation.position) <= shootingRange && enemyInput.state != Player.State.Dead) 
             {
                 enemyInput.Shoot(moveDirection);
@@ -127,16 +128,16 @@ public class Enemy : NetworkBehaviour
     private void SetDirection(Transform target)
     {
         rand1 = Random.value;
-        
-        // 50% chance for enemy to misfire
-        if (rand1 <= 0.5)
-        {
-            aimDirection = LousyShooting(targetLocation.position);
-        } else
-        {
-            aimDirection = targetLocation.position;
-        }
 
+        //// 50% chance for enemy to misfire
+        //if (rand1 <= 0.5)
+        //{
+        //    aimDirection = LousyShooting(targetLocation.position);
+        //} else
+        //{
+        //    aimDirection = targetLocation.position;
+        //}
+        aimDirection = targetLocation.position;
         enemyInput.setMouse(aimDirection);
     }
 
@@ -144,6 +145,7 @@ public class Enemy : NetworkBehaviour
     {
         if (targetLocation == null) {
             Debug.Log("Target Set");
+            Debug.Log(target.name);
             targetLocation = target.transform;
             this.target = target.GetComponent<Player>();
             isChasing = true;

@@ -13,17 +13,24 @@ public class SniperZoomScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_player.state == Player.State.Active && cam != null)
+        try
         {
-            if (Input.GetMouseButton(1))
+            if (_player.state == Player.State.Active && cam != null)
             {
-                cam.orthographicSize = 8.0f;
-                _laser.Activate();
+                if (Input.GetMouseButton(1))
+                {
+                    cam.orthographicSize = 8.0f;
+                    _laser.Activate();
+                }
+                else
+                {
+                    cam.orthographicSize = 5.0f;
+                }
             }
-            else
-            {
-                cam.orthographicSize = 5.0f;
-            }
+        }
+        catch (System.InvalidOperationException)
+        {
+            return;
         }
     }
 }

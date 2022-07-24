@@ -76,6 +76,13 @@ public class AudioEmitter : MonoBehaviour
 	{	
 		audioSource.Stop();	
 	}	
+
+	public void PlayOneShot(int i)
+    {
+		audioSource.clip = audioClip.GetAudioClip(i);
+		audioSource.pitch = audioClip.GetPitchOffset();
+		audioSource.PlayOneShot(audioSource.clip);
+	}
 }	
 	
 

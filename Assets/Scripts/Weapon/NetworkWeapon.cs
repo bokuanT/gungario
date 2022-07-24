@@ -77,7 +77,10 @@ public class NetworkWeapon : NetworkRigidbody2D
         {
             return false;
         }
-
         return this.index == p.index;
+    }
+    public override int GetHashCode()
+    {
+        return this.GetHashCode();
     }
 }

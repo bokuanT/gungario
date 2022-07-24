@@ -25,7 +25,7 @@ public class WeaponManager : NetworkBehaviour
             int count = 0;
             foreach (NetworkWeapon w in _weapons)
             {
-                if (w.gameObject.active)
+                if (w.gameObject.activeInHierarchy)
                     count += 1;
             }
             if (count > 1)

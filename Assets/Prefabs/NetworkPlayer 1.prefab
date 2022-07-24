@@ -108,7 +108,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 666182933304180735}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4025306, y: 0.2795967, z: -1.3499227}
+  m_LocalPosition: {x: 0.4025306, y: 0.386, z: -1.3499227}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -639,6 +639,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   BroadRadius: 0.5
   Offset: {x: 0, y: 0, z: 0}
+  GizmosColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Hitboxes:
   - {fileID: 2584563593335655822}
 --- !u!114 &2584563593335655822
@@ -658,6 +659,7 @@ MonoBehaviour:
   BoxExtents: {x: 0, y: 0, z: 0}
   Offset: {x: 0, y: 0, z: 0}
   Root: {fileID: 6383632375332188090}
+  GizmosColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &3078968015110332391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1167,7 +1169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3564831059596795989}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2560995, y: -0.68, z: 0.87299263}
+  m_LocalPosition: {x: 1.2560995, y: -0.57359666, z: 0.87299263}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1348,7 +1350,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4568449890270638852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.029, y: -0.145, z: 0.024}
+  m_LocalPosition: {x: 0.029, y: -0.038596652, z: 0.024}
   m_LocalScale: {x: 1.0366, y: 0.8469, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1869,7 +1871,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6534977675185001116}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.002601819, y: 0.109, z: 0.308}
+  m_LocalPosition: {x: -0.002601819, y: -0.005, z: 0.308}
   m_LocalScale: {x: 0.26799, y: 0.23386636, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2434,6 +2436,18 @@ PrefabInstance:
     - target: {fileID: 555708689160167448, guid: 3481a1e946cc887499bda7008cfb6a57, type: 3}
       propertyPath: m_Name
       value: PlayerDetectionRadius
+      objectReference: {fileID: 0}
+    - target: {fileID: 5059298438137448353, guid: 3481a1e946cc887499bda7008cfb6a57, type: 3}
+      propertyPath: m_Radius
+      value: 3.036327
+      objectReference: {fileID: 0}
+    - target: {fileID: 5059298438137448353, guid: 3481a1e946cc887499bda7008cfb6a57, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.20782089
+      objectReference: {fileID: 0}
+    - target: {fileID: 5059298438137448353, guid: 3481a1e946cc887499bda7008cfb6a57, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.20095682
       objectReference: {fileID: 0}
     - target: {fileID: 7032138752257966443, guid: 3481a1e946cc887499bda7008cfb6a57, type: 3}
       propertyPath: m_RootOrder

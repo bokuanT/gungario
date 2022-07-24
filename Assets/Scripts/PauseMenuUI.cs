@@ -9,6 +9,9 @@ public class PauseMenuUI : MonoBehaviour
 
     public GameObject pauseMenuCanvas;
 
+    public GameObject settingsImage;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +37,8 @@ public class PauseMenuUI : MonoBehaviour
     {
         pauseMenuCanvas.SetActive(false);
         GameIsPaused = false;
+        Cursor.visible = false;
+        CloseSettings();
     }
 
     void Pause()
@@ -42,11 +47,21 @@ public class PauseMenuUI : MonoBehaviour
         // Since enemy scripts are networked, they will not be paused.
         // freeze time if singleplayer
         GameIsPaused = true;
+        Cursor.visible = true;
     }
 
     public void ResumeGame()
     {
         Resume();
+    }
+
+    public void OpenSettings()
+    {
+        settingsImage.SetActive(true);
+    }
+    public void CloseSettings()
+    {
+        settingsImage.SetActive(false);
     }
 
     public void QuitToMenu()

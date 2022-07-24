@@ -19,6 +19,11 @@ public class AudioClipData : ScriptableObject
 		float pitchVariationHalf = _pitchVariation / 2f;	
 		return _pitchBase + Random.Range(-pitchVariationHalf, pitchVariationHalf);	
 	}	
+
+	public AudioClip GetAudioClip(int i)
+    {
+		return _audioClips[i];
+    }
 }	
 	
 
