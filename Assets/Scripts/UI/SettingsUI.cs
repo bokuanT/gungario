@@ -8,6 +8,7 @@ public class SettingsUI : MonoBehaviour
     [SerializeField] private TMP_InputField nameChangeField;
     [SerializeField] private GameObject nameChangeSuccess;
     [SerializeField] private GameObject nameChangeFail;
+    [SerializeField] private TMP_Text nameChangeFailText;
     private static SettingsUI _instance;
     public static SettingsUI Instance
     {
@@ -38,6 +39,10 @@ public class SettingsUI : MonoBehaviour
             nameChangeSuccess.SetActive(false);
             nameChangeFail.SetActive(true);
         }
+    }
+    public void OnErrorText(string text)
+    {
+        nameChangeFailText.SetText(text);
     }
 
     // resets the canvas when user closes the page so the name change messages disappear;

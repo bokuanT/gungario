@@ -81,13 +81,18 @@ public class LobbyUI : MonoBehaviour
                 nameChanged = true;
             }, error => {
                 // inform player of reason
-                // TO BE IMPLEMENTED
-
                 // inform the player that username is taken
                 Debug.Log("Username taken");
                 SettingsUI.Instance.OnNameChange(false);
 
-                Debug.LogError(error.GenerateErrorReport());
+                if (error.GenerateErrorReport().Equals("/Client/UpdateUserTitleDisplayName: Name not available"))
+                {
+                    SettingsUI.Instance.OnErrorText("Username taken. Please try again.");
+                }
+                else 
+                {
+                    SettingsUI.Instance.OnErrorText("Username needs to be 4 - 25 characters. Please try again.");
+                }
             });
         }
     }
