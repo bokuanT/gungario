@@ -163,7 +163,7 @@ public class Projectile : NetworkBehaviour
         {
             ApplyAreaDamage(hitPoint);
             __audioEmitter.Play();
-            Debug.Log("Playing audio");
+            //Debug.Log("Playing audio");
         }
     }
 

@@ -7,11 +7,6 @@ using Fusion.Photon.Realtime;
 using System.Runtime.InteropServices;
 
 public class PlayFabAuthenticator : MonoBehaviour {
-    [DllImport("__Internal")]
-    private static extern void CreateGUID(string str);
-
-    [DllImport("__Internal")]
-    private static extern string GetGUID();
 
     public GameManager gameManager;
     private string _playFabPlayerIdCache;
