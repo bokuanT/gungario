@@ -1,9 +1,17 @@
+using System;
+using System.Collections.Generic;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
 using Fusion.Photon.Realtime;
+using System.Runtime.InteropServices;
 
 public class PlayFabAuthenticator : MonoBehaviour {
+    [DllImport("__Internal")]
+    private static extern void CreateGUID(string str);
+
+    [DllImport("__Internal")]
+    private static extern string GetGUID();
 
     public GameManager gameManager;
     private string _playFabPlayerIdCache;
@@ -38,11 +46,30 @@ public class PlayFabAuthenticator : MonoBehaviour {
      */
     private void AuthenticateWithCustomID(){
         LogMessage("PlayFab authenticating using Custom ID...");
+        //string deviceID = GetGUID();
+        //Debug.Log(deviceID);
+        //if (deviceID == null)
+        //{
+        //    Debug.Log("creating GUID");
+        //    deviceID = Guid.NewGuid().ToString();
+        //    CreateGUID(deviceID);
+        //    Debug.Log(deviceID);
+        //}
+
+        GameDetails details = DataAccess.Load();
+        Debug.Log(details);
+        if (details == null)
+        {
+            Debug.Log("Creating GUID");
+            details = new GameDetails(Guid.NewGuid().ToString());
+            DataAccess.Save(details);
+        }
 
         PlayFabClientAPI.LoginWithCustomID(new LoginWithCustomIDRequest()
         {
             CreateAccount = true,
-            CustomId = PlayFabSettings.DeviceUniqueIdentifier
+            CustomId = details.GUID
+            //CustomId = PlayFabSettings.DeviceUniqueIdentifier
         }, RequestPhotonToken, OnPlayFabError);
     }
 
