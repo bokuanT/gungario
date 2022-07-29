@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Music
   m_EditorClassIdentifier: 
   _audioClips:
-  - {fileID: 8300000, guid: df8d92bb1a81b764fafd6e108d061f50, type: 3}
-  - {fileID: 8300000, guid: b8788f45701657c4d93437b5659ad9af, type: 3}
+  - {fileID: 8300000, guid: 36f836430d391454d9628e7d6938dd77, type: 3}
+  - {fileID: 8300000, guid: 76755017c18cb8b48aef4b716ec1885a, type: 3}
   _pitchBase: 1
   _pitchVariation: 0
