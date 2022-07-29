@@ -93,7 +93,7 @@ public class Projectile : NetworkBehaviour
         if (transform.Find("Explosion") != null)
             transform.Find("Explosion").gameObject.SetActive(true);
 
-        GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.Predicted;
+        GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.NoInterpolation;
 
     }
 

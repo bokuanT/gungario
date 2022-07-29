@@ -25,8 +25,16 @@ public class MusicManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        audioSource.volume = PlayerPrefs.GetFloat("musicVolume");
-        AudioListener.volume = PlayerPrefs.GetFloat("generalVolume");
+        if (PlayerPrefs.HasKey("musicVolume") && PlayerPrefs.HasKey("generalVolume"))
+        {
+            audioSource.volume = PlayerPrefs.GetFloat("musicVolume");
+            AudioListener.volume = PlayerPrefs.GetFloat("generalVolume");
+        }
+        else
+        {
+            audioSource.volume = 1f;
+            AudioListener.volume = 1f;
+        }
 
         Scene scene = SceneManager.GetActiveScene();
         if (scene.name == "Menu")
