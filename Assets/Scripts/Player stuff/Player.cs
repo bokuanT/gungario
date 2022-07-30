@@ -8,6 +8,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
     [Header("Visuals")] 
 	[SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private SpriteRenderer minimapSprite;
     [SerializeField] private SpriteRenderer weaponSprite;
     [SerializeField] public SpriteRenderer hatSprite;
 
@@ -235,16 +236,26 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     private void SetTeamColour()
     {
         SpriteRenderer sr = sprite;
+        SpriteRenderer mr = minimapSprite;
         switch (team)
         {
             case Team.None:
                 sr.color = Color.white;
+                if (Object.HasInputAuthority)
+                {
+                    mr.color = Color.blue;
+                } else
+                {
+                    mr.color = Color.red;
+                }
                 break;
             case Team.Red:
                 sr.color = Color.red;
+                mr.color = Color.red;
                 break;
             case Team.Blue:
                 sr.color = Color.blue;
+                mr.color = Color.blue;
                 break;
         }
     }
