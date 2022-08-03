@@ -112,7 +112,7 @@ public class LevelBehaviourCP : NetworkBehaviour
         //Display team winner
         TeamWinnerUI t_w_UI = resultsScreen.GetComponentInChildren<TeamWinnerUI>();
         ControlPoint cp = controlPoint.GetComponent<ControlPoint>();
-        t_w_UI.DisplayInfo(cp);
+        Player.Team winningTeam = t_w_UI.DisplayInfo(cp);
         
         int position = 1;
         foreach (Player winner in results)
@@ -121,6 +121,11 @@ public class LevelBehaviourCP : NetworkBehaviour
             {
                 //TODO create entry (local)
                 entryContainer.SpawnEntry(winner, position);
+                // Assign rewards here
+                if (winner.GetComponent<NetworkPlayer>().Equals(NetworkPlayer.Local))
+                {
+                    GameManager.Instance.AssignRewards(winningTeam, winner);
+                }
                 position++;
             }
             else

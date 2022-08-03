@@ -6,13 +6,12 @@ using UnityEngine.EventSystems;
 
 public class ShopItem : MonoBehaviour
 {
-    public int ItemID;
-
+    public string ItemID;
+    public int price;
     public GameObject Shop;
-
-    public Image buttonImage;
-
-    public GameObject selectedText;
+    
+    [SerializeField] private Image button;
+    [SerializeField] private GameObject selectedText;
 
     // this script will be used to load item prices from the shop
 
@@ -20,13 +19,13 @@ public class ShopItem : MonoBehaviour
     public void Select()
     {
         selectedText.SetActive(true);
-        buttonImage.color = Color.gray;
+        button.color = Color.gray;
     }
 
     public void Deselect()
     {
         selectedText.SetActive(false);
-        buttonImage.color = Color.white;
+        button.color = Color.white;
     }
 }
 

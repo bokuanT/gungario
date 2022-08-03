@@ -1,14 +1,22 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
+using PlayFab;
+using PlayFab.ClientModels;
 
 public class Shop : MonoBehaviour
 {
     private int[] shopItems = new int[4];
     private ShopItem selectedHat;
     private static Shop _instance;
-    [SerializeField] GameObject canvas;
+    
+    [SerializeField] private GameObject canvas;
+
+    [Header("Currency")]
+    [SerializeField] private int currency;
+    [SerializeField] private TMP_Text currencyText;
 
     [Header("Hats")]
     [SerializeField] private ShopItem hat1;
@@ -30,7 +38,31 @@ public class Shop : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        if (_instance != this) Destroy(gameObject); 
+        if (_instance != this) Destroy(gameObject);
+    }
+
+    public void AddCurrency(int amount)
+    {
+        PlayFabClientAPI.AddUserVirtualCurrency(
+            new AddUserVirtualCurrencyRequest()
+            {
+                Amount = amount,
+                VirtualCurrency = "GD"
+            }, result => 
+            {
+                Debug.Log($"Success, {amount} added");
+            }, error => Debug.LogError(error.GenerateErrorReport()));
+        LoadPlayerInfo();
+    }
+
+    public void LoadPlayerInfo()
+    {
+        PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(),
+            result => {
+                currency = result.VirtualCurrency.GetValueOrDefault("GD");
+                Debug.Log($"player has {currency} gold");
+                currencyText.SetText(currency.ToString());
+            }, error => Debug.LogError(error.GenerateErrorReport()));
     }
 
     // Called when player clicks the button in shop, setting the hat
@@ -38,15 +70,36 @@ public class Shop : MonoBehaviour
     {
         Debug.Log("Setting Hat");
         GameObject button = GameObject.FindObjectOfType<EventSystem>().currentSelectedGameObject;
-
-        // if any previous hats were selected, set those to unselected
-        if (selectedHat != null)
-        {
-            selectedHat.Deselect();
-        }
-
         selectedHat = button.GetComponent<ShopItem>();
-        selectedHat.Select();
+
+        // check if hat can be afforded
+        PlayFabClientAPI.PurchaseItem(
+            new PurchaseItemRequest() 
+            {
+                ItemId = selectedHat.ItemID,
+                Price = selectedHat.price,
+                VirtualCurrency = "GD"
+            }, result =>
+            {
+                // if any previous hats were selected, set those to unselected
+                if (selectedHat != null)
+                {
+                    selectedHat.Deselect();
+                }
+
+                selectedHat = button.GetComponent<ShopItem>();
+                selectedHat.Select();
+                
+            }, error =>
+            {
+                // inform user of unsuccessful purchase
+
+                Debug.LogError(error.GenerateErrorReport());
+
+            }
+        );
+
+        LoadPlayerInfo();
     }
 
     // Called after playerInfo is loaded, to get the corresponding sprite.
@@ -75,7 +128,10 @@ public class Shop : MonoBehaviour
             return 0;
         } else
         {
-            return selectedHat.ItemID;
+            // original itemID: "hat1"
+            // removes "hat" 
+            // parse "1" to int
+            return int.Parse(selectedHat.ItemID.Substring("hat".Length));
         }
     }
 }

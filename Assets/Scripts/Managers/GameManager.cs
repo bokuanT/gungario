@@ -8,12 +8,16 @@ using System.Collections;
 
 public class GameManager : NetworkBehaviour
 {
+    [Header("Game Rewards")]
+    [SerializeField] private int WinnerRewards;
+    [SerializeField] private int LoserRewards;
+
     public GameObject networkRunnerPrefab;
+    public int experience;
     private NetworkRunner runner;
     private LobbyManager _lobbyManager;
     private GameLauncher _gameLauncher;
     private PlayerProfileModel playerProfile;
-    private int activeScene;
     private static GameManager _instance;
     public static GameManager Instance
     {
@@ -77,16 +81,6 @@ public class GameManager : NetworkBehaviour
         GameLauncher.Instance.StartGame();
     }
 
-    public void SetScene(int scene) 
-    {
-        activeScene = scene;
-    }
-
-    public int getScene()
-    {
-        return activeScene;
-    }
-
     public void SetPlayerProfile(PlayerProfileModel ppm)
     {
         playerProfile = ppm;
@@ -110,6 +104,34 @@ public class GameManager : NetworkBehaviour
             count++;
         }
         return count;
+    }
+    
+    // assigns players rewards based off position
+    public void AssignRewards(int position)
+    {
+        Shop.Instance.AddCurrency(WinnerRewards - LoserRewards * (position - 1));
+        experience += (WinnerRewards - LoserRewards * (position - 1));
+        //ExperienceBar.Instance.AddExperience(WinnerRewards - LoserRewards * (position - 1));
+    }
+
+    // assigns players rewards based off winning team
+    public void AssignRewards(Player.Team winningTeam, Player winner)
+    {
+        if (winningTeam.Equals(winner.team)) // player belongs to winning team
+        {
+            Shop.Instance.AddCurrency(WinnerRewards);
+            experience += WinnerRewards;
+            //ExperienceBar.Instance.AddExperience(WinnerRewards);
+        }
+        else if (winningTeam.Equals(Player.Team.None)) // game was a draw
+        {
+            // do nothing 
+        } else  // player belongs to losing team
+        {
+            Shop.Instance.AddCurrency(LoserRewards);
+            experience += LoserRewards;
+            //ExperienceBar.Instance.AddExperience(LoserRewards);
+        }
     }
 
     // handle failed connection/cancel matchmake/quitting game here

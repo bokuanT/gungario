@@ -112,6 +112,11 @@ public class LevelBehaviourFFA : NetworkBehaviour
             {
                 //TODO create entry (local)
                 entryContainer.SpawnEntry(winner, position);
+                // Assign rewards here
+                if (winner.GetComponent<NetworkPlayer>().Equals(NetworkPlayer.Local))
+                {
+                    GameManager.Instance.AssignRewards(position);
+                }
                 position++;
             }
             else

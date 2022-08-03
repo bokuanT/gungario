@@ -72,6 +72,9 @@ public class MenuUI : MonoBehaviour
         matchmakingUI.gameObject.SetActive(false);
         loginUI.gameObject.SetActive(false);
         lobbyUI.gameObject.SetActive(true);
+
+        // updates experience bar everytime we enter lobby
+        ExperienceBar.Instance.SetExperience(GameManager.Instance.experience);
     }
 
     // Activates Shop canvas
