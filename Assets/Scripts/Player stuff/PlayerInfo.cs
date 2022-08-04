@@ -27,7 +27,7 @@ public class PlayerInfo : NetworkBehaviour
 			RPC_SetName(Name);
 
 			// grab the cosmetics selected from Shop, set locally and broadcast
-			int id = Shop.Instance.GetSelectedCosmetics();
+			int id = Inventory.Instance.GetSelectedCosmetics();
 			CosmeticHatID = id;
 			RPC_SetCosmeticHat(id);
 		}

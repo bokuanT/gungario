@@ -1,7 +1,5 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
-using Fusion;
 using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
@@ -37,11 +35,8 @@ public class ExperienceBar : MonoBehaviour
                 {
                     Statistics = new List<StatisticUpdate>() { new StatisticUpdate() { StatisticName = "Experience", Value = amount, Version = null } }
                 },
-                result => Debug.Log("Complete"),
-                error => 
-                {
-                    Debug.Log($"Failed to update experience: {error.GenerateErrorReport()}");
-                }
+                result => { },
+                error => Debug.Log($"Failed to update experience: {error.GenerateErrorReport()}")
             );
         }
 

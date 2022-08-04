@@ -13,7 +13,6 @@ public class GameManager : NetworkBehaviour
     [SerializeField] private int LoserRewards;
 
     public GameObject networkRunnerPrefab;
-    public int experience;
     private NetworkRunner runner;
     private LobbyManager _lobbyManager;
     private GameLauncher _gameLauncher;
@@ -110,8 +109,7 @@ public class GameManager : NetworkBehaviour
     public void AssignRewards(int position)
     {
         Shop.Instance.AddCurrency(WinnerRewards - LoserRewards * (position - 1));
-        experience += (WinnerRewards - LoserRewards * (position - 1));
-        //ExperienceBar.Instance.AddExperience(WinnerRewards - LoserRewards * (position - 1));
+        ExperienceBar.Instance.AddExperience(WinnerRewards - LoserRewards * (position - 1));
     }
 
     // assigns players rewards based off winning team
@@ -120,8 +118,7 @@ public class GameManager : NetworkBehaviour
         if (winningTeam.Equals(winner.team)) // player belongs to winning team
         {
             Shop.Instance.AddCurrency(WinnerRewards);
-            experience += WinnerRewards;
-            //ExperienceBar.Instance.AddExperience(WinnerRewards);
+            ExperienceBar.Instance.AddExperience(WinnerRewards);
         }
         else if (winningTeam.Equals(Player.Team.None)) // game was a draw
         {
@@ -129,8 +126,7 @@ public class GameManager : NetworkBehaviour
         } else  // player belongs to losing team
         {
             Shop.Instance.AddCurrency(LoserRewards);
-            experience += LoserRewards;
-            //ExperienceBar.Instance.AddExperience(LoserRewards);
+            ExperienceBar.Instance.AddExperience(LoserRewards);
         }
     }
 

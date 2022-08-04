@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,20 +9,17 @@ using PlayFab.ClientModels;
 
 public class Shop : MonoBehaviour
 {
-    private int[] shopItems = new int[4];
     private ShopItem selectedHat;
     private static Shop _instance;
     
     [SerializeField] private GameObject canvas;
 
-    [Header("Currency")]
-    [SerializeField] private int currency;
-    [SerializeField] private TMP_Text currencyText;
-
+    // improvement with get components in children?
     [Header("Hats")]
     [SerializeField] private ShopItem hat1;
     [SerializeField] private ShopItem hat2;
     [SerializeField] private ShopItem hat3;
+    private List<ShopItem> shopItems;
     public static Shop Instance
     {
         get
@@ -33,6 +31,7 @@ public class Shop : MonoBehaviour
 
     public void Start()
     {
+        shopItems = new List<ShopItem>() {hat1, hat2, hat3};
         if (_instance == null)
         {
             _instance = this;
@@ -52,25 +51,41 @@ public class Shop : MonoBehaviour
             {
                 Debug.Log($"Success, {amount} added");
             }, error => Debug.LogError(error.GenerateErrorReport()));
-        LoadPlayerInfo();
+        LoadPlayerInfo(false);
     }
 
-    public void LoadPlayerInfo()
+    // Updates the Gold amount when called
+    // Takes time for result to be returned
+    // boolean is taken to refresh shop when required, to avoid unnecessary searching 
+    public void LoadPlayerInfo(bool shopRefresh)
     {
         PlayFabClientAPI.GetUserInventory(new GetUserInventoryRequest(),
             result => {
-                currency = result.VirtualCurrency.GetValueOrDefault("GD");
-                Debug.Log($"player has {currency} gold");
-                currencyText.SetText(currency.ToString());
+
+                if (shopRefresh)
+                {
+                    foreach (var item in result.Inventory)
+                    {
+                        // list bought hats as bought
+                        ShopItem shopItem = shopItems.Find(x => x.ItemID == item.ItemId);
+                        if (shopItem != null) shopItem.Bought();
+                    }
+                }
+                Inventory.Instance.UpdateInventory(result.Inventory);
+                int amount = result.VirtualCurrency.GetValueOrDefault("GD");
+                Debug.Log($"player has {amount} gold");
+                ExperienceUI.Instance.SetGold(amount);
             }, error => Debug.LogError(error.GenerateErrorReport()));
     }
 
-    // Called when player clicks the button in shop, setting the hat
-    public void SetHat()
+    // Coroutine is used here, as purchasing item from playfab takes time. 
+    IEnumerator BuyCoroutine()
     {
-        Debug.Log("Setting Hat");
+        bool purchaseComplete = false;
+        bool purchaseFailed = false;
         GameObject button = GameObject.FindObjectOfType<EventSystem>().currentSelectedGameObject;
         selectedHat = button.GetComponent<ShopItem>();
+        NotificationUI.Instance.GeneratePopUp("Purchasing...");
 
         // check if hat can be afforded
         PlayFabClientAPI.PurchaseItem(
@@ -81,34 +96,34 @@ public class Shop : MonoBehaviour
                 VirtualCurrency = "GD"
             }, result =>
             {
-                // if any previous hats were selected, set those to unselected
-                if (selectedHat != null)
-                {
-                    selectedHat.Deselect();
-                }
-
                 selectedHat = button.GetComponent<ShopItem>();
-                selectedHat.Select();
+                selectedHat.Bought();
+                purchaseComplete = true;
                 
             }, error =>
             {
                 // inform user of unsuccessful purchase
-
+                NotificationUI.Instance.GenerateTimedPopUp("Insufficient Funds", 2);
+                purchaseFailed = true;
                 Debug.LogError(error.GenerateErrorReport());
-
             }
         );
 
-        LoadPlayerInfo();
+        while (purchaseComplete == false && purchaseFailed == false)
+        { 
+            Debug.Log("Pending purchase...");
+            yield return null;
+        }
+        if (purchaseComplete) NotificationUI.Instance.ClosePopUp();
+        LoadPlayerInfo(true);
     }
 
-    // Called after playerInfo is loaded, to get the corresponding sprite.
-    public Sprite GetHat(int id)
+    // Method called to purchase hat from PlayFab catalog
+    // Assigned to Shop item buttons
+    public void BuyHat()
     {
-        Debug.Log("Getting Hat");
-
-        // Grabs hat from resources folder, and typecasts as Sprite
-        return Resources.Load($"Skins/hat{id}", typeof(Sprite)) as Sprite;
+        Debug.Log("Buying Hat");
+        StartCoroutine(BuyCoroutine());
     }
 
     public void OpenShop()
@@ -119,19 +134,5 @@ public class Shop : MonoBehaviour
     public void CloseShop()
     {
         canvas.SetActive(false);
-    }
-
-    public int GetSelectedCosmetics()
-    {
-        if (selectedHat == null)
-        {
-            return 0;
-        } else
-        {
-            // original itemID: "hat1"
-            // removes "hat" 
-            // parse "1" to int
-            return int.Parse(selectedHat.ItemID.Substring("hat".Length));
-        }
     }
 }
