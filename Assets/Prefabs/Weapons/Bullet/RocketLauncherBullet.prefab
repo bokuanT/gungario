@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7650490398198776014}
   - component: {fileID: 8973309603837340190}
   - component: {fileID: 5653852853590296199}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4899,7 +4899,7 @@ GameObject:
   - component: {fileID: 6437531317464991970}
   - component: {fileID: 854636267557379545}
   - component: {fileID: 2836948544894096615}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: RocketLauncherBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5147,7 +5147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5766839833768166771}
   - component: {fileID: 7923056650058658382}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: VisualParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}

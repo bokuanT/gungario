@@ -12,6 +12,7 @@ public class MenuUI : MonoBehaviour
     public LobbyManager lobbyManager;
     public PlayFabAuthenticator authenticator;
     public GameObject shopCanvas;
+    public GameObject inventoryCanvas;
     public GameObject settingsCanvas;
     public GameObject gameModesUI;
     public GameObject weaponsHelp;
@@ -34,6 +35,7 @@ public class MenuUI : MonoBehaviour
         lobbyUI.gameObject.SetActive(false);
         settingsCanvas.SetActive(false);
         shopCanvas.SetActive(false);
+        inventoryCanvas.SetActive(false);
         gameModesUI.SetActive(false);
     }
 
@@ -47,7 +49,10 @@ public class MenuUI : MonoBehaviour
             int sessions = GameLauncher.Instance.sessionCount;
             lobbyUI.UpdateSessionData(players, sessions);
             gamemodeUI.UpdateSessionData(players, sessions);
-        }
+
+            // displays experience bar
+            ExperienceUI.Instance.ShowExperience();
+        } 
 
         if (gamemodeUI.gameObject.activeInHierarchy)
         {
@@ -64,6 +69,9 @@ public class MenuUI : MonoBehaviour
         loginUI.gameObject.SetActive(false);
         lobbyUI.gameObject.SetActive(false);
         gameModesUI.SetActive(false);
+
+        // hides experience bar
+        ExperienceUI.Instance.HideExperience();
     }
     
     public void OnJoinLobby()
@@ -72,12 +80,24 @@ public class MenuUI : MonoBehaviour
         matchmakingUI.gameObject.SetActive(false);
         loginUI.gameObject.SetActive(false);
         lobbyUI.gameObject.SetActive(true);
+
+        // displays experience bar
+        ExperienceUI.Instance.ShowExperience();
+
+        // updates experience bar everytime we enter lobby
+        ExperienceBar.Instance.SetExperience(ExperienceUI.Instance.experience);
     }
 
     // Activates Shop canvas
     public void OpenShop()
     {
         Shop.Instance.OpenShop();
+    }
+
+    // Activiates Inventory canvas
+    public void OpenInventory()
+    {
+        Inventory.Instance.OpenInventory();
     }
 
     // Activates Settings canvas

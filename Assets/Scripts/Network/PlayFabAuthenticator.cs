@@ -10,11 +10,9 @@ public class PlayFabAuthenticator : MonoBehaviour {
 
     public GameManager gameManager;
     private string _playFabPlayerIdCache;
-
-    // TO BE IMPLEMENTED WHEN NECESSARY 
-    // public NetworkRunnerHandler runner;
-
     private bool authenticate = false;
+    private bool newAccountCreation = false;
+    
 
     /*
     * ===========================================================================================================================================================================================================================
@@ -52,11 +50,14 @@ public class PlayFabAuthenticator : MonoBehaviour {
         //}
 
         GameDetails details = DataAccess.Load();
-        Debug.Log(details);
+        
         if (details == null)
         {
+            newAccountCreation = true;
             Debug.Log("Creating GUID");
             details = new GameDetails(Guid.NewGuid().ToString());
+            
+            // store authentication on web
             DataAccess.Save(details);
         }
 
@@ -108,9 +109,54 @@ public class PlayFabAuthenticator : MonoBehaviour {
         //We finally tell Photon to use this authentication parameters throughout the entire application.
         // TO BE IMPLEMENTED WHEN NECESSARY
         //runner.setAuthValues(customAuth);
-        
+
+        if (newAccountCreation) // creates a statistic for exp points storage
+        {
+            PlayFabClientAPI.UpdatePlayerStatistics(
+                new UpdatePlayerStatisticsRequest()
+                {
+                    Statistics = new List<StatisticUpdate>() 
+                    { 
+                        new StatisticUpdate() 
+                        { 
+                            StatisticName = "Experience", 
+                            Value = 1000, // starting player at level 1
+                            Version = null 
+                        } 
+                    }
+                },
+                result =>
+                {
+                    ExperienceUI.Instance.experience = 1000;
+                    ExperienceBar.Instance.SetExperience(ExperienceUI.Instance.experience);
+                },
+                error => Debug.Log(error.GenerateErrorReport())
+            );
+        } else // gets pre-existing statistic
+        {
+            PlayFabClientAPI.GetPlayerStatistics(
+                new GetPlayerStatisticsRequest()
+                {
+                    StatisticNames = new List<string>() { "Experience" }
+                },
+                result => 
+                {
+                    Debug.Log($"Retrieved {result.Statistics[0].StatisticName}: {result.Statistics[0].Value}");
+                    ExperienceUI.Instance.experience = result.Statistics[0].Value;
+                    ExperienceBar.Instance.SetExperience(ExperienceUI.Instance.experience);
+                },
+                error =>
+                {
+                    Debug.Log("Tried to retrieve but failed.");
+                    Debug.Log(error.GenerateErrorReport());
+                }
+            );
+        }
+
+
         // Set flag to move to next menu
         authenticate = true;
+        Shop.Instance.LoadPlayerInfo(true);
 
         // enters lobby
         // await gameManager.JoinLobby();

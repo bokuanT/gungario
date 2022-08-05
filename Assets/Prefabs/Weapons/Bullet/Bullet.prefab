@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4819291815951825039}
   - component: {fileID: 2335562905083570250}
   - component: {fileID: 454443428373430964}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -264,7 +264,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1345883223189996690}
   - component: {fileID: 4440611735983736287}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: VisualParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,6 +392,10 @@ PrefabInstance:
     - target: {fileID: 503582499888140408, guid: 92c5e7e56a2316644a89db7e904ea974, type: 3}
       propertyPath: m_Name
       value: Explosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 503582499888140408, guid: 92c5e7e56a2316644a89db7e904ea974, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 503582499888140408, guid: 92c5e7e56a2316644a89db7e904ea974, type: 3}
       propertyPath: m_IsActive
