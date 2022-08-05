@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5720192454847966012}
   - component: {fileID: 7159903526798912365}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: VisualParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 7524027408993269783}
   - component: {fileID: 8930512155322655456}
   - component: {fileID: 4812621573643497877}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4939,7 +4939,7 @@ GameObject:
   - component: {fileID: 8462449104383985095}
   - component: {fileID: 243185360890679069}
   - component: {fileID: 7519960969237360693}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SniperBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

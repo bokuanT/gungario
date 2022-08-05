@@ -65,7 +65,7 @@ public class Scoreboard : NetworkBehaviour
                 Debug.Log("Loading hat");
                 NetworkObject obj = Runner.GetPlayerObject(pr);
                 Player player = obj.gameObject.GetComponent<Player>();
-                player.hatSprite.sprite = Shop.Instance.GetHat(id);
+                player.hatSprite.sprite = Inventory.Instance.GetHat(id);
                 cosmeticsLoaded.Add(pr.PlayerId);
             }
             

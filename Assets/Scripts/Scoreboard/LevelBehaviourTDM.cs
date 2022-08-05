@@ -106,7 +106,7 @@ public class LevelBehaviourTDM : NetworkBehaviour
 
         //Display teams total kills
         TeamWinnerUI t_w_UI = resultsScreen.GetComponentInChildren<TeamWinnerUI>();
-        t_w_UI.DisplayInfoTDM(results);
+        Player.Team winningTeam = t_w_UI.DisplayInfoTDM(results);
 
         int position = 1;
         foreach (Player winner in results)
@@ -115,6 +115,11 @@ public class LevelBehaviourTDM : NetworkBehaviour
             {
                 //TODO create entry (local)
                 entryContainer.SpawnEntry(winner, position);
+                // Assign rewards here
+                if (winner.GetComponent<NetworkPlayer>().Equals(NetworkPlayer.Local))
+                {
+                    GameManager.Instance.AssignRewards(winningTeam, winner);
+                }
                 position++;
             }
             else

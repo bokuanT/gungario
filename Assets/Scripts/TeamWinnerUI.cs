@@ -7,7 +7,7 @@ public class TeamWinnerUI : MonoBehaviour
     public TMP_Text RedScoreFinal;
     public TMP_Text BlueScoreFinal;
 
-    public void DisplayInfo(ControlPoint cp)
+    public Player.Team DisplayInfo(ControlPoint cp)
     {
         string rsf = cp.RedPoints == 0F ? "0"
             : cp.RedPoints.ToString("#.##");
@@ -21,20 +21,23 @@ public class TeamWinnerUI : MonoBehaviour
         {
             Winner.color = Color.red;
             Winner.text = "Red wins";
+            return Player.Team.Red;
         }
         else if (cp.RedPoints < cp.BluePoints)
         {
             Winner.color = Color.blue;
             Winner.text = "Blue wins";
+            return Player.Team.Blue;
         }
         else
         {
             Winner.color = Color.white;
             Winner.text = "Draw";
+            return Player.Team.None;
         }
     }
 
-    public void DisplayInfoTDM(Player[] players)
+    public Player.Team DisplayInfoTDM(Player[] players)
     {
         int redScore = 0;
         int blueScore = 0;
@@ -54,16 +57,19 @@ public class TeamWinnerUI : MonoBehaviour
         {
             Winner.color = Color.red;
             Winner.text = "Red wins";
+            return Player.Team.Red;
         }
         else if (redScore < blueScore)
         {
             Winner.color = Color.blue;
             Winner.text = "Blue wins";
+            return Player.Team.Blue;
         }
         else
         {
             Winner.color = Color.white;
             Winner.text = "Draw";
+            return Player.Team.None;
         }
 
     }

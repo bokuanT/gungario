@@ -24,7 +24,6 @@ public class LobbyUI : MonoBehaviour
 
         // changed to this temporarily to stop loading game scene together with menu 
         // SceneManager.LoadScene(LevelManager.TESTGAME_SCENE);
-        GameManager.Instance.SetScene(LevelManager.TESTGAME_SCENE);
         GameManager.Instance.StartGame();
     }
     public async void OpenGamemodes()
@@ -46,13 +45,11 @@ public class LobbyUI : MonoBehaviour
 
     public void MatchmakeFFA()
     {
-        GameManager.Instance.SetScene(LevelManager.MAP1_SCENE);
         GameManager.Instance.MatchmakeFFA();
         MenuUI.Instance.OnMatchmake();
     }
     public void MatchmakeDeathMatch() {
         //  if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
-        GameManager.Instance.SetScene(LevelManager.MAP1_SCENE);
         GameManager.Instance.MatchmakeDeathMatch();
         MenuUI.Instance.OnMatchmake();
     }
@@ -60,7 +57,6 @@ public class LobbyUI : MonoBehaviour
     public void MatchmakeControlPoint()
     {
         //  if (nameChanged) GetPlayerName(authenticator.getPlayFabID());
-        GameManager.Instance.SetScene(LevelManager.MAP1_SCENE);
         GameManager.Instance.MatchmakeControlPoint();
         MenuUI.Instance.OnMatchmake();
     }

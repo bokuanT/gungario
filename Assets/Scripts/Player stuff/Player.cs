@@ -8,6 +8,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
 
     [Header("Visuals")] 
 	[SerializeField] private SpriteRenderer sprite;
+    [SerializeField] private SpriteRenderer minimapSprite;
     [SerializeField] private SpriteRenderer weaponSprite;
     [SerializeField] public SpriteRenderer hatSprite;
 
@@ -235,6 +236,7 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     private void SetTeamColour()
     {
         SpriteRenderer sr = sprite;
+
         switch (team)
         {
             case Team.None:
@@ -246,6 +248,30 @@ public class Player : NetworkBehaviour, ICanTakeDamage
             case Team.Blue:
                 sr.color = Color.blue;
                 break;
+        }
+
+        if (minimapSprite != null)
+        {
+            SpriteRenderer mr = minimapSprite;
+            switch (team)
+            {
+                case Team.None:
+                    if (Object.HasInputAuthority)
+                    {
+                        mr.color = Color.blue;
+                    }
+                    else
+                    {
+                        mr.color = Color.red;
+                    }
+                    break;
+                case Team.Red:
+                    mr.color = Color.red;
+                    break;
+                case Team.Blue:
+                    mr.color = Color.blue;
+                    break;
+            }
         }
     }
     // controls player and gun sprite direction
