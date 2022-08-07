@@ -276,41 +276,43 @@ public class Player : NetworkBehaviour, ICanTakeDamage
     }
     // controls player and gun sprite direction
     private void setAnimation() {
- 
-        // update remote players that you dont have authority for with their networked variable
-        if (!Object.HasInputAuthority)
-        {
-            gun.right = Vector2.Lerp(gun.right, new Vector2(Mathf.Sin(gunDirection), Mathf.Cos(gunDirection)), Runner.DeltaTime * 5f);
-            firePoint.right = Vector2.Lerp(firePoint.right, new Vector2(Mathf.Sin(gunDirection), Mathf.Cos(gunDirection)), Runner.DeltaTime * 5f);
-        }
+
+            // update remote players that you dont have authority for with their networked variable
+            if (!Object.HasInputAuthority)
+            {
+                gun.right = Vector2.Lerp(gun.right, new Vector2(Mathf.Sin(gunDirection), Mathf.Cos(gunDirection)), Runner.DeltaTime * 5f);
+                firePoint.right = Vector2.Lerp(firePoint.right, new Vector2(Mathf.Sin(gunDirection), Mathf.Cos(gunDirection)), Runner.DeltaTime * 5f);
+            }
 
 
-        switch (direction)
-		{
-		    case Direction.UP:
-                animator.SetFloat("Speed", 0);
-                sprite.flipX = false;
-                break;
-			case Direction.RIGHT:
-                animator.SetFloat("Speed", 1);
-                sprite.flipX = false;
-                weaponSprite.flipY = false;
-                // TEMPORARY FIX --> WONT NEED ONCE ENEMY PREFAB IS UPDATED
-                if (hatSprite != null) hatSprite.flipX = true;
-                break;
-			case Direction.DOWN:
-                animator.SetFloat("Speed", 0);
-                sprite.flipX = true;
-				break;
-			case Direction.LEFT:
-                animator.SetFloat("Speed", 1);
-                sprite.flipX = true;
-                weaponSprite.flipY = true;
-                // TEMPORARY FIX --> WONT NEED ONCE ENEMY PREFAB IS UPDATED
-                if (hatSprite != null) hatSprite.flipX = false;
-				break;
-		}
-  
+            switch (direction)
+            {
+                case Direction.UP:
+                    animator.SetFloat("Speed", 0);
+                    sprite.flipX = false;
+                    break;
+                case Direction.RIGHT:
+                    animator.SetFloat("Speed", 1);
+                    sprite.flipX = false;
+                    if (weaponSprite != null)
+                        weaponSprite.flipY = false;
+                    // TEMPORARY FIX --> WONT NEED ONCE ENEMY PREFAB IS UPDATED
+                    if (hatSprite != null) hatSprite.flipX = true;
+                    break;
+                case Direction.DOWN:
+                    animator.SetFloat("Speed", 0);
+                    sprite.flipX = true;
+                    break;
+                case Direction.LEFT:
+                    animator.SetFloat("Speed", 1);
+                    sprite.flipX = true;
+                    if (weaponSprite != null)
+                        weaponSprite.flipY = true;
+                    // TEMPORARY FIX --> WONT NEED ONCE ENEMY PREFAB IS UPDATED
+                    if (hatSprite != null) hatSprite.flipX = false;
+                    break;
+            }
+        
     }
 
     public void setState()
