@@ -49,9 +49,6 @@ public class MenuUI : MonoBehaviour
             int sessions = GameLauncher.Instance.sessionCount;
             lobbyUI.UpdateSessionData(players, sessions);
             gamemodeUI.UpdateSessionData(players, sessions);
-
-            // displays experience bar
-            ExperienceUI.Instance.ShowExperience();
         } 
 
         if (gamemodeUI.gameObject.activeInHierarchy)

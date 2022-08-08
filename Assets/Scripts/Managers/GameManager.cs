@@ -77,6 +77,8 @@ public class GameManager : NetworkBehaviour
 
     public void StartGame()
     {
+        // hides experience bar
+        ExperienceUI.Instance.HideExperience();
         GameLauncher.Instance.StartGame();
     }
 
