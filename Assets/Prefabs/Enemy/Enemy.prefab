@@ -173,7 +173,6 @@ GameObject:
   - component: {fileID: 7737046006055379036}
   - component: {fileID: 7737046006055379108}
   - component: {fileID: 2838569342232598480}
-  - component: {fileID: 7737046006055379034}
   - component: {fileID: 4986565846088207363}
   - component: {fileID: 2677741083985730941}
   - component: {fileID: -713703109200401047}
@@ -203,7 +202,7 @@ Transform:
   m_Children:
   - {fileID: 7737046006078507455}
   - {fileID: 3516718978972112205}
-  - {fileID: 6696359605927428422}
+  - {fileID: 8414043555166437080}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -302,21 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
---- !u!114 &7737046006055379034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7737046006055379109}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40c93ab572d9bc74d9f01e7c3050eab0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBar: {fileID: 7737046007305582877}
-  maxHealth: 100
-  currentHealth: 0
+  MinimapCamera: {fileID: 0}
 --- !u!143 &4986565846088207363
 CharacterController:
   m_ObjectHideFlags: 0
@@ -404,13 +389,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   sprite: {fileID: 7737046006055379036}
+  minimapSprite: {fileID: 0}
   weaponSprite: {fileID: 5598574471547177352}
+  hatSprite: {fileID: 0}
+  _pickupRadius: 0
+  _pickupMask:
+    serializedVersion: 2
+    m_Bits: 0
   _state: 0
+  _team: 0
   animator: {fileID: 553660976972603380}
   player: {fileID: 7737046006055379027}
   gun: {fileID: 3516718978972112205}
+  scoreboard_item: {fileID: 0}
+  cursor: {fileID: 0}
+  cam: {fileID: 0}
   moveSpeed: 5
+  _playerTakeDmgSound: {fileID: 0}
+  _playerRespawnSound: {fileID: 0}
+  _playeronGetKillSound: {fileID: 0}
+  _playerDeathSound: {fileID: 0}
+  _gunDirection: 0
   _life: 0
+  _kills: 0
+  _deaths: 0
+  _playerName: 
 --- !u!114 &3266880623478696954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,6 +429,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   BroadRadius: 0.56
   Offset: {x: 0, y: 0, z: 0}
+  GizmosColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   Hitboxes:
   - {fileID: 6205762002950523342}
 --- !u!114 &6205762002950523342
@@ -445,6 +449,7 @@ MonoBehaviour:
   BoxExtents: {x: 0, y: 0, z: 0}
   Offset: {x: 0, y: 0, z: 0}
   Root: {fileID: 3266880623478696954}
+  GizmosColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &8671540634945533058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,6 +463,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  enemyTransform: {fileID: 0}
+  controller: {fileID: 0}
+  wallDetection: {fileID: 0}
 --- !u!1 &7737046006078507448
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,6 +724,11 @@ MonoBehaviour:
     RotBlendEnd: 0.5
     RotTeleportRadians: 1.5
   _projectilePrefab: {fileID: -8845847926095506687, guid: 81ee4e72957e130489c72644107b5b6a, type: 3}
+  DELAY: 0.8
+  CANNOTSHOOTDELAY: 0.6
+  _audioEmitter: {fileID: 0}
+  _audioEmitterCannotShoot: {fileID: 0}
+  index: 0
 --- !u!1 &7737046007305582878
 GameObject:
   m_ObjectHideFlags: 0
@@ -944,6 +957,10 @@ PrefabInstance:
       propertyPath: enemy
       value: 
       objectReference: {fileID: 8671540634945533058}
+    - target: {fileID: 5313582847306514165, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7032138752257966443, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -990,8 +1007,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
---- !u!4 &6696359605927428422 stripped
+--- !u!4 &8414043555166437080 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 7032138752257966443, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5313582847306514165, guid: 07ece066e1744254ca99e8d4908f50c8, type: 3}
   m_PrefabInstance: {fileID: 4429593126894305325}
   m_PrefabAsset: {fileID: 0}

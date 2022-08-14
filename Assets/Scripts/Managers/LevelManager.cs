@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
-using Gungario.Utility;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,11 +11,19 @@ public class LevelManager : NetworkSceneManagerBase
         SINGLETON PATTERN - only 1 level manager is required at any time per client
         ===========================================================================
         */        
-		public static LevelManager Instance => Singleton<LevelManager>.Instance;
         public static int MENU_SCENE = 0;
 		public static int TESTGAME_SCENE = 1;
 		public static int MAP1_SCENE = 2;
-		
+		private static LevelManager _instance;
+		public static LevelManager Instance
+		{
+			get
+			{
+				if (_instance == null) _instance = FindObjectOfType<LevelManager>();
+				return _instance;
+			}
+		}
+
 		public static void LoadMenu()
 		{
             // TO BE IMPLEMENTED?  

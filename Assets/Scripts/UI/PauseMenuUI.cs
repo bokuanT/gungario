@@ -67,6 +67,7 @@ public class PauseMenuUI : MonoBehaviour
     public void QuitToMenu()
     {
         Debug.Log("Returning to Menu");
+        GameIsPaused = false;
         GameLauncher.Instance.LeaveSession();
     }
 }
